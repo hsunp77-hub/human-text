@@ -5,6 +5,7 @@ import styles from "./write.module.css";
 
 export default function WritePage() {
     const [text, setText] = useState("");
+    const [history, setHistory] = useState<string[]>([]);
     const prompt = "창문을 여니 햇살이 소나기처럼 쏟아졌다";
     const MAX_CHARS = 500;
 
@@ -13,6 +14,20 @@ export default function WritePage() {
         month: 'long',
         day: 'numeric'
     });
+
+    const handleRecord = () => {
+        if (text.trim()) {
+            setHistory(prev => [...prev, text.trim()]);
+            setText("");
+        }
+    };
+
+    const handleReset = () => {
+        if (confirm("기록을 초기화하시겠습니까?")) {
+            setHistory([]);
+            setText("");
+        }
+    };
 
     return (
         <div className="app-container">
@@ -30,9 +45,16 @@ export default function WritePage() {
                         <h1 className="text-title">오늘</h1>
                     </div>
 
-                    {/* Prompt Section */}
-                    <div className={styles.promptArea}>
-                        <p className={styles.promptText}>{prompt}</p>
+                    {/* Cumulative Passage Section */}
+                    <div className={styles.passageArea}>
+                        <p className={styles.historyText}>
+                            <span className={styles.promptInPassage}>{prompt}</span>
+                            {history.map((sentence, index) => (
+                                <span key={index} className={styles.sentence}>
+                                    {" "}{sentence}
+                                </span>
+                            ))}
+                        </p>
                     </div>
 
                     {/* Writing Area */}
@@ -42,18 +64,33 @@ export default function WritePage() {
                         onChange={(e) => {
                             if (e.target.value.length <= MAX_CHARS) setText(e.target.value);
                         }}
-                        placeholder="두번째 문장이 기다리고 있어요"
+                        placeholder="이어서 이야기를 적어주세요..."
                         spellCheck={false}
+                        autoFocus
                     />
 
-                    {/* Character Count (Subtle) */}
-                    <div className="text-right text-secondary text-sm mt-2 opacity-30">
-                        {text.length} / {MAX_CHARS}
+                    {/* Character Count & Reset Button */}
+                    <div className="flex justify-between items-center mt-2 opacity-30">
+                        <button 
+                            onClick={handleReset}
+                            className="text-xs hover:text-white transition-colors"
+                        >
+                            초기화
+                        </button>
+                        <div className="text-right text-secondary text-sm">
+                            {text.length} / {MAX_CHARS}
+                        </div>
                     </div>
 
                     {/* Record Button at Bottom Center */}
                     <div className={styles.bottomNav}>
-                        <button className={styles.recordBtn}>기록</button>
+                        <button 
+                            className={`${styles.recordBtn} ${!text.trim() ? styles.disabled : ''}`}
+                            onClick={handleRecord}
+                            disabled={!text.trim()}
+                        >
+                            기록
+                        </button>
                     </div>
 
                 </div>

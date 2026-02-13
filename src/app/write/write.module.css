@@ -17,17 +17,36 @@
   margin-bottom: 4px;
 }
 
-.promptArea {
-  margin-bottom: 32px;
-  padding-left: 16px;
-  border-left: 3px solid #FFFFFF;
+.passageArea {
+  margin-bottom: 24px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  max-height: 200px;
+  overflow-y: auto;
+  border-left: 2px solid rgba(255, 255, 255, 0.1);
 }
 
-.promptText {
+.historyText {
   font-size: 1.1rem;
+  line-height: 1.8;
   color: #A1A1AA;
-  line-height: 1.4;
-  font-weight: 400;
+}
+
+.promptInPassage {
+  color: white;
+  font-weight: 500;
+  margin-right: 4px;
+}
+
+.sentence {
+  color: #E4E4E7;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .writingArea {
@@ -37,10 +56,11 @@
   border: none;
   resize: none;
   outline: none;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   line-height: 1.6;
   color: #FFFFFF;
   padding: 0;
+  margin-top: 16px;
 }
 
 .writingArea::placeholder {
@@ -60,14 +80,21 @@
   background: white;
   color: black;
   border: none;
-  padding: 12px 40px;
+  padding: 12px 60px;
   border-radius: 30px;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.recordBtn:hover {
-  opacity: 0.9;
+.recordBtn:hover:not(.disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+}
+
+.recordBtn.disabled {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.2);
+  cursor: not-allowed;
 }
