@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 export default function WritePage() {
     const [text, setText] = useState("");
@@ -95,9 +96,9 @@ export default function WritePage() {
 
                     {/* Footer Navigation */}
                     <div className="footer-nav">
-                        <span className="cursor-pointer">나의 문장들</span>
+                        <Link href="/archive" className="cursor-pointer">나의 문장들</Link>
                         <span className="nav-dot">•</span>
-                        <span className="cursor-pointer">소개</span>
+                        <Link href="/about" className="cursor-pointer">소개</Link>
                     </div>
                 </div>
 
