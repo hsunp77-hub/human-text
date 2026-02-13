@@ -143,9 +143,9 @@ export default function WritePage() {
 
                     {/* Footer Navigation */}
                     <div className="footer-nav">
-                        <Link href="/archive" className="cursor-pointer">나의 문장들</Link>
+                        <Link href="/archive" className="cursor-pointer hover:text-white transition-colors">나의 문장들</Link>
                         <span className="nav-dot">•</span>
-                        <Link href="/about" className="cursor-pointer">소개</Link>
+                        <Link href="/about" className="cursor-pointer hover:text-white transition-colors">소개</Link>
                     </div>
                 </div>
 

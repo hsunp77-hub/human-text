@@ -58,7 +58,7 @@ export default function ArchivePage() {
 
     return (
         <div className="app-container">
-            <div className="mobile-view px-6">
+            <div className="mobile-view px-6" style={{ justifyContent: 'flex-start' }}>
 
                 {/* Header matching mockup */}
                 <header className="w-full flex justify-between items-center mt-12 mb-10">
