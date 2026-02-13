@@ -9,6 +9,7 @@
   --accent-color: #71717A;
 
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: 'Nanum Myeongjo', serif;
   --font-handwriting: 'Nanum Pen Script', cursive;
 }
 
@@ -173,20 +174,135 @@ h1 {
   font-size: 14px;
   color: var(--text-secondary);
   animation: fadeInUp 1s ease-out 0.4s both;
+  z-index: 10;
 }
 
 .nav-dot {
   color: #3F3F46;
 }
 
-.bottom-tag {
+.landing-footer {
   position: absolute;
   bottom: 40px;
   width: 100%;
-  text-align: center;
-  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  z-index: 10;
+}
+
+.about-link {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  opacity: 0.6;
+}
+
+.about-link:hover {
+  color: white;
+  opacity: 1;
+}
+
+.bottom-tag {
+  font-size: 10px;
   color: var(--text-secondary);
   opacity: 0.3;
+  letter-spacing: 1px;
+}
+
+/* Landing Page Specific */
+.landing-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  padding-bottom: 0;
+}
+
+.landing-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 10;
+  width: 100%;
+}
+
+.landing-title {
+  font-size: 24px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 60px;
+  letter-spacing: 1.5px;
+  line-height: 1.8;
+  font-family: var(--font-serif);
+}
+
+.google-login-btn {
+  background: radial-gradient(circle at 30% 30%, #4a4a4a, #000000);
+  color: rgba(255, 255, 255, 0.95);
+  padding: 12px 36px;
+  border-radius: 99px;
+  font-size: 15px;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow:
+    0 10px 20px rgba(0, 0, 0, 0.8),
+    inset 0 4px 8px rgba(255, 255, 255, 0.15),
+    inset 0 -4px 8px rgba(0, 0, 0, 0.5),
+    0 0 15px rgba(255, 255, 255, 0.03);
+  letter-spacing: 0.8px;
+  backdrop-filter: blur(4px);
+  position: relative;
+  overflow: hidden;
+}
+
+.google-login-btn::after {
+  content: '';
+  position: absolute;
+  top: 5%;
+  left: 15%;
+  width: 70%;
+  height: 40%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.google-login-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  background: radial-gradient(circle at 30% 30%, #555555, #050505);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow:
+    0 15px 30px rgba(0, 0, 0, 1),
+    inset 0 6px 10px rgba(255, 255, 255, 0.2),
+    inset 0 -6px 10px rgba(0, 0, 0, 0.6),
+    0 0 20px rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+.nib-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 0;
+  margin-bottom: -20px;
+  opacity: 0.8;
+  animation: fadeInUp 1.5s ease-out;
+}
+
+.nib-img {
+  width: 180px;
+  height: auto;
+  filter: contrast(1.1) brightness(1.1);
 }
 
 /* Animations */

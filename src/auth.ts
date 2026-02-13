@@ -1,0 +1,20 @@
+import NextAuth from "next-auth"
+import Google from "next-auth/providers/google"
+
+export const { handlers, signIn, signOut, auth } = NextAuth({
+    providers: [Google],
+    callbacks: {
+        authorized({ auth, request: { nextUrl } }) {
+            const isLoggedIn = !!auth?.user
+            const isOnWritePage = nextUrl.pathname.startsWith('/write')
+            if (isOnWritePage) {
+                if (isLoggedIn) return true
+                return false // Redirect unauthenticated users to login page
+            }
+            return true
+        },
+    },
+    pages: {
+        signIn: '/',
+    }
+})
