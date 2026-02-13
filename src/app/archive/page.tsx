@@ -58,23 +58,25 @@ export default function ArchivePage() {
 
     return (
         <div className="app-container">
-            <div className="mobile-view px-6" style={{ justifyContent: 'flex-start' }}>
+            <div className="mobile-view archive-view px-6">
 
-                {/* Header matching mockup */}
-                <header className="w-full flex justify-between items-center mt-12 mb-10">
-                    <h1 className="text-2xl font-medium text-white font-serif">나의 기록</h1>
-                    <button
-                        onClick={() => router.push('/')}
-                        className="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-1 font-serif"
+                {/* Header with Home link at top-left and title in the center */}
+                <header className="w-full relative mb-12">
+                    <Link
+                        href="/"
+                        className="absolute left-0 top-0 text-[14px] text-[#71717A] hover:text-white transition-colors z-10"
                     >
                         ← 홈으로
-                    </button>
+                    </Link>
+                    <div className="w-full flex justify-center pt-10">
+                        <h1 className="text-[28px] font-bold text-white text-center">나의 기록</h1>
+                    </div>
                 </header>
 
                 <main className="w-full flex-1 overflow-y-auto pb-10">
                     {posts.length === 0 ? (
                         <div className="flex flex-col items-center justify-center pt-20 text-center">
-                            <p className="text-gray-500 font-serif italic mb-8">아직 남긴 기록이 없으시네요.</p>
+                            <p className="text-gray-500 italic mb-8">아직 남긴 기록이 없으시네요.</p>
                             <Link
                                 href="/write"
                                 className="premium-btn px-10 py-3"
@@ -83,7 +85,7 @@ export default function ArchivePage() {
                             </Link>
                         </div>
                     ) : (
-                        <div className="space-y-4">
+                        <div className="space-y-6">
                             {posts.map((post) => (
                                 <article key={post.id} className="archive-card">
                                     <div className="archive-card-date">

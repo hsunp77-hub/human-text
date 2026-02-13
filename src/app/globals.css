@@ -59,6 +59,18 @@ body {
   overflow: hidden;
 }
 
+.mobile-view.archive-view {
+  justify-content: flex-start;
+  padding-top: 24px;
+}
+
+.mobile-view.archive-view header {
+  width: 100%;
+  position: relative;
+  margin-top: 16px;
+  margin-bottom: 48px;
+}
+
 /* Navigation & Typography */
 .top-nav {
   position: absolute;
@@ -288,44 +300,42 @@ h1 {
 /* Archive Redesign Styles */
 .archive-card {
   width: 100%;
-  background: rgba(26, 26, 26, 0.6);
-  /* Darker gray background */
+  background: var(--card-bg);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--card-border);
   border-radius: 20px;
   padding: 24px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   transition: all 0.3s ease;
   position: relative;
 }
 
 .archive-card:hover {
-  background: rgba(40, 40, 40, 0.8);
-  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .archive-card-date {
   font-size: 12px;
+  font-weight: 600;
   color: var(--text-secondary);
-  margin-bottom: 16px;
-  font-family: var(--font-serif);
+  margin-bottom: 12px;
+  text-transform: uppercase;
 }
 
 .archive-card-sentence {
   font-size: 14px;
   color: var(--text-muted);
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   font-style: italic;
-  font-family: var(--font-serif);
   line-height: 1.6;
 }
 
 .archive-card-content {
   font-size: 18px;
-  color: var(--text-primary);
-  line-height: 1.8;
-  font-family: var(--font-serif);
+  color: #E4E4E7;
+  line-height: 1.6;
   margin-bottom: 16px;
 }
 
@@ -333,10 +343,10 @@ h1 {
   display: flex;
   justify-content: flex-end;
   font-size: 10px;
+  font-weight: 700;
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 2px;
-  opacity: 0.5;
 }
 
 /* Landing Page Specific */
