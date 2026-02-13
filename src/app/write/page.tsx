@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { createPost, getTodaySentence } from "@/lib/actions";
 import { v4 as uuidv4 } from 'uuid';
 
 export default function WritePage() {
+    const router = useRouter();
     const [text, setText] = useState("");
     const [history, setHistory] = useState<any[]>([]);
     const [sentence, setSentence] = useState<any>(null);
@@ -67,20 +69,28 @@ export default function WritePage() {
         <div className="app-container">
             <div className="mobile-view">
 
-                {/* Date at Top Right */}
-                <div className="top-nav">{today}</div>
+                {/* Top Navigation */}
+                <div className="top-nav">
+                    <button className="nav-icon-btn" onClick={() => router.push("/")}>
+                        <span style={{ fontSize: '18px' }}>←</span> 홈
+                    </button>
+                    <span>{today}</span>
+                    <button className="nav-icon-btn" style={{ opacity: 0.3, cursor: 'not-allowed' }}>
+                        설정
+                    </button>
+                </div>
 
                 <div className="content w-full flex flex-col items-center">
                     {/* Header Section */}
                     <div className="header">
-                        <h1>오늘</h1>
+                        <h1>그날</h1>
                         <p className="subtitle">당신 인생의 한순간을 떠올려보세요.</p>
                     </div>
 
                     {/* Writing Card Section */}
                     <div className="glass-card">
-                        <div className="flex justify-between items-start mb-2">
-                            <div className="card-label">오늘의 문장</div>
+                        <div className="flex justify-center items-start mb-4">
+                            <div className="card-label">전해주신 한 문장</div>
                         </div>
 
                         <div className="sentence-preview">
@@ -99,30 +109,28 @@ export default function WritePage() {
                             onChange={(e) => {
                                 if (e.target.value.length <= MAX_CHARS) setText(e.target.value);
                             }}
-                            placeholder="두번째 문장이 기다리고 있어요..."
+                            placeholder="이어지는 당신의 이야기를 담아주세요..."
                             spellCheck={false}
                             autoFocus
                         />
 
                         {/* Buttons Section */}
-                        <div className="flex justify-center w-full px-4 mt-4">
-                            <div className="flex gap-3 justify-center w-full max-w-[320px]">
+                        <div className="flex flex-col items-center w-full mt-6 gap-4">
+                            <button
+                                className={`premium-btn w-full max-w-[200px]`}
+                                onClick={handleRecord}
+                                disabled={text.trim().length === 0}
+                            >
+                                기록의 완성
+                            </button>
+                            {history.length > 0 && (
                                 <button
-                                    className={`record-btn flex-1 ${text.trim().length > 0 ? 'btn-active' : 'btn-disabled'}`}
-                                    onClick={handleRecord}
-                                    disabled={text.trim().length === 0}
+                                    className="edit-btn w-full max-w-[140px]"
+                                    onClick={handleEdit}
                                 >
-                                    기록
+                                    문장 수정
                                 </button>
-                                {history.length > 0 && (
-                                    <button
-                                        className="record-btn flex-1 btn-active"
-                                        onClick={handleEdit}
-                                    >
-                                        수정
-                                    </button>
-                                )}
-                            </div>
+                            )}
                         </div>
                     </div>
 

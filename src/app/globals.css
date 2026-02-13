@@ -63,10 +63,29 @@ body {
 .top-nav {
   position: absolute;
   top: 60px;
-  right: 40px;
+  left: 24px;
+  right: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   color: var(--text-secondary);
   font-size: 14px;
   font-weight: 600;
+  z-index: 20;
+}
+
+.nav-icon-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 8px;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.nav-icon-btn:hover {
+  opacity: 1;
 }
 
 .header {
@@ -130,39 +149,84 @@ h1 {
   box-sizing: border-box;
   color: white;
   font-size: 18px;
-  line-height: 1.6;
+  line-height: 1.8;
   margin-bottom: 24px;
-  font-family: var(--font-handwriting);
+  font-family: var(--font-serif);
   resize: none;
   outline: none;
+  text-align: center;
 }
 
 .textarea-minimal::placeholder {
   color: #52525B;
+  font-style: italic;
 }
 
-/* Premium Record Button */
-.record-btn {
-  padding: 16px;
+/* Premium Record Button - Black Bead Style */
+.premium-btn {
+  background: radial-gradient(circle at 30% 30%, #4a4a4a, #000000);
+  color: rgba(255, 255, 255, 0.95);
+  padding: 12px 36px;
   border-radius: 99px;
-  font-size: 16px;
-  font-weight: 600;
-  border: none;
+  font-size: 15px;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow:
+    0 10px 20px rgba(0, 0, 0, 0.6),
+    inset 0 4px 8px rgba(255, 255, 255, 0.1),
+    inset 0 -4px 8px rgba(0, 0, 0, 0.4);
+  letter-spacing: 0.8px;
+  backdrop-filter: blur(4px);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.premium-btn::after {
+  content: '';
+  position: absolute;
+  top: 5%;
+  left: 15%;
+  width: 70%;
+  height: 40%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.premium-btn:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.02);
+  background: radial-gradient(circle at 30% 30%, #555555, #050505);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.premium-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  filter: grayscale(1);
+}
+
+/* Edit Button - Distinctive but cohesive */
+.edit-btn {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.7);
+  padding: 12px 36px;
+  border-radius: 99px;
+  font-size: 14px;
+  font-weight: 400;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
   transition: all 0.3s ease;
-  text-align: center;
 }
 
-.btn-active {
-  background: #FFFFFF;
-  color: #000000;
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
-}
-
-.btn-disabled {
+.edit-btn:hover {
   background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.3);
-  cursor: not-allowed;
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 /* Footer Navigation */
