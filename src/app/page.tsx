@@ -2,10 +2,16 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
+import { createPost, getTodaySentence } from "@/lib/actions";
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [text, setText] = useState("");
+  const [sentence, setSentence] = useState<any>(null);
+  const [userId, setUserId] = useState<string>("");
+  const [history, setHistory] = useState<any[]>([]);
+  const prompt = "창문을 여니 햇살이 소나기처럼 쏟아졌다.";
   const MAX_CHARS = 500;
 
   // Get current date
@@ -17,7 +23,37 @@ export default function Home() {
 
   useEffect(() => {
     setMounted(true);
+
+    // Initialize userId
+    let id = localStorage.getItem('human_text_id');
+    if (!id) {
+      id = uuidv4();
+      localStorage.setItem('human_text_id', id);
+    }
+    if (id) setUserId(id);
+
+    // Fetch today's sentence
+    const fetchSentence = async () => {
+      const data = await getTodaySentence();
+      setSentence(data);
+    };
+    fetchSentence();
   }, []);
+
+  const handleRecord = async () => {
+    if (text.trim() && sentence && userId) {
+      const formData = new FormData();
+      formData.append('content', text.trim());
+      formData.append('authorId', userId);
+      formData.append('sentenceId', sentence.id);
+
+      const result = await createPost(formData);
+      if (result.success) {
+        setText("");
+        // Redirect or show success
+      }
+    }
+  };
 
   if (!mounted) return null;
 
@@ -39,7 +75,14 @@ export default function Home() {
           {/* Writing Card Section */}
           <div className="glass-card">
             <div className="card-label">오늘의 문장</div>
-            <div className="sentence-preview">창문을 여니 햇살이 소나기처럼 쏟아졌다</div>
+            <div className="sentence-preview">
+              <span className="opacity-50 mr-1">{prompt}</span>
+              {history.map((item, index) => (
+                <span key={index} className="text-white">
+                  {" "}{item.content}
+                </span>
+              ))}
+            </div>
 
             {/* Minimal Writing Input */}
             <textarea
@@ -57,6 +100,7 @@ export default function Home() {
             <button
               className={`record-btn ${text.trim().length > 0 ? 'btn-active' : 'btn-disabled'}`}
               disabled={text.trim().length === 0}
+              onClick={handleRecord}
             >
               기록
             </button>

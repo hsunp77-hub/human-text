@@ -24,7 +24,7 @@ export default function AboutPage() {
                     <h1 className="text-5xl font-bold mb-6 tracking-tight text-white">소개</h1>
                     <p className="text-xl leading-relaxed" style={{ color: '#A1A1AA' }}>
                         나를 마주하는 짧고 깊은 시간,<br />
-                        <strong>오늘</strong>은 당신의 기록을 돕습니다.
+                        <strong>오늘</strong>은 당신 인생의 이야기를 남깁니다.
                     </p>
                 </div>
 

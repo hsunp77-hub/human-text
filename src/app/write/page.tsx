@@ -1,12 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { createPost, getTodaySentence } from "@/lib/actions";
+import { v4 as uuidv4 } from 'uuid';
 
 export default function WritePage() {
     const [text, setText] = useState("");
-    const [history, setHistory] = useState<string[]>([]);
-    const prompt = "창문을 여니 햇살이 소나기처럼 쏟아졌다";
+    const [history, setHistory] = useState<any[]>([]);
+    const [sentence, setSentence] = useState<any>(null);
+    const [userId, setUserId] = useState<string>("");
+
+    useEffect(() => {
+        // Initialize userId
+        let id = localStorage.getItem('human_text_id');
+        if (!id) {
+            id = uuidv4();
+            localStorage.setItem('human_text_id', id);
+        }
+        if (id) setUserId(id);
+
+        // Fetch today's sentence
+        const fetchSentence = async () => {
+            const data = await getTodaySentence();
+            setSentence(data);
+        };
+        fetchSentence();
+    }, []);
+
+    const prompt = "창문을 여니 햇살이 소나기처럼 쏟아졌다.";
     const MAX_CHARS = 1000;
 
     // Get current date
@@ -16,18 +38,28 @@ export default function WritePage() {
         day: 'numeric'
     });
 
-    const handleRecord = () => {
-        if (text.trim()) {
-            setHistory(prev => [...prev, text.trim()]);
-            setText("");
+    const handleRecord = async () => {
+        if (text.trim() && sentence && userId) {
+            const formData = new FormData();
+            formData.append('content', text.trim());
+            formData.append('authorId', userId);
+            formData.append('sentenceId', sentence.id);
+
+            const result = await createPost(formData);
+            if (result.success) {
+                setHistory(prev => [...prev, { content: text.trim(), id: result.post.id }]);
+                setText("");
+            }
         }
     };
 
     const handleEdit = () => {
         if (history.length > 0) {
-            const lastSentence = history[history.length - 1];
+            const lastPost = history[history.length - 1];
+            // In a real app, you might want to DELETE the post from the DB here too,
+            // but for now we'll just remove it from local history to allow re-typing.
             setHistory(prev => prev.slice(0, -1));
-            setText(lastSentence);
+            setText(lastPost.content);
         }
     };
 
@@ -53,9 +85,9 @@ export default function WritePage() {
 
                         <div className="sentence-preview">
                             <span className="opacity-50 mr-1">{prompt}</span>
-                            {history.map((sentence, index) => (
+                            {history.map((item, index) => (
                                 <span key={index} className="text-white">
-                                    {" "}{sentence}
+                                    {" "}{item.content}
                                 </span>
                             ))}
                         </div>
