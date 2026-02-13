@@ -21,15 +21,15 @@ export default function Home() {
 
   return (
     <div className="app-container">
-      <div className="mobile-view px-8">
+      <div className="mobile-view px-8 items-center">
 
-        {/* Date at Top Right */}
-        <div className="absolute top-8 right-8 text-sm font-semibold tracking-tight" style={{ color: 'var(--accent-color)' }}>
+        {/* Date - Now part of the flex flow for better centering */}
+        <div className="text-sm font-semibold tracking-tight mb-4 opacity-50" style={{ color: 'var(--accent-color)' }}>
           {today}
         </div>
 
-        {/* Main Content - Centered */}
-        <div className="flex flex-col items-center justify-center min-h-[85vh]">
+        {/* Main Content Area */}
+        <div className="flex flex-col items-center justify-center w-full">
 
           {/* Logo/Title Area */}
           <div className={`text-center mb-16 transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>

@@ -36,9 +36,11 @@ a {
   min-height: 100vh;
   display: flex;
   justify-content: center;
+  align-items: center;
+  /* Center the mobile-view vertically on desktop */
   background-color: #000000;
-  /* Moleskine Dot Pattern */
-  background-image: radial-gradient(#333333 1px, transparent 1px);
+  /* Moleskine Dot Pattern - more subtle color */
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
@@ -49,6 +51,10 @@ a {
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  /* Center content vertically within the mobile view */
+  background-color: transparent;
+  /* Let the container pattern show through if needed, or keep black */
 }
 
 /* Typography Utilities */
