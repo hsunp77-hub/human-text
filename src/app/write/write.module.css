@@ -6,7 +6,7 @@
 }
 
 .header {
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   padding: 0 4px;
 }
 
@@ -19,34 +19,35 @@
 
 .passageArea {
   margin-bottom: 24px;
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 16px;
-  max-height: 200px;
-  overflow-y: auto;
-  border-left: 2px solid rgba(255, 255, 255, 0.1);
+  padding: 0 0 0 16px;
+  border-left: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .historyText {
-  font-size: 1.1rem;
-  line-height: 1.8;
+  font-size: 1.2rem;
+  line-height: 1.6;
   color: #A1A1AA;
 }
 
 .promptInPassage {
-  color: white;
-  font-weight: 500;
+  color: #71717A;
+  font-weight: 400;
   margin-right: 4px;
 }
 
 .sentence {
   color: #E4E4E7;
-  animation: fadeIn 0.5s ease-out forwards;
+  animation: fadeIn 0.8s ease-out forwards;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .writingArea {
@@ -56,11 +57,11 @@
   border: none;
   resize: none;
   outline: none;
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   line-height: 1.6;
   color: #FFFFFF;
   padding: 0;
-  margin-top: 16px;
+  margin-top: 20px;
 }
 
 .writingArea::placeholder {
@@ -80,7 +81,7 @@
   background: white;
   color: black;
   border: none;
-  padding: 12px 60px;
+  padding: 14px 60px;
   border-radius: 30px;
   font-size: 16px;
   font-weight: 700;
@@ -90,7 +91,6 @@
 
 .recordBtn:hover:not(.disabled) {
   transform: scale(1.05);
-  box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
 }
 
 .recordBtn.disabled {

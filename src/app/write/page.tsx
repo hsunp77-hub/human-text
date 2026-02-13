@@ -7,7 +7,7 @@ export default function WritePage() {
     const [text, setText] = useState("");
     const [history, setHistory] = useState<string[]>([]);
     const prompt = "창문을 여니 햇살이 소나기처럼 쏟아졌다";
-    const MAX_CHARS = 500;
+    const MAX_CHARS = 1000;
 
     // Get current date
     const today = new Date().toLocaleDateString('ko-KR', {
@@ -71,7 +71,7 @@ export default function WritePage() {
 
                     {/* Character Count & Reset Button */}
                     <div className="flex justify-between items-center mt-2 opacity-30">
-                        <button 
+                        <button
                             onClick={handleReset}
                             className="text-xs hover:text-white transition-colors"
                         >
@@ -84,7 +84,7 @@ export default function WritePage() {
 
                     {/* Record Button at Bottom Center */}
                     <div className={styles.bottomNav}>
-                        <button 
+                        <button
                             className={`${styles.recordBtn} ${!text.trim() ? styles.disabled : ''}`}
                             onClick={handleRecord}
                             disabled={!text.trim()}
