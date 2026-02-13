@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Header from "@/components/Header";
 
 export default function AboutPage() {
     const [mounted, setMounted] = useState(false);
@@ -14,19 +15,8 @@ export default function AboutPage() {
         <div className="app-container">
             <div className="mobile-view p-8 pt-16 overflow-y-auto">
 
-                {/* Back Button */}
-                <Link href="/" className="inline-block mb-12 text-sm font-semibold transition-colors hover:text-white" style={{ color: '#71717A' }}>
-                    ← 홈으로
-                </Link>
-
-                {/* Header */}
-                <div className={`mb-16 transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-                    <h1 className="text-5xl font-bold mb-6 tracking-tight text-white">소개</h1>
-                    <p className="text-xl leading-relaxed" style={{ color: '#A1A1AA' }}>
-                        나를 마주하는 짧고 깊은 시간,<br />
-                        <strong>오늘</strong>은 당신 인생의 이야기를 남깁니다.
-                    </p>
-                </div>
+                {/* Unified Header */}
+                <Header title="소개" />
 
                 {/* Vision Section */}
                 <div className={`space-y-12 transition-all duration-1000 delay-200 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>

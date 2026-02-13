@@ -2,6 +2,31 @@
 
 import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
+import { DAILY_PROMPTS } from './sentences'
+
+export async function ensureDailySentences() {
+    // We'll map Day 1-10 to some fixed dates starting from 2026-02-01
+    // This ensures they are in the DB and have stable IDs
+    for (let i = 0; i < DAILY_PROMPTS.length; i++) {
+        const date = new Date(`2026-02-${(i + 1).toString().padStart(2, '0')}T00:00:00.000Z`);
+        await prisma.dailySentence.upsert({
+            where: { date },
+            update: { content: DAILY_PROMPTS[i] },
+            create: {
+                date,
+                content: DAILY_PROMPTS[i]
+            }
+        });
+    }
+}
+
+export async function getSentenceByDay(day: number) {
+    await ensureDailySentences();
+    const date = new Date(`2026-02-${day.toString().padStart(2, '0')}T00:00:00.000Z`);
+    return await prisma.dailySentence.findUnique({
+        where: { date }
+    });
+}
 
 export async function getTodaySentence() {
     const today = new Date().toISOString().split('T')[0] + "T00:00:00.000Z"

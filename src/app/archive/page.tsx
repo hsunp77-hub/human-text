@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { getUserPosts } from '@/lib/actions';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Header from '@/components/Header';
 
 interface PostWithRelations {
     id: string;
@@ -60,23 +61,13 @@ export default function ArchivePage() {
         <div className="app-container">
             <div className="mobile-view archive-view px-6">
 
-                {/* Header with Home link at top-left and title in the center */}
-                <header className="w-full relative mb-12">
-                    <Link
-                        href="/"
-                        className="absolute left-0 top-0 text-[14px] text-[#71717A] hover:text-white transition-colors z-10"
-                    >
-                        ← 홈으로
-                    </Link>
-                    <h1 className="text-[28px] font-bold text-white text-center w-full pt-10">
-                        나의 기록
-                    </h1>
-                </header>
+                {/* Unified Header */}
+                <Header title="나의 기록" />
 
                 <main className="w-full flex-1 overflow-y-auto pb-10">
                     {posts.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center pt-20 text-center">
-                            <p className="text-gray-500 italic mb-8">아직 남긴 기록이 없으시네요.</p>
+                        <div className="flex flex-col items-center justify-center pt-24 text-center">
+                            <p className="text-gray-500 italic mb-16">아직 남긴 기록이 없으시네요.</p>
                             <Link
                                 href="/write"
                                 className="premium-btn px-10 py-3"
@@ -110,8 +101,15 @@ export default function ArchivePage() {
                     )}
                 </main>
 
-                <footer className="py-10 text-center opacity-30">
-                    <p className="text-[10px] tracking-widest uppercase text-gray-500">
+                <footer className="py-20 flex flex-col items-center gap-4">
+                    <div className="footer-nav font-serif">
+                        <Link href="/sentences" className="cursor-pointer hover:text-white transition-colors">문장의 날짜</Link>
+                        <span className="nav-dot">•</span>
+                        <Link href="/write" className="cursor-pointer hover:text-white transition-colors">쓰기</Link>
+                        <span className="nav-dot">•</span>
+                        <Link href="/about" className="cursor-pointer hover:text-white transition-colors">소개</Link>
+                    </div>
+                    <p className="text-[10px] tracking-widest uppercase text-gray-500 opacity-30 mt-4">
                         Human Text © 2026
                     </p>
                 </footer>

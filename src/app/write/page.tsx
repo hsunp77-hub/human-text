@@ -2,12 +2,15 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { createPost, getTodaySentence } from "@/lib/actions";
+import { useRouter, useSearchParams } from "next/navigation";
+import { createPost, getTodaySentence, getSentenceByDay } from "@/lib/actions";
 import { v4 as uuidv4 } from 'uuid';
+import Header from "@/components/Header";
 
 export default function WritePage() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const dayParam = searchParams.get('day');
     const [text, setText] = useState("");
     const [history, setHistory] = useState<any[]>([]);
     const [sentence, setSentence] = useState<any>(null);
@@ -22,15 +25,19 @@ export default function WritePage() {
         }
         if (id) setUserId(id);
 
-        // Fetch today's sentence
+        // Fetch sentence
         const fetchSentence = async () => {
-            const data = await getTodaySentence();
+            let data;
+            if (dayParam) {
+                data = await getSentenceByDay(parseInt(dayParam));
+            } else {
+                data = await getTodaySentence();
+            }
             setSentence(data);
         };
         fetchSentence();
-    }, []);
+    }, [dayParam]);
 
-    const prompt = "창문을 여니 햇살이 소나기처럼 쏟아졌다.";
     const MAX_CHARS = 1000;
 
     // Get current date
@@ -76,23 +83,10 @@ export default function WritePage() {
         <div className="app-container">
             <div className="mobile-view">
 
-                {/* Top Navigation */}
-                <div className="top-nav">
-                    <button className="nav-icon-btn" onClick={() => router.push("/")}>
-                        <span style={{ fontSize: '18px' }}>←</span> 홈
-                    </button>
-                    <span>{today}</span>
-                    <button className="nav-icon-btn" style={{ opacity: 0.3, cursor: 'not-allowed' }}>
-                        설정
-                    </button>
-                </div>
+                {/* Unified Header */}
+                <Header title="그날" />
 
                 <div className="content w-full flex flex-col items-center">
-                    {/* Header Section */}
-                    <div className="header">
-                        <h1>그날</h1>
-                        <p className="subtitle font-serif">당신 인생의 한순간을 떠올려보세요.</p>
-                    </div>
 
                     {/* Writing Card Section */}
                     <div className="glass-card">
@@ -101,7 +95,7 @@ export default function WritePage() {
                         </div>
 
                         <div className="sentence-preview">
-                            <span className="opacity-50 mr-1">{prompt}</span>
+                            <span className="opacity-50 mr-1">{sentence?.content || "..."}</span>
                             {history.map((item, index) => (
                                 <span key={index} className="text-white">
                                     {" "}{item.content}
@@ -143,6 +137,8 @@ export default function WritePage() {
 
                     {/* Footer Navigation */}
                     <div className="footer-nav font-serif">
+                        <Link href="/sentences" className="cursor-pointer hover:text-white transition-colors">문장의 날짜</Link>
+                        <span className="nav-dot">•</span>
                         <Link href="/archive" className="cursor-pointer hover:text-white transition-colors">나의 문장들</Link>
                         <span className="nav-dot">•</span>
                         <Link href="/about" className="cursor-pointer hover:text-white transition-colors">소개</Link>

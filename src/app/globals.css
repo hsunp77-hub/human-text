@@ -507,3 +507,47 @@ a {
 a:hover {
   color: white;
 }
+
+/* Unified Header Styles */
+.unified-header {
+  width: 100%;
+  max-width: 432px;
+  margin: 0 auto;
+  padding-top: 24px;
+  margin-bottom: 48px;
+}
+
+.unified-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.unified-header-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+  line-height: 1;
+  color: #71717A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.unified-header-icon:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.unified-header-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  margin: 0;
+  font-family: var(--font-serif);
+}
