@@ -1,0 +1,91 @@
+:root {
+  /* Modern Minimalist Palette */
+  --bg-color: #F2F2F7;
+  /* iOS Light Gray Background */
+  --card-bg: #FFFFFF;
+  --text-primary: #000000;
+  --text-secondary: #8E8E93;
+  /* iOS Gray Text */
+  --accent-color: #007AFF;
+  /* iOS Blue */
+
+  --font-serif: var(--font-noto-serif), serif;
+  --font-sans: var(--font-noto-sans), sans-serif;
+  --font-handwriting: var(--font-nanum-pen), cursive;
+
+  --radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  font-family: var(--font-sans);
+  /* Default to clean sans-serif */
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Layout Utilities */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.mobile-view {
+  width: 100%;
+  max-width: 480px;
+  /* Mobile width constraint on desktop */
+  background-color: #000000;
+  /* Dark Paper */
+  background-image: radial-gradient(#333333 1px, transparent 1px);
+  /* Dark Dot pattern */
+  background-size: 20px 20px;
+  min-height: 100%;
+  position: relative;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+/* Typography Utilities */
+.font-hand {
+  font-family: var(--font-handwriting);
+}
+
+.text-title {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.text-date {
+  font-size: 14px;
+  color: var(--accent-color);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.btn-icon {
+  background: white;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  color: var(--text-primary);
+}

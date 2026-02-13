@@ -1,0 +1,73 @@
+.writeContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-top: 40px;
+}
+
+.header {
+  margin-bottom: 40px;
+  padding: 0 4px;
+}
+
+.categoryText {
+  font-size: 14px;
+  color: var(--accent-color);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.promptArea {
+  margin-bottom: 32px;
+  padding-left: 16px;
+  border-left: 3px solid #FFFFFF;
+}
+
+.promptText {
+  font-size: 1.1rem;
+  color: #A1A1AA;
+  line-height: 1.4;
+  font-weight: 400;
+}
+
+.writingArea {
+  flex: 1;
+  width: 100%;
+  background: transparent;
+  border: none;
+  resize: none;
+  outline: none;
+  font-size: 1.8rem;
+  line-height: 1.6;
+  color: #FFFFFF;
+  padding: 0;
+}
+
+.writingArea::placeholder {
+  color: #3F3F46;
+}
+
+.bottomNav {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.recordBtn {
+  background: white;
+  color: black;
+  border: none;
+  padding: 12px 40px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.recordBtn:hover {
+  opacity: 0.9;
+}
