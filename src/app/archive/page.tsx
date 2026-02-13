@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { getUserPosts } from '@/lib/actions';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
-// Type definition for the post with included relations
 interface PostWithRelations {
     id: string;
     content: string;
@@ -19,17 +19,28 @@ interface PostWithRelations {
 }
 
 export default function ArchivePage() {
+    const router = useRouter();
     const [posts, setPosts] = useState<PostWithRelations[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchPosts = async () => {
-            const userId = localStorage.getItem('human_text_id');
-            if (userId) {
-                const userPosts = await getUserPosts(userId);
-                setPosts(userPosts);
+            try {
+                const userId = localStorage.getItem('human_text_id');
+                if (userId) {
+                    const userPosts = await getUserPosts(userId);
+                    // Ensure createdAt is converted to Date objects if needed
+                    const formattedPosts = (userPosts as any[]).map(post => ({
+                        ...post,
+                        createdAt: new Date(post.createdAt)
+                    }));
+                    setPosts(formattedPosts);
+                }
+            } catch (error) {
+                console.error("Failed to fetch posts:", error);
+            } finally {
+                setLoading(false);
             }
-            setLoading(false);
         };
 
         fetchPosts();
@@ -39,7 +50,7 @@ export default function ArchivePage() {
         return (
             <div className="app-container">
                 <div className="mobile-view flex items-center justify-center">
-                    <div className="text-[#71717A] animate-pulse font-medium">기록을 불러오는 중...</div>
+                    <div className="text-[#71717A] animate-pulse font-serif italic">기록을 불러오고 있습니다...</div>
                 </div>
             </div>
         );
@@ -47,51 +58,58 @@ export default function ArchivePage() {
 
     return (
         <div className="app-container">
-            <div className="mobile-view px-8 items-center">
-                <header className="w-full flex justify-between items-center mt-12 mb-16">
-                    <h1 className="text-3xl font-bold tracking-tighter" style={{ color: 'var(--text-primary)' }}>나의 문장들</h1>
-                    <Link href="/" className="text-sm font-semibold transition-all hover:text-white" style={{ color: 'var(--accent-color)' }}>
-                        ← 홈
-                    </Link>
+            <div className="mobile-view px-6">
+
+                {/* Header matching mockup */}
+                <header className="w-full flex justify-between items-center mt-12 mb-10">
+                    <h1 className="text-2xl font-medium text-white font-serif">나의 기록</h1>
+                    <button
+                        onClick={() => router.push('/')}
+                        className="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-1 font-serif"
+                    >
+                        ← 홈으로
+                    </button>
                 </header>
 
-                {posts.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center flex-1 text-center">
-                        <p className="text-lg font-medium mb-8" style={{ color: 'var(--text-secondary)' }}>아직 남긴 기록이 없습니다.</p>
-                        <Link
-                            href="/"
-                            className="bg-white text-black px-10 py-4 rounded-full font-bold shadow-[0_0_20px_rgba(255,255,255,0.1)] transition-transform hover:scale-105"
-                        >
-                            기록 시작하기
-                        </Link>
-                    </div>
-                ) : (
-                    <div className="w-full space-y-8 flex-1">
-                        {posts.map((post) => (
-                            <article key={post.id} className="glass-card p-8 transition-all hover:bg-white/10 group">
-                                <div className="text-xs font-bold mb-4 uppercase tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
-                                    {new Date(post.createdAt).toLocaleDateString('ko-KR', {
-                                        year: 'numeric',
-                                        month: 'long',
-                                        day: 'numeric'
-                                    })}
-                                </div>
-                                <div className="text-sm font-medium mb-6 italic opacity-50" style={{ color: 'var(--text-secondary)' }}>
-                                    Q. {post.sentence.content}
-                                </div>
-                                <div className="text-xl leading-relaxed font-hand" style={{ color: 'var(--text-primary)' }}>
-                                    {post.content}
-                                </div>
-                                <div className="flex justify-end mt-6 text-[10px] font-bold uppercase tracking-[0.3em] opacity-30 group-hover:opacity-100 transition-opacity" style={{ color: 'var(--accent-color)' }}>
-                                    Like {post._count.likes}
-                                </div>
-                            </article>
-                        ))}
-                    </div>
-                )}
+                <main className="w-full flex-1 overflow-y-auto pb-10">
+                    {posts.length === 0 ? (
+                        <div className="flex flex-col items-center justify-center pt-20 text-center">
+                            <p className="text-gray-500 font-serif italic mb-8">아직 남긴 기록이 없으시네요.</p>
+                            <Link
+                                href="/write"
+                                className="premium-btn px-10 py-3"
+                            >
+                                첫 기록 남기기
+                            </Link>
+                        </div>
+                    ) : (
+                        <div className="space-y-4">
+                            {posts.map((post) => (
+                                <article key={post.id} className="archive-card">
+                                    <div className="archive-card-date">
+                                        {post.createdAt.toLocaleDateString('ko-KR', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric'
+                                        })}
+                                    </div>
+                                    <div className="archive-card-sentence">
+                                        Q. {post.sentence.content}
+                                    </div>
+                                    <div className="archive-card-content">
+                                        {post.content}
+                                    </div>
+                                    <div className="archive-card-footer">
+                                        LIKE {post._count.likes}
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    )}
+                </main>
 
-                <footer className="py-16 text-center opacity-20">
-                    <p className="text-[10px] font-mono tracking-widest uppercase">
+                <footer className="py-10 text-center opacity-30">
+                    <p className="text-[10px] tracking-widest uppercase text-gray-500">
                         Human Text © 2026
                     </p>
                 </footer>

@@ -47,10 +47,17 @@ export default function WritePage() {
             formData.append('authorId', userId);
             formData.append('sentenceId', sentence.id);
 
-            const result = await createPost(formData);
-            if (result.success) {
-                setHistory(prev => [...prev, { content: text.trim(), id: result.post.id }]);
-                setText("");
+            try {
+                const result = await createPost(formData);
+                if (result.success) {
+                    setHistory(prev => [...prev, { content: text.trim(), id: result.post.id }]);
+                    setText("");
+                    alert("기록이 안전하게 저장되었습니다.");
+                } else {
+                    alert(result.error || "저장에 실패했습니다. 다시 시도해주세요.");
+                }
+            } catch (err) {
+                alert("서버와 연결할 수 없습니다. 잠시 후 다시 시도해주세요.");
             }
         }
     };
