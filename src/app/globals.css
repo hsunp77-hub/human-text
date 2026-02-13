@@ -142,8 +142,6 @@ h1 {
 
 /* Premium Record Button */
 .record-btn {
-  display: block;
-  width: 100%;
   padding: 16px;
   border-radius: 99px;
   font-size: 16px;
@@ -170,6 +168,7 @@ h1 {
 .footer-nav {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 20px;
   font-size: 14px;
   color: var(--text-secondary);

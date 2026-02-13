@@ -33,7 +33,7 @@ export default function Home() {
           {/* Header Area */}
           <div className="header">
             <h1>오늘</h1>
-            <p className="subtitle">당신의 인생의 한순간을 떠올려보세요.</p>
+            <p className="subtitle">당신 인생의 한순간을 떠올려보세요.</p>
           </div>
 
           {/* Writing Card Section */}
@@ -64,7 +64,7 @@ export default function Home() {
 
           {/* Footer Navigation */}
           <div className="footer-nav">
-            <Link href="/archive">내 기록 보기</Link>
+            <Link href="/archive">나의 문장들</Link>
             <span className="nav-dot">•</span>
             <Link href="/about">소개</Link>
           </div>

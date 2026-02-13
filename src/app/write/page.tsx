@@ -22,10 +22,11 @@ export default function WritePage() {
         }
     };
 
-    const handleReset = () => {
-        if (confirm("기록을 초기화하시겠습니까?")) {
-            setHistory([]);
-            setText("");
+    const handleEdit = () => {
+        if (history.length > 0) {
+            const lastSentence = history[history.length - 1];
+            setHistory(prev => prev.slice(0, -1));
+            setText(lastSentence);
         }
     };
 
@@ -40,19 +41,13 @@ export default function WritePage() {
                     {/* Header Section */}
                     <div className="header">
                         <h1>오늘</h1>
-                        <p className="subtitle">당신의 인생의 한순간을 떠올려보세요.</p>
+                        <p className="subtitle">당신 인생의 한순간을 떠올려보세요.</p>
                     </div>
 
                     {/* Writing Card Section */}
                     <div className="glass-card">
                         <div className="flex justify-between items-start mb-2">
                             <div className="card-label">오늘의 문장</div>
-                            <button
-                                onClick={handleReset}
-                                className="text-[10px] uppercase tracking-wider text-secondary hover:text-white transition-colors opacity-30"
-                            >
-                                Reset
-                            </button>
                         </div>
 
                         <div className="sentence-preview">
@@ -76,19 +71,31 @@ export default function WritePage() {
                             autoFocus
                         />
 
-                        {/* Record Button - No Icon, Matching Preview Style */}
-                        <button
-                            className={`record-btn ${text.trim().length > 0 ? 'btn-active' : 'btn-disabled'}`}
-                            onClick={handleRecord}
-                            disabled={text.trim().length === 0}
-                        >
-                            기록
-                        </button>
+                        {/* Buttons Section */}
+                        <div className="flex justify-center w-full px-4 mt-4">
+                            <div className="flex gap-3 justify-center w-full max-w-[320px]">
+                                <button
+                                    className={`record-btn flex-1 ${text.trim().length > 0 ? 'btn-active' : 'btn-disabled'}`}
+                                    onClick={handleRecord}
+                                    disabled={text.trim().length === 0}
+                                >
+                                    기록
+                                </button>
+                                {history.length > 0 && (
+                                    <button
+                                        className="record-btn flex-1 btn-active"
+                                        onClick={handleEdit}
+                                    >
+                                        수정
+                                    </button>
+                                )}
+                            </div>
+                        </div>
                     </div>
 
                     {/* Footer Navigation */}
                     <div className="footer-nav">
-                        <span className="cursor-pointer">내 기록 보기</span>
+                        <span className="cursor-pointer">나의 문장들</span>
                         <span className="nav-dot">•</span>
                         <span className="cursor-pointer">소개</span>
                     </div>

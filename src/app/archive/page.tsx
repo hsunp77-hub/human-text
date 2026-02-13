@@ -49,7 +49,7 @@ export default function ArchivePage() {
         <div className="app-container">
             <div className="mobile-view px-8 items-center">
                 <header className="w-full flex justify-between items-center mt-12 mb-16">
-                    <h1 className="text-3xl font-bold tracking-tighter" style={{ color: 'var(--text-primary)' }}>나의 기록</h1>
+                    <h1 className="text-3xl font-bold tracking-tighter" style={{ color: 'var(--text-primary)' }}>나의 문장들</h1>
                     <Link href="/" className="text-sm font-semibold transition-all hover:text-white" style={{ color: 'var(--accent-color)' }}>
                         ← 홈
                     </Link>
