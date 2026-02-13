@@ -91,7 +91,7 @@ export default function WritePage() {
                     {/* Header Section */}
                     <div className="header">
                         <h1>그날</h1>
-                        <p className="subtitle">당신 인생의 한순간을 떠올려보세요.</p>
+                        <p className="subtitle font-serif">당신 인생의 한순간을 떠올려보세요.</p>
                     </div>
 
                     {/* Writing Card Section */}
@@ -142,15 +142,15 @@ export default function WritePage() {
                     </div>
 
                     {/* Footer Navigation */}
-                    <div className="footer-nav">
+                    <div className="footer-nav font-serif">
                         <Link href="/archive" className="cursor-pointer hover:text-white transition-colors">나의 문장들</Link>
                         <span className="nav-dot">•</span>
                         <Link href="/about" className="cursor-pointer hover:text-white transition-colors">소개</Link>
                     </div>
                 </div>
 
-                {/* Bottom Tag - Correct Casing */}
-                <div className="bottom-tag">Human Text. 2026.</div>
+                {/* Bottom Tag - Formal Serif */}
+                <div className="bottom-tag font-serif">Human Text © 2026.</div>
 
             </div>
         </div>
