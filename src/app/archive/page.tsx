@@ -61,16 +61,14 @@ export default function ArchivePage() {
             <div className="mobile-view archive-view px-6">
 
                 {/* Header with Home link at top-left and title in the center */}
-                <header className="w-full relative mb-12">
+                <header className="w-full relative mb-12 flex flex-col items-center">
                     <Link
                         href="/"
                         className="absolute left-0 top-0 text-[14px] text-[#71717A] hover:text-white transition-colors z-10"
                     >
                         ← 홈으로
                     </Link>
-                    <div className="w-full flex justify-center pt-10">
-                        <h1 className="text-[28px] font-bold text-white text-center">나의 기록</h1>
-                    </div>
+                    <h1 className="text-[28px] font-bold text-white text-center pt-8">나의 기록</h1>
                 </header>
 
                 <main className="w-full flex-1 overflow-y-auto pb-10">
