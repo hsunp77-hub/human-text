@@ -97,15 +97,17 @@ function ArchiveContent() {
                 <main className="w-full flex-1 overflow-y-auto pb-10 no-scrollbar">
                     {(posts.length === 0 && !loading) || forceEmpty ? (
                         <div className="flex flex-col items-center justify-center text-center w-full h-full min-h-[60vh]">
-                            <p className="text-gray-500 font-light text-center py-10">
+                            <p className="text-gray-500 font-serif font-light text-center py-10 text-lg">
                                 아직 남긴 기록이 없으세요.
                             </p>
-                            <Link
-                                href="/write"
-                                className="mt-12 px-6 py-2 bg-black text-white rounded-md"
-                            >
-                                첫 기록 남기기
-                            </Link>
+                            <div className="my-[120px]">
+                                <Link
+                                    href="/write"
+                                    className="premium-btn px-12 py-4 text-lg"
+                                >
+                                    첫 기록 남기기
+                                </Link>
+                            </div>
                         </div>
                     ) : (
                         <div className="space-y-6">
