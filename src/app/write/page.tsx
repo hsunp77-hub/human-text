@@ -7,6 +7,8 @@ import { v4 as uuidv4 } from 'uuid';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
+export const dynamic = 'force-dynamic';
+
 function WriteContent() {
     const searchParams = useSearchParams();
     const dayParam = searchParams.get('day');
