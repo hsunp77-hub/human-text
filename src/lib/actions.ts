@@ -42,6 +42,7 @@ export async function getSentenceByDay(day: number) {
 }
 
 export async function getTodaySentence() {
+    await ensureDailySentences();
     const today = new Date().toISOString().split('T')[0] + "T00:00:00.000Z"
 
     // Try to find exact match for today
@@ -51,11 +52,11 @@ export async function getTodaySentence() {
         },
     })
 
-    // Fallback: If no sentence for today (e.g. timezone diff), get the most recent one
+    // Fallback: If no sentence for today (e.g. timezone diff), get the FIRST one (Day 1)
     if (!sentence) {
         sentence = await prisma.dailySentence.findFirst({
             orderBy: {
-                date: 'desc',
+                date: 'asc',
             },
         })
     }
