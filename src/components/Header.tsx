@@ -32,7 +32,7 @@ export default function Header({ title, label }: HeaderProps) {
                 </button>
             </div>
             {label && (
-                <div className="text-center text-[11px] font-serif text-[#71717A] mb-2 tracking-widest uppercase opacity-70">
+                <div className="header-label">
                     {label}
                 </div>
             )}

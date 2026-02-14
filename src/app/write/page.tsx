@@ -130,8 +130,8 @@ function WriteContent() {
                         />
 
                         {/* Buttons Section */}
-                        <div className="flex flex-col items-center w-full mt-6 gap-4">
-                            <div className="text-[11px] font-serif text-white/40 mb-2 tracking-widest uppercase">
+                        <div className="center-flex-col mt-10 gap-4">
+                            <div className="write-date-label">
                                 {today}
                             </div>
                             <button
