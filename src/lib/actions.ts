@@ -147,7 +147,7 @@ export async function createPost(formData: FormData) {
         return { success: true, post }
     } catch (error) {
         console.error("Failed to create/update post:", error)
-        return { error: `Failed to submit post: ${error instanceof Error ? error.message : String(error)}` }
+        return { error: "Failed to submit post." }
     }
 }
 
