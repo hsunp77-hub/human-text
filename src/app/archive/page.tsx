@@ -41,27 +41,62 @@ function ArchiveContent() {
                     return;
                 }
                 setLoading(true);
-                // Ensure localStorage access is safe
-                if (typeof window === 'undefined') return;
 
-                const userId = localStorage.getItem('human_text_id');
-                if (userId) {
-                    const { posts: userPosts, total } = await getUserPosts(userId, page, POSTS_PER_PAGE);
-                    // Ensure createdAt is converted to Date objects
-                    const formattedPosts = (userPosts as any[]).map(post => ({
-                        ...post,
-                        createdAt: new Date(post.createdAt)
-                    }));
-                    setPosts(formattedPosts);
-                    setTotalPages(Math.ceil(total / POSTS_PER_PAGE));
-                } else {
-                    // No user ID found, treat as empty
-                    setPosts([]);
+                // 1. Fetch Local Posts (Client-side fallback)
+                let localPosts: PostWithRelations[] = [];
+                if (typeof window !== 'undefined') {
+                    try {
+                        const saved = localStorage.getItem('human_text_posts');
+                        if (saved) {
+                            localPosts = JSON.parse(saved).map((p: any) => ({
+                                ...p,
+                                createdAt: new Date(p.createdAt)
+                            }));
+                        }
+                    } catch (e) {
+                        console.error("Failed to parse local posts", e);
+                    }
                 }
+
+                // 2. Fetch Server Posts
+                let serverPosts: PostWithRelations[] = [];
+                if (typeof window !== 'undefined') {
+                    const userId = localStorage.getItem('human_text_id');
+                    if (userId) {
+                        try {
+                            const { posts: userPosts, total } = await getUserPosts(userId, page, POSTS_PER_PAGE);
+                            serverPosts = (userPosts as any[]).map(post => ({
+                                ...post,
+                                createdAt: new Date(post.createdAt)
+                            }));
+                            setTotalPages(Math.ceil((total || localPosts.length) / POSTS_PER_PAGE));
+                        } catch (err) {
+                            console.error("Server fetch failed, using local only", err);
+                        }
+                    }
+                }
+
+                // 3. Merge: Prefer server, but valid local posts that aren't in server (e.g. slight delay) should be shown?
+                // For simplicity and fallback: If server fails (empty), use local. 
+                // Creating a Map to deduplicate by ID if we mix them
+                const allPostsMap = new Map<string, PostWithRelations>();
+
+                // Add local posts first
+                localPosts.forEach(p => allPostsMap.set(p.id, p));
+
+                // Add/Overwrite with server posts (source of truth) - UNLESS server is empty/failed
+                if (serverPosts.length > 0) {
+                    serverPosts.forEach(p => allPostsMap.set(p.id, p));
+                }
+
+                const mergedPosts = Array.from(allPostsMap.values()).sort((a, b) =>
+                    b.createdAt.getTime() - a.createdAt.getTime()
+                );
+
+                setPosts(mergedPosts);
+
             } catch (error) {
                 console.error("Failed to fetch posts:", error);
-                // In case of error, show empty state or maintain current state but stop loading
-                // setPosts([]); // Optional: clear posts on error?
             } finally {
                 setLoading(false);
             }
@@ -97,10 +132,10 @@ function ArchiveContent() {
                 <main className="w-full flex-1 overflow-y-auto pb-10 no-scrollbar">
                     {(posts.length === 0 && !loading) || forceEmpty ? (
                         <div className="flex flex-col items-center justify-center text-center w-full h-full min-h-[60vh]">
-                            <p className="text-gray-500 font-serif font-light text-center py-10 text-lg">
+                            <p className="text-gray-500 font-light text-center py-10 text-lg" style={{ fontFamily: '"Gungsuh", "GungSeo", "Batang", serif' }}>
                                 아직 남긴 기록이 없으세요.
                             </p>
-                            <div className="my-[120px]">
+                            <div className="my-[80px]">
                                 <Link
                                     href="/write"
                                     className="premium-btn px-12 py-4 text-lg"
