@@ -5,6 +5,7 @@ import { getUserPosts } from '@/lib/actions';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 interface PostWithRelations {
     id: string;
@@ -74,7 +75,7 @@ export default function ArchivePage() {
             <div className="mobile-view archive-view px-6">
 
                 {/* Unified Header */}
-                <Header title="나의 기록" />
+                <Header title="내 문장들" />
 
                 <main className="w-full flex-1 overflow-y-auto pb-10 no-scrollbar">
                     {posts.length === 0 && !loading ? (
@@ -135,18 +136,7 @@ export default function ArchivePage() {
                     )}
                 </main>
 
-                <footer className="py-12 flex flex-col items-center">
-                    <div className="footer-nav">
-                        <Link href="/sentences">문장의 날짜</Link>
-                        <span className="nav-dot">•</span>
-                        <Link href="/write">쓰기</Link>
-                        <span className="nav-dot">•</span>
-                        <Link href="/about">소개</Link>
-                    </div>
-                    <p className="footer-copyright">
-                        Human Text © 2026
-                    </p>
-                </footer>
+                <Footer pageContext="archive" />
             </div>
         </div>
     );

@@ -5,6 +5,7 @@ import { DAILY_PROMPTS } from '@/lib/sentences';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 export default function SentencesPage() {
     const router = useRouter();
@@ -44,32 +45,22 @@ export default function SentencesPage() {
                     </div>
 
                     {/* Pagination Controls */}
-                    <div className="flex justify-between items-center py-8 px-2 shrink-0 w-full">
-                        <button
-                            onClick={() => setPage(prev => Math.max(1, prev - 1))}
-                            disabled={page === 1}
-                            className={`edit-btn text-sm w-[80px] flex justify-center ${page === 1 ? 'opacity-20 cursor-not-allowed' : ''}`}
-                        >
-                            이전
-                        </button>
-                        <div className="text-[#71717A] text-sm font-serif min-w-[50px] text-center">
-                            {page} / {totalPages}
+                    {totalPages > 1 && (
+                        <div className="pagination-container">
+                            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                                <button
+                                    key={pageNum}
+                                    onClick={() => setPage(pageNum)}
+                                    className={`pagination-number ${page === pageNum ? 'active' : ''}`}
+                                >
+                                    {pageNum}
+                                </button>
+                            ))}
                         </div>
-                        <button
-                            onClick={() => setPage(prev => Math.min(totalPages, prev + 1))}
-                            disabled={page === totalPages}
-                            className={`edit-btn text-sm w-[80px] flex justify-center ${page === totalPages ? 'opacity-20 cursor-not-allowed' : ''}`}
-                        >
-                            다음
-                        </button>
-                    </div>
+                    )}
                 </main>
 
-                <footer className="py-6 text-center opacity-30 shrink-0">
-                    <p className="text-[10px] tracking-widest uppercase text-gray-500">
-                        Human Text © 2026
-                    </p>
-                </footer>
+                <Footer pageContext="sentences" />
             </div>
         </div>
     );

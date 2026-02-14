@@ -1,18 +1,20 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { createPost, getTodaySentence, getSentenceByDay } from "@/lib/actions";
 import { v4 as uuidv4 } from 'uuid';
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 function WriteContent() {
-    const router = useRouter();
     const searchParams = useSearchParams();
     const dayParam = searchParams.get('day');
-    const [text, setText] = useState("");
-    const [history, setHistory] = useState<any[]>([]);
+
+    // State
+    const [content, setContent] = useState("");
+    const [submitted, setSubmitted] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [sentence, setSentence] = useState<any>(null);
     const [userId, setUserId] = useState<string>("");
 
@@ -37,7 +39,6 @@ function WriteContent() {
                     data = await getSentenceByDay(dayNumber);
                     // Fallback to today's sentence if the requested day is invalid
                     if (!data) {
-                        console.warn(`Day ${dayNumber} not found, falling back to today's sentence`);
                         data = await getTodaySentence();
                     }
                 }
@@ -49,126 +50,143 @@ function WriteContent() {
         fetchSentence();
     }, [dayParam]);
 
-    const MAX_CHARS = 1000;
-
-    // Get current date
-    const today = new Date().toLocaleDateString('ko-KR', {
+    // Derived values
+    const todayDate = new Date().toLocaleDateString('ko-KR', {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
     });
+    const day = dayParam || (sentence ? new Date(sentence.createdAt).getDate() : 'N/A');
+    const currentPrompt = sentence?.content || "...";
 
-    const handleRecord = async () => {
-        if (text.trim() && sentence && userId) {
-            const formData = new FormData();
-            formData.append('content', text.trim());
-            formData.append('authorId', userId);
-            formData.append('sentenceId', sentence.id);
+    const handleSubmit = async () => {
+        if (!content.trim() || !sentence || !userId) return;
 
-            try {
-                const result = await createPost(formData);
-                if (result.success) {
-                    setHistory(prev => [...prev, { content: text.trim(), id: result.post.id }]);
-                    setText("");
-                    alert("기록이 안전하게 저장되었습니다.");
-                } else {
-                    alert(result.error || "저장에 실패했습니다. 다시 시도해주세요.");
-                }
-            } catch (err) {
-                alert("서버와 연결할 수 없습니다. 잠시 후 다시 시도해주세요.");
+        setIsSubmitting(true);
+        const formData = new FormData();
+        formData.append('content', content.trim());
+        formData.append('authorId', userId);
+        formData.append('sentenceId', sentence.id);
+
+        try {
+            const result = await createPost(formData);
+            if (result.success) {
+                setSubmitted(true);
+            } else {
+                alert(result.error || "저장에 실패했습니다. 다시 시도해주세요.");
             }
-        }
-    };
-
-    const handleEdit = () => {
-        if (history.length > 0) {
-            const lastPost = history[history.length - 1];
-            // In a real app, you might want to DELETE the post from the DB here too,
-            // but for now we'll just remove it from local history to allow re-typing.
-            setHistory(prev => prev.slice(0, -1));
-            setText(lastPost.content);
+        } catch (err) {
+            alert("서버와 연결할 수 없습니다. 잠시 후 다시 시도해주세요.");
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
     return (
         <div className="app-container">
-            <div className="mobile-view">
+            <div className="mobile-view write-view px-6">
 
                 {/* Unified Header */}
-                <Header
-                    title="그날"
-                    label={dayParam ? `DAY ${dayParam}` : undefined}
-                />
+                <Header title="그날" />
 
-                <div className="content w-full flex flex-col items-center">
+                <div className="write-container flex flex-col items-center justify-center flex-1 w-full max-w-[340px] mx-auto min-h-0">
 
-                    {/* Writing Card Section */}
-                    <div className="glass-card">
-                        <div className="flex justify-center items-start mb-4">
-                            <div className="card-label">시작하는 문장</div>
+                    {/* Main Card */}
+                    <div className="glass-card w-full p-8 relative flex flex-col items-center text-center mb-8">
+                        {/* Day Label */}
+                        <div className="header-label">
+                            DAY {day}
                         </div>
 
-                        <div className="sentence-preview">
-                            <span className="opacity-50 mr-1">{sentence?.content || "..."}</span>
-                            {history.map((item, index) => (
-                                <span key={index} className="text-white">
-                                    {" "}{item.content}
-                                </span>
-                            ))}
-                        </div>
-
-                        {/* Minimal Writing Input */}
-                        <textarea
-                            className="textarea-minimal"
-                            value={text}
-                            onChange={(e) => {
-                                if (e.target.value.length <= MAX_CHARS) setText(e.target.value);
-                            }}
-                            placeholder="이어지는 당신의 이야기를 담아주세요..."
-                            spellCheck={false}
-                            autoFocus
-                        />
-
-                        {/* Buttons Section */}
-                        <div className="center-flex-col mt-10 gap-4">
-                            <div className="write-date-label">
-                                {today}
+                        {/* Sentence */}
+                        {!submitted && (
+                            <div className="sentence-preview">
+                                "{currentPrompt}"
                             </div>
-                            <div className="center-flex-row">
-                                <button
-                                    className={`premium-btn w-full max-w-[200px]`}
-                                    onClick={handleRecord}
-                                    disabled={text.trim().length === 0}
+                        )}
+
+                        {/* Input Area */}
+                        <div className="w-full relative">
+                            {submitted ? (
+                                <div
+                                    className="textarea-minimal w-full h-[200px] resize-none overflow-y-auto"
+                                    style={{
+                                        fontFamily: 'var(--font-serif)',
+                                        color: 'white',
+                                        fontSize: '18px',
+                                        textAlign: 'center',
+                                        whiteSpace: 'pre-wrap'
+                                    }}
                                 >
-                                    기록의 완성
-                                </button>
-                                {history.length > 0 && (
-                                    <button
-                                        className="edit-btn w-full max-w-[140px]"
-                                        onClick={handleEdit}
-                                    >
-                                        문장 수정
-                                    </button>
-                                )}
+                                    {currentPrompt} {content}
+                                </div>
+                            ) : (
+                                <>
+                                    <textarea
+                                        className="textarea-minimal w-full h-[200px] resize-none"
+                                        placeholder="문장을 읽고 떠오르는 당신의 이야기를 기록해주세요..."
+                                        value={content}
+                                        onChange={(e) => setContent(e.target.value)}
+                                        maxLength={500}
+                                        spellCheck={false}
+                                    />
+
+                                </>
+                            )}
+
+                            {/* Action Buttons inside Input Area because of relative positioning? No, they were inside relative in my previous failed attempts. 
+                                Let's move them OUT of 'w-full relative' if possible, or keep them in. 
+                                Design-wise, they are just below. 
+                                I will place them AFTER the textarea div. 
+                            */}
+                        </div>
+
+                        {/* Counter & Date */}
+                        <div className="flex flex-col gap-1 mb-80 w-full" style={{ width: '100%' }}>
+                            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+                                <span style={{ fontSize: '10px', color: '#71717A', fontFamily: 'var(--font-serif)', letterSpacing: '0.1em', opacity: 0.8 }}>
+                                    {content.length} / 500
+                                </span>
                             </div>
+                            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+                                <span style={{ fontSize: '10px', color: '#71717A', fontFamily: 'var(--font-serif)', letterSpacing: '0.1em', opacity: 0.8 }}>
+                                    {todayDate}
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="center-flex-col mt-48">
+                            {!submitted ? (
+                                <button
+                                    onClick={handleSubmit}
+                                    disabled={isSubmitting || !content.trim()}
+                                    className="premium-btn w-full max-w-[200px]"
+                                >
+                                    {isSubmitting ? (
+                                        <span className="flex items-center justify-center gap-2">
+                                            <span className="w-1 h-1 bg-white rounded-full animate-bounce" style={{ animationDelay: '0s' }}></span>
+                                            <span className="w-1 h-1 bg-white rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></span>
+                                            <span className="w-1 h-1 bg-white rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></span>
+                                        </span>
+                                    ) : "기록의 완성"}
+                                </button>
+
+                            ) : (
+                                <button
+                                    onClick={() => setSubmitted(false)}
+                                    className="premium-btn w-full max-w-[200px]"
+                                >
+                                    문장 수정
+                                </button>
+                            )}
                         </div>
                     </div>
 
-                    {/* Footer Navigation */}
-                    <div className="footer-nav font-serif">
-                        <Link href="/sentences" className="cursor-pointer hover:text-white transition-colors">문장의 날짜</Link>
-                        <span className="nav-dot">•</span>
-                        <Link href="/archive" className="cursor-pointer hover:text-white transition-colors">나의 문장들</Link>
-                        <span className="nav-dot">•</span>
-                        <Link href="/about" className="cursor-pointer hover:text-white transition-colors">소개</Link>
-                    </div>
+                    <Footer pageContext="write" />
                 </div>
-
-                {/* Bottom Tag - Formal Serif */}
-                <div className="bottom-tag font-serif">Human Text © 2026.</div>
-
             </div>
-        </div>
+        </div >
     );
 }
 
@@ -179,4 +197,3 @@ export default function WritePage() {
         </Suspense>
     );
 }
-
