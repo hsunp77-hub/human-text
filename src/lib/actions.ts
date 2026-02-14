@@ -21,8 +21,6 @@ export async function ensureDailySentences() {
 }
 
 export async function getSentenceByDay(day: number) {
-    await ensureDailySentences();
-
     // Validate day is within valid range
     if (day < 1 || day > DAILY_PROMPTS.length) {
         console.error(`Invalid day number: ${day}. Valid range is 1-${DAILY_PROMPTS.length}`);
@@ -30,12 +28,26 @@ export async function getSentenceByDay(day: number) {
     }
 
     const date = new Date(`2026-02-${day.toString().padStart(2, '0')}T00:00:00.000Z`);
-    const sentence = await prisma.dailySentence.findUnique({
+    const content = DAILY_PROMPTS[day - 1];
+
+    // Try to find it, or create it if missing (Self-healing)
+    let sentence = await prisma.dailySentence.findUnique({
         where: { date }
     });
 
     if (!sentence) {
-        console.error(`No sentence found for day ${day} (date: ${date.toISOString()})`);
+        try {
+            sentence = await prisma.dailySentence.upsert({
+                where: { date },
+                update: { content },
+                create: {
+                    date,
+                    content
+                }
+            });
+        } catch (error) {
+            console.error(`Failed to ensure sentence for day ${day}:`, error);
+        }
     }
 
     return sentence;
