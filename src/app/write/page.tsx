@@ -95,14 +95,17 @@ function WriteContent() {
             <div className="mobile-view">
 
                 {/* Unified Header */}
-                <Header title="그날" />
+                <Header
+                    title="그날"
+                    label={dayParam ? `DAY ${dayParam}` : undefined}
+                />
 
                 <div className="content w-full flex flex-col items-center">
 
                     {/* Writing Card Section */}
                     <div className="glass-card">
                         <div className="flex justify-center items-start mb-4">
-                            <div className="card-label">전해주신 한 문장</div>
+                            <div className="card-label">시작하는 문장</div>
                         </div>
 
                         <div className="sentence-preview">
@@ -128,6 +131,9 @@ function WriteContent() {
 
                         {/* Buttons Section */}
                         <div className="flex flex-col items-center w-full mt-6 gap-4">
+                            <div className="text-[11px] font-serif text-white/40 mb-2 tracking-widest uppercase">
+                                {today}
+                            </div>
                             <button
                                 className={`premium-btn w-full max-w-[200px]`}
                                 onClick={handleRecord}

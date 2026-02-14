@@ -2,9 +2,10 @@ import { useRouter } from "next/navigation";
 
 interface HeaderProps {
     title: string;
+    label?: string;
 }
 
-export default function Header({ title }: HeaderProps) {
+export default function Header({ title, label }: HeaderProps) {
     const router = useRouter();
 
     return (
@@ -30,6 +31,11 @@ export default function Header({ title }: HeaderProps) {
                     </svg>
                 </button>
             </div>
+            {label && (
+                <div className="text-center text-[11px] font-serif text-[#71717A] mb-2 tracking-widest uppercase opacity-70">
+                    {label}
+                </div>
+            )}
             <h1 className="unified-header-title">{title}</h1>
         </header>
     );
