@@ -87,16 +87,16 @@ export default function ArchivePage() {
 
                 <main className="w-full flex-1 overflow-y-auto pb-10 no-scrollbar">
                     {(posts.length === 0 && !loading) || forceEmpty ? (
-                        <div className="flex flex-col items-center justify-center text-center w-full h-full">
+                        <div className="flex flex-col items-center justify-center text-center w-full h-full" style={{ minHeight: '60vh' }}>
                             {/* Text Area with large top margin to center it visually but push it down */}
-                            <div className="mt-48 mb-32">
+                            <div style={{ marginTop: '150px', marginBottom: '100px' }}>
                                 <p className="text-[#71717A] font-serif text-lg tracking-widest">
-                                    아직 남긴 기록이 없으세요.
+                                    아직 남긴 기록이 없으세요. (v2)
                                 </p>
                             </div>
 
                             {/* Button with large margin from text */}
-                            <div className="mb-48">
+                            <div style={{ marginBottom: '150px' }}>
                                 <Link
                                     href="/write"
                                     className="premium-btn px-12 py-4 text-lg"
