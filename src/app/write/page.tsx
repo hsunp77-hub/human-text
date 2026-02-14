@@ -31,27 +31,44 @@ function WriteContent() {
 
         // Fetch sentence
         const fetchSentence = async () => {
-            let data;
-            if (dayParam) {
-                const dayNumber = parseInt(dayParam);
-                if (isNaN(dayNumber)) {
-                    console.error('Invalid day parameter:', dayParam);
-                    data = await getTodaySentence();
+            try {
+                let data;
+                if (dayParam) {
+                    const dayNumber = parseInt(dayParam);
+                    if (isNaN(dayNumber)) {
+                        console.error('Invalid day parameter:', dayParam);
+                        data = await getTodaySentence();
+                    } else {
+                        data = await getSentenceByDay(dayNumber);
+                        if (!data) {
+                            data = await getTodaySentence();
+                        }
+                    }
                 } else {
-                    data = await getSentenceByDay(dayNumber);
+                    // Return a random sentence if no day is specified
+                    try {
+                        data = await getRandomSentence();
+                    } catch (err) {
+                        console.error("Failed to get random sentence:", err);
+                        data = null;
+                    }
+
+                    // Fallback if random fails for some reason
                     if (!data) {
                         data = await getTodaySentence();
                     }
                 }
-            } else {
-                // Return a random sentence if no day is specified
-                data = await getRandomSentence();
-                // Fallback if random fails for some reason
-                if (!data) {
-                    data = await getTodaySentence();
+                setSentence(data);
+            } catch (error) {
+                console.error("Error fetching sentence:", error);
+                // Last resort fallback
+                try {
+                    const fallback = await getTodaySentence();
+                    setSentence(fallback);
+                } catch (e) {
+                    console.error("Critical error fetching fallback:", e);
                 }
             }
-            setSentence(data);
         };
         fetchSentence();
     }, [dayParam]);
