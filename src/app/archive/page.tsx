@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { getUserPosts } from '@/lib/actions';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
@@ -28,9 +28,17 @@ export default function ArchivePage() {
     const [totalPages, setTotalPages] = useState(1);
     const POSTS_PER_PAGE = 5;
 
+    const searchParams = useSearchParams();
+    const forceEmpty = searchParams.get('empty') === 'true';
+
     useEffect(() => {
         const fetchPosts = async () => {
             try {
+                if (forceEmpty) {
+                    setPosts([]);
+                    setLoading(false);
+                    return;
+                }
                 setLoading(true);
                 const userId = localStorage.getItem('human_text_id');
                 if (userId) {
@@ -51,7 +59,7 @@ export default function ArchivePage() {
         };
 
         fetchPosts();
-    }, [page]);
+    }, [page, forceEmpty]);
 
     const handlePageChange = (newPage: number) => {
         if (newPage >= 1 && newPage <= totalPages) {
@@ -60,7 +68,7 @@ export default function ArchivePage() {
         }
     };
 
-    if (loading && posts.length === 0) {
+    if (loading && posts.length === 0 && !forceEmpty) {
         return (
             <div className="app-container">
                 <div className="mobile-view flex items-center justify-center">
@@ -78,13 +86,17 @@ export default function ArchivePage() {
                 <Header title="내 문장들" />
 
                 <main className="w-full flex-1 overflow-y-auto pb-10 no-scrollbar">
-                    {posts.length === 0 && !loading ? (
-                        <div className="flex flex-col items-center justify-center pt-24 text-center">
-                            <p className="text-[#71717A] italic mb-20 font-serif text-lg">아직 남긴 기록이 없으세요.</p>
-                            <div className="my-32">
+                    {(posts.length === 0 && !loading) || forceEmpty ? (
+                        <div className="flex flex-col items-center justify-between min-h-[60vh] py-20 text-center">
+                            <div className="flex-1 flex items-center justify-center">
+                                <p className="text-[#71717A] font-serif text-lg tracking-widest">
+                                    아직 남긴 기록이 없으세요.
+                                </p>
+                            </div>
+                            <div className="mb-20">
                                 <Link
                                     href="/write"
-                                    className="premium-btn px-10 py-3"
+                                    className="premium-btn px-12 py-4 text-lg"
                                 >
                                     첫 기록 남기기
                                 </Link>
