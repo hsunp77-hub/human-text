@@ -80,18 +80,39 @@ export async function createPost(formData: FormData) {
             create: { id: authorId },
         })
 
-        const post = await prisma.post.create({
-            data: {
-                content,
-                authorId, // In a real app, strict auth. Here, trusted client/cookie ID.
-                sentenceId,
-            },
-        })
+        // Check for existing post by this user for this sentence
+        const existingPost = await prisma.post.findFirst({
+            where: {
+                authorId,
+                sentenceId
+            }
+        });
+
+        let post;
+        if (existingPost) {
+            // Update existing post
+            post = await prisma.post.update({
+                where: { id: existingPost.id },
+                data: {
+                    content,
+                    createdAt: new Date() // Update timestamp to show it's fresh
+                }
+            });
+        } else {
+            // Create new post
+            post = await prisma.post.create({
+                data: {
+                    content,
+                    authorId,
+                    sentenceId,
+                },
+            });
+        }
 
         revalidatePath('/')
         return { success: true, post }
     } catch (error) {
-        console.error("Failed to create post:", error)
+        console.error("Failed to create/update post:", error)
         return { error: "Failed to submit post." }
     }
 }
@@ -111,21 +132,34 @@ export async function getPosts(limit = 20) {
     })
 }
 
-export async function getUserPosts(userId: string) {
-    return await prisma.post.findMany({
-        where: {
-            authorId: userId,
-        },
-        orderBy: {
-            createdAt: 'desc',
-        },
-        include: {
-            sentence: true,
-            _count: {
-                select: { likes: true, comments: true }
+export async function getUserPosts(userId: string, page = 1, limit = 5) {
+    const skip = (page - 1) * limit;
+
+    const [posts, total] = await Promise.all([
+        prisma.post.findMany({
+            where: {
+                authorId: userId,
+            },
+            orderBy: {
+                createdAt: 'desc',
+            },
+            take: limit,
+            skip: skip,
+            include: {
+                sentence: true,
+                _count: {
+                    select: { likes: true, comments: true }
+                }
             }
-        }
-    })
+        }),
+        prisma.post.count({
+            where: {
+                authorId: userId
+            }
+        })
+    ]);
+
+    return { posts, total };
 }
 
 export async function likePost(postId: string, userId: string) {

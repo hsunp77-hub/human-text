@@ -622,6 +622,60 @@ a:hover {
   width: 100%;
 }
 
+/* Pagination Styles */
+.pagination-number {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: #71717A;
+  transition: all 0.2s ease;
+  background: transparent;
+}
+
+.pagination-number:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+.pagination-number.active {
+  background: white;
+  color: black;
+  font-weight: 600;
+}
+
+/* Action Buttons in Archive Card */
+.action-btn {
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  color: #71717A;
+  background: transparent;
+  border: 1px solid rgba(113, 113, 122, 0.2);
+  padding: 6px 12px;
+  border-radius: 99px;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.action-btn:hover {
+  border-color: rgba(113, 113, 122, 0.5);
+  color: #D4D4D8;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.archive-card-footer {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  justify-content: flex-end;
+}
+
 .center-flex-col {
   display: flex;
   flex-direction: column;
