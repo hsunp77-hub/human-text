@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { createPost, getTodaySentence, getSentenceByDay } from "@/lib/actions";
+import { createPost, getTodaySentence, getSentenceByDay, getRandomSentence } from "@/lib/actions";
 import { v4 as uuidv4 } from 'uuid';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -39,13 +39,17 @@ function WriteContent() {
                     data = await getTodaySentence();
                 } else {
                     data = await getSentenceByDay(dayNumber);
-                    // Fallback to today's sentence if the requested day is invalid
                     if (!data) {
                         data = await getTodaySentence();
                     }
                 }
             } else {
-                data = await getTodaySentence();
+                // Return a random sentence if no day is specified
+                data = await getRandomSentence();
+                // Fallback if random fails for some reason
+                if (!data) {
+                    data = await getTodaySentence();
+                }
             }
             setSentence(data);
         };
@@ -58,7 +62,8 @@ function WriteContent() {
         month: 'long',
         day: 'numeric'
     });
-    const day = dayParam || (sentence ? new Date(sentence.createdAt).getDate() : 'N/A');
+    // Use 'date' field from sentence to determine Day number if available
+    const day = dayParam || (sentence ? new Date(sentence.date).getDate() : 'N/A');
     const currentPrompt = sentence?.content || "...";
 
     const handleSubmit = async () => {

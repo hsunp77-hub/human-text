@@ -76,6 +76,27 @@ export async function getTodaySentence() {
     return sentence
 }
 
+export async function getRandomSentence() {
+    await ensureDailySentences();
+
+    // Get total count
+    const count = await prisma.dailySentence.count();
+
+    if (count === 0) {
+        return null;
+    }
+
+    // Generate random skip
+    const skip = Math.floor(Math.random() * count);
+
+    // Fetch random sentence
+    const sentence = await prisma.dailySentence.findFirst({
+        skip: skip,
+    });
+
+    return sentence;
+}
+
 export async function createPost(formData: FormData) {
     const content = formData.get('content') as string
     const authorId = formData.get('authorId') as string
