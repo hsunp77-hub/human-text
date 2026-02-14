@@ -22,10 +22,23 @@ export async function ensureDailySentences() {
 
 export async function getSentenceByDay(day: number) {
     await ensureDailySentences();
+
+    // Validate day is within valid range
+    if (day < 1 || day > DAILY_PROMPTS.length) {
+        console.error(`Invalid day number: ${day}. Valid range is 1-${DAILY_PROMPTS.length}`);
+        return null;
+    }
+
     const date = new Date(`2026-02-${day.toString().padStart(2, '0')}T00:00:00.000Z`);
-    return await prisma.dailySentence.findUnique({
+    const sentence = await prisma.dailySentence.findUnique({
         where: { date }
     });
+
+    if (!sentence) {
+        console.error(`No sentence found for day ${day} (date: ${date.toISOString()})`);
+    }
+
+    return sentence;
 }
 
 export async function getTodaySentence() {

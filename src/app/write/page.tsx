@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createPost, getTodaySentence, getSentenceByDay } from "@/lib/actions";
 import { v4 as uuidv4 } from 'uuid';
 import Header from "@/components/Header";
 
-export default function WritePage() {
+function WriteContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const dayParam = searchParams.get('day');
@@ -29,7 +29,18 @@ export default function WritePage() {
         const fetchSentence = async () => {
             let data;
             if (dayParam) {
-                data = await getSentenceByDay(parseInt(dayParam));
+                const dayNumber = parseInt(dayParam);
+                if (isNaN(dayNumber)) {
+                    console.error('Invalid day parameter:', dayParam);
+                    data = await getTodaySentence();
+                } else {
+                    data = await getSentenceByDay(dayNumber);
+                    // Fallback to today's sentence if the requested day is invalid
+                    if (!data) {
+                        console.warn(`Day ${dayNumber} not found, falling back to today's sentence`);
+                        data = await getTodaySentence();
+                    }
+                }
             } else {
                 data = await getTodaySentence();
             }
@@ -152,3 +163,12 @@ export default function WritePage() {
         </div>
     );
 }
+
+export default function WritePage() {
+    return (
+        <Suspense fallback={<div className="text-white text-center py-20">Loading...</div>}>
+            <WriteContent />
+        </Suspense>
+    );
+}
+
