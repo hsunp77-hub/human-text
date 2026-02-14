@@ -6,6 +6,7 @@ import { createPost, getTodaySentence, getSentenceByDay, getRandomSentence } fro
 import { v4 as uuidv4 } from 'uuid';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { DAILY_PROMPTS } from "@/lib/sentences";
 
 export const dynamic = 'force-dynamic';
 
@@ -61,10 +62,22 @@ function WriteContent() {
                 setSentence(data);
             } catch (error) {
                 console.error("Error fetching sentence:", error);
-                // Last resort fallback
+                // Last resort fallback: Static data
                 try {
-                    const fallback = await getTodaySentence();
-                    setSentence(fallback);
+                    console.log("Using static fallback");
+                    let randomContent = DAILY_PROMPTS[Math.floor(Math.random() * DAILY_PROMPTS.length)];
+                    if (dayParam) {
+                        const dayNum = parseInt(dayParam);
+                        if (!isNaN(dayNum) && dayNum >= 1 && dayNum <= DAILY_PROMPTS.length) {
+                            randomContent = DAILY_PROMPTS[dayNum - 1];
+                        }
+                    }
+
+                    setSentence({
+                        id: 'static-fallback',
+                        content: randomContent,
+                        date: new Date().toISOString()
+                    });
                 } catch (e) {
                     console.error("Critical error fetching fallback:", e);
                 }
