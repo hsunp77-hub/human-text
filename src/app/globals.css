@@ -676,6 +676,52 @@ a:hover {
   justify-content: flex-end;
 }
 
+/* Pagination Container - Replaces flex justify-center */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+  margin-bottom: 16px;
+}
+
+/* Footer Navigation - Replaces flex col items-center */
+.footer-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-serif);
+}
+
+.footer-nav a {
+  color: #71717A;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-nav a:hover {
+  color: white;
+}
+
+.footer-nav .nav-dot {
+  color: #71717A;
+  opacity: 0.4;
+  font-size: 10px;
+}
+
+.footer-copyright {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #71717A;
+  opacity: 0.4;
+  font-weight: 500;
+  margin-top: 24px;
+  text-align: center;
+}
+
 .center-flex-col {
   display: flex;
   flex-direction: column;

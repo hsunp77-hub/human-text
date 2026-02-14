@@ -121,7 +121,7 @@ export default function ArchivePage() {
 
                     {/* Pagination Controls */}
                     {totalPages > 1 && (
-                        <div className="flex justify-center items-center gap-4 mt-8 mb-4">
+                        <div className="pagination-container">
                             {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
                                 <button
                                     key={pageNum}
@@ -135,15 +135,15 @@ export default function ArchivePage() {
                     )}
                 </main>
 
-                <footer className="py-12 flex flex-col items-center gap-6">
-                    <div className="footer-nav font-serif">
-                        <Link href="/sentences" className="cursor-pointer hover:text-white transition-opacity duration-300 opacity-60 hover:opacity-100">문장의 날짜</Link>
-                        <span className="nav-dot opacity-40">•</span>
-                        <Link href="/write" className="cursor-pointer hover:text-white transition-opacity duration-300 opacity-60 hover:opacity-100">쓰기</Link>
-                        <span className="nav-dot opacity-40">•</span>
-                        <Link href="/about" className="cursor-pointer hover:text-white transition-opacity duration-300 opacity-60 hover:opacity-100">소개</Link>
+                <footer className="py-12 flex flex-col items-center">
+                    <div className="footer-nav">
+                        <Link href="/sentences">문장의 날짜</Link>
+                        <span className="nav-dot">•</span>
+                        <Link href="/write">쓰기</Link>
+                        <span className="nav-dot">•</span>
+                        <Link href="/about">소개</Link>
                     </div>
-                    <p className="text-[10px] tracking-[0.2em] uppercase text-[#71717A] opacity-40 font-medium">
+                    <p className="footer-copyright">
                         Human Text © 2026
                     </p>
                 </footer>
