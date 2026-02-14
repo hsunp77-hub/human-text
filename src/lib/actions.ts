@@ -169,31 +169,37 @@ export async function getPosts(limit = 20) {
 export async function getUserPosts(userId: string, page = 1, limit = 5) {
     const skip = (page - 1) * limit;
 
-    const [posts, total] = await Promise.all([
-        prisma.post.findMany({
-            where: {
-                authorId: userId,
-            },
-            orderBy: {
-                createdAt: 'desc',
-            },
-            take: limit,
-            skip: skip,
-            include: {
-                sentence: true,
-                _count: {
-                    select: { likes: true, comments: true }
+    try {
+        const [posts, total] = await Promise.all([
+            prisma.post.findMany({
+                where: {
+                    authorId: userId,
+                },
+                orderBy: {
+                    createdAt: 'desc',
+                },
+                take: limit,
+                skip: skip,
+                include: {
+                    sentence: true,
+                    _count: {
+                        select: { likes: true, comments: true }
+                    }
                 }
-            }
-        }),
-        prisma.post.count({
-            where: {
-                authorId: userId
-            }
-        })
-    ]);
+            }),
+            prisma.post.count({
+                where: {
+                    authorId: userId
+                }
+            })
+        ]);
 
-    return { posts, total };
+        return { posts, total };
+    } catch (error) {
+        console.error("Critical Error in getUserPosts:", error);
+        // Return empty result to prevent crashing
+        return { posts: [], total: 0 };
+    }
 }
 
 export async function likePost(postId: string, userId: string) {

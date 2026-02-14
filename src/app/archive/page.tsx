@@ -20,7 +20,8 @@ interface PostWithRelations {
     };
 }
 
-export default function ArchivePage() {
+
+function ArchiveContent() {
     const router = useRouter();
     const [posts, setPosts] = useState<PostWithRelations[]>([]);
     const [loading, setLoading] = useState(true);
@@ -40,6 +41,9 @@ export default function ArchivePage() {
                     return;
                 }
                 setLoading(true);
+                // Ensure localStorage access is safe
+                if (typeof window === 'undefined') return;
+
                 const userId = localStorage.getItem('human_text_id');
                 if (userId) {
                     const { posts: userPosts, total } = await getUserPosts(userId, page, POSTS_PER_PAGE);
@@ -50,9 +54,14 @@ export default function ArchivePage() {
                     }));
                     setPosts(formattedPosts);
                     setTotalPages(Math.ceil(total / POSTS_PER_PAGE));
+                } else {
+                    // No user ID found, treat as empty
+                    setPosts([]);
                 }
             } catch (error) {
                 console.error("Failed to fetch posts:", error);
+                // In case of error, show empty state or maintain current state but stop loading
+                // setPosts([]); // Optional: clear posts on error?
             } finally {
                 setLoading(false);
             }
@@ -156,5 +165,21 @@ export default function ArchivePage() {
                 <Footer pageContext="archive" />
             </div>
         </div>
+    );
+}
+
+import { Suspense } from 'react';
+
+export default function ArchivePage() {
+    return (
+        <Suspense fallback={
+            <div className="app-container">
+                <div className="mobile-view flex items-center justify-center">
+                    <div className="text-[#71717A] animate-pulse font-serif italic text-sm">로딩 중...</div>
+                </div>
+            </div>
+        }>
+            <ArchiveContent />
+        </Suspense>
     );
 }
