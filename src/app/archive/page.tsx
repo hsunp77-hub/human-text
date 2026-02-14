@@ -97,22 +97,15 @@ function ArchiveContent() {
                 <main className="w-full flex-1 overflow-y-auto pb-10 no-scrollbar">
                     {(posts.length === 0 && !loading) || forceEmpty ? (
                         <div className="flex flex-col items-center justify-center text-center w-full h-full min-h-[60vh]">
-                            {/* Text Area with large top margin to center it visually but push it down */}
-                            <div className="mt-[150px] mb-[100px]">
-                                <p className="text-[#71717A] font-serif text-lg tracking-widest">
-                                    아직 남긴 기록이 없으세요.
-                                </p>
-                            </div>
-
-                            {/* Button with large margin from text */}
-                            <div className="mb-[150px]">
-                                <Link
-                                    href="/write"
-                                    className="premium-btn px-12 py-4 text-lg"
-                                >
-                                    첫 기록 남기기
-                                </Link>
-                            </div>
+                            <p className="text-gray-500 font-light text-center py-10">
+                                아직 남긴 기록이 없으세요.
+                            </p>
+                            <Link
+                                href="/write"
+                                className="mt-12 px-6 py-2 bg-black text-white rounded-md"
+                            >
+                                첫 기록 남기기
+                            </Link>
                         </div>
                     ) : (
                         <div className="space-y-6">
