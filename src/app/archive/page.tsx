@@ -81,7 +81,7 @@ export default function ArchivePage() {
                     {posts.length === 0 && !loading ? (
                         <div className="flex flex-col items-center justify-center pt-24 text-center">
                             <p className="text-[#71717A] italic mb-20 font-serif text-lg">아직 남긴 기록이 없으세요.</p>
-                            <div className="my-10">
+                            <div className="my-32">
                                 <Link
                                     href="/write"
                                     className="premium-btn px-10 py-3"
