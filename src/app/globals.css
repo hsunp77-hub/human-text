@@ -583,3 +583,13 @@ a:hover {
   align-items: center;
   width: 100%;
 }
+
+.center-flex-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 16px;
+  /* Default gap */
+}

@@ -134,21 +134,23 @@ function WriteContent() {
                             <div className="write-date-label">
                                 {today}
                             </div>
-                            <button
-                                className={`premium-btn w-full max-w-[200px]`}
-                                onClick={handleRecord}
-                                disabled={text.trim().length === 0}
-                            >
-                                기록의 완성
-                            </button>
-                            {history.length > 0 && (
+                            <div className="center-flex-row">
                                 <button
-                                    className="edit-btn w-full max-w-[140px]"
-                                    onClick={handleEdit}
+                                    className={`premium-btn w-full max-w-[200px]`}
+                                    onClick={handleRecord}
+                                    disabled={text.trim().length === 0}
                                 >
-                                    문장 수정
+                                    기록의 완성
                                 </button>
-                            )}
+                                {history.length > 0 && (
+                                    <button
+                                        className="edit-btn w-full max-w-[140px]"
+                                        onClick={handleEdit}
+                                    >
+                                        문장 수정
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     </div>
 
