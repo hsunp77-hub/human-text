@@ -80,13 +80,15 @@ export default function ArchivePage() {
                 <main className="w-full flex-1 overflow-y-auto pb-10 no-scrollbar">
                     {posts.length === 0 && !loading ? (
                         <div className="flex flex-col items-center justify-center pt-24 text-center">
-                            <p className="text-gray-500 italic mb-16 font-serif">아직 남긴 기록이 없으시네요.</p>
-                            <Link
-                                href="/write"
-                                className="premium-btn px-10 py-3"
-                            >
-                                첫 기록 남기기
-                            </Link>
+                            <p className="text-[#71717A] italic mb-20 font-serif text-lg">아직 남긴 기록이 없으세요.</p>
+                            <div className="my-10">
+                                <Link
+                                    href="/write"
+                                    className="premium-btn px-10 py-3"
+                                >
+                                    첫 기록 남기기
+                                </Link>
+                            </div>
                         </div>
                     ) : (
                         <div className="space-y-6">
