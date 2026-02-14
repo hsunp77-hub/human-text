@@ -60,6 +60,16 @@ function WriteContent() {
                     }
                 }
                 setSentence(data);
+
+                // If we loaded a random sentence (and thus have no dayParam or invalid one), 
+                // update the URL to reflect this day so refreshing keeps the same sentence.
+                if (data && !dayParam && typeof window !== 'undefined') {
+                    const dateObj = new Date(data.date);
+                    const dayNum = dateObj.getDate();
+                    if (!isNaN(dayNum)) {
+                        window.history.replaceState(null, '', `?day=${dayNum}`);
+                    }
+                }
             } catch (error) {
                 console.error("Error fetching sentence:", error);
                 // Last resort fallback: Static data
