@@ -368,10 +368,11 @@ export default function SocialPage() {
                                                 style={{
                                                     position: 'sticky',
                                                     top: `${stickyTop}px`,
-                                                    height: '240px',
-                                                    overflow: expandedPostId === post.id ? 'visible' : 'hidden',
+                                                    minHeight: '240px',
+                                                    height: expandedPostId === post.id ? 'auto' : '240px',
+                                                    overflow: 'hidden',
                                                     zIndex: expandedPostId === post.id ? 999 : index + 1,
-                                                    marginBottom: isLast ? '40px' : '-110px',
+                                                    marginBottom: expandedPostId === post.id ? '20px' : (isLast ? '40px' : '-110px'),
                                                     transition: 'all 0.5s ease-in-out',
                                                     border: '1px solid #3F3F46', // Create border similar to sentences
                                                     background: '#18181B' // Zinc-900 like background
@@ -445,16 +446,17 @@ export default function SocialPage() {
                                                                     placeholder="이 글에 대한 생각을 남겨보세요..."
                                                                     style={{
                                                                         width: '100%',
-                                                                        minHeight: '80px',
-                                                                        padding: '10px',
-                                                                        background: 'rgba(0, 0, 0, 0.3)',
+                                                                        minHeight: '100px',
+                                                                        padding: '16px',
+                                                                        background: 'rgba(0, 0, 0, 0.2)',
                                                                         border: '1px solid rgba(255, 255, 255, 0.1)',
-                                                                        borderRadius: '4px',
+                                                                        borderRadius: '12px',
                                                                         color: '#E4E4E7',
-                                                                        fontFamily: 'serif',
-                                                                        fontSize: '13px',
-                                                                        resize: 'vertical',
-                                                                        outline: 'none'
+                                                                        fontFamily: 'var(--font-serif)',
+                                                                        fontSize: '14px',
+                                                                        resize: 'none',
+                                                                        outline: 'none',
+                                                                        lineHeight: '1.6'
                                                                     }}
                                                                     onFocus={(e) => {
                                                                         e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
@@ -466,17 +468,18 @@ export default function SocialPage() {
                                                                 <button
                                                                     onClick={() => handleCommentSubmit(post.id)}
                                                                     style={{
-                                                                        marginTop: '8px',
-                                                                        padding: '6px 12px',
-                                                                        background: 'rgba(255, 255, 255, 0.05)',
-                                                                        border: '1px solid rgba(255, 255, 255, 0.1)',
-                                                                        borderRadius: '4px',
-                                                                        color: 'rgba(255, 255, 255, 0.6)',
-                                                                        fontFamily: 'serif',
-                                                                        fontSize: '11px',
+                                                                        marginTop: '12px',
+                                                                        padding: '8px 20px',
+                                                                        background: 'rgba(255, 255, 255, 0.1)',
+                                                                        border: '1px solid rgba(255, 255, 255, 0.2)',
+                                                                        borderRadius: '99px',
+                                                                        color: 'rgba(255, 255, 255, 0.9)',
+                                                                        fontFamily: 'var(--font-serif)',
+                                                                        fontSize: '12px',
                                                                         cursor: 'pointer',
                                                                         transition: 'all 0.3s',
-                                                                        letterSpacing: '0.5px'
+                                                                        letterSpacing: '1px',
+                                                                        float: 'right'
                                                                     }}
                                                                     onMouseEnter={(e) => {
                                                                         e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
@@ -489,6 +492,7 @@ export default function SocialPage() {
                                                                 >
                                                                     댓글 등록
                                                                 </button>
+                                                                <div className="clearfix" style={{ clear: 'both' }}></div>
                                                             </div>
 
                                                             {/* Existing Comments Placeholder */}
