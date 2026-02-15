@@ -202,10 +202,16 @@ export default function SocialPage() {
                                                         {post.content}
                                                     </div>
 
-                                                    {/* Footer Actions reuse from PostItem logic but styled for Card */}
-                                                    <div className="flex justify-end gap-3 mt-auto pt-4 opacity-60">
-                                                        <span className="text-[10px] tracking-widest">♥ {post._count.likes}</span>
-                                                        <span className="text-[10px] tracking-widest">💬 {post._count.comments}</span>
+                                                    {/* Footer Actions - Restored Button Style */}
+                                                    <div className="social-actions mt-auto pt-4 justify-end w-full">
+                                                        <button className="social-action-btn">
+                                                            <span className="social-action-icon">♥</span>
+                                                            <span>LIKE {post._count.likes}</span>
+                                                        </button>
+                                                        <button className="social-action-btn">
+                                                            <span className="social-action-icon">💬</span>
+                                                            <span>COMMENT {post._count.comments}</span>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
