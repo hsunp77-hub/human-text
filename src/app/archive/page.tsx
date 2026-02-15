@@ -131,11 +131,11 @@ function ArchiveContent() {
 
                 <main className="w-full flex-1 overflow-y-auto pb-10 no-scrollbar">
                     {(posts.length === 0 && !loading) || forceEmpty ? (
-                        <div className="flex flex-col items-center justify-center text-center w-full h-full min-h-[60vh]">
-                            <p className="text-gray-500 font-light text-center py-10 text-lg" style={{ fontFamily: '"Gungsuh", "GungSeo", "Batang", serif' }}>
+                        <div className="flex flex-col items-center justify-center text-center w-full h-full min-h-[60vh] pt-[60px] pb-[20vh]">
+                            <p className="text-gray-500 font-light text-center text-lg" style={{ fontFamily: '"Gungsuh", "GungSeo", "Batang", serif' }}>
                                 아직 남긴 기록이 없으세요.
                             </p>
-                            <div className="my-[40px]">
+                            <div className="mt-[40px] mb-[60px]">
                                 <Link
                                     href="/write"
                                     className="premium-btn px-12 py-4 text-lg"
