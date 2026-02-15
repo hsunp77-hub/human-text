@@ -206,13 +206,11 @@ export default function SocialPage() {
                                     ‹
                                 </button>
 
-                                {/* Sentence with Typing Effect */}
+                                {/* Sentence Display (typing animation removed for reliability) */}
                                 <div className="typing-header" style={{ flex: 1, minWidth: 0 }}>
-                                    <TypingText
-                                        key={currentSentenceIndex}
-                                        text={`"${mainSentence}"`}
-                                        className="typing-text"
-                                    />
+                                    <h2 className="typing-text">
+                                        "{mainSentence}"
+                                    </h2>
                                 </div>
 
                                 {/* Right Arrow */}
