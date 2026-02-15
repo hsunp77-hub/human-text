@@ -158,10 +158,59 @@ export default function SocialPage() {
                             </div>
                         ) : (
                             <>
-                                <div id="post-list-top" className="center-flex-col" style={{ gap: '16px', maxWidth: '576px', margin: '0 auto' }}>
-                                    {currentPosts.map((post, index) => (
-                                        <PostItem key={post.id} post={post} index={index} formatUserId={formatUserId} />
-                                    ))}
+                                <div id="post-list-top" className="relative w-full px-2 min-h-0" style={{ maxWidth: '432px', margin: '0 auto' }}>
+                                    {currentPosts.map((post, index) => {
+                                        const globalIndex = indexOfFirstPost + index + 1;
+                                        const isLast = index === currentPosts.length - 1;
+
+                                        // Stacking logic from Sentences page
+                                        const stickyTop = 0 + (index * 130);
+
+                                        return (
+                                            <div
+                                                key={post.id}
+                                                className="index-card block w-full group"
+                                                style={{
+                                                    position: 'sticky',
+                                                    top: `${stickyTop}px`,
+                                                    height: '240px',
+                                                    zIndex: index + 1,
+                                                    marginBottom: isLast ? '40px' : '-110px',
+                                                    transition: 'all 0.5s ease-in-out',
+                                                    border: '1px solid #3F3F46', // Create border similar to sentences
+                                                    background: '#18181B' // Zinc-900 like background
+                                                }}
+                                            >
+                                                <div className="index-card-inner">
+                                                    {/* Card Header */}
+                                                    <div className="index-card-header">
+                                                        <div className="index-card-day" style={{ fontSize: '24px' }}>
+                                                            Story {String(globalIndex).padStart(2, '0')}
+                                                        </div>
+                                                        <div className="flex flex-col items-end">
+                                                            <div className="index-card-meta">
+                                                                {formatUserId(post.authorId)}
+                                                            </div>
+                                                            <div className="index-card-meta mt-1">
+                                                                {new Date(post.createdAt).toLocaleDateString()}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Content */}
+                                                    <div className="index-card-content flex-1 transition-all duration-300 text-[#E4E4E7] line-clamp-4" style={{ whiteSpace: 'pre-wrap', fontStyle: 'normal' }}>
+                                                        {post.content}
+                                                    </div>
+
+                                                    {/* Footer Actions reuse from PostItem logic but styled for Card */}
+                                                    <div className="flex justify-end gap-3 mt-auto pt-4 opacity-60">
+                                                        <span className="text-[10px] tracking-widest">♥ {post._count.likes}</span>
+                                                        <span className="text-[10px] tracking-widest">💬 {post._count.comments}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
                                     {posts.length === 0 && (
                                         <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.2)', padding: '40px 0', fontFamily: 'serif', fontSize: '14px' }}>
                                             아직 기록된 문장이 없습니다.
