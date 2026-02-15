@@ -127,22 +127,25 @@ function ArchiveContent() {
             <div className="mobile-view archive-view px-6">
 
                 {/* Unified Header */}
-                <Header title="내 문장들" />
+                <Header title="내 문장들" className="!mb-[80px]" />
 
                 <main className="w-full flex-1 overflow-y-auto pb-10 no-scrollbar">
                     {(posts.length === 0 && !loading) || forceEmpty ? (
-                        <div className="flex flex-col items-center justify-center text-center w-full h-full min-h-[60vh] pt-[60px] pb-[20vh]">
-                            <p className="text-gray-500 font-light text-center text-lg" style={{ fontFamily: '"Gungsuh", "GungSeo", "Batang", serif' }}>
+                        <div className="archive-container flex flex-col items-center justify-center w-full min-h-full">
+                            {/* Empty State Text */}
+                            <p className="empty-message text-gray-500 font-light text-center text-lg" style={{ fontFamily: '"Gungsuh", "GungSeo", "Batang", serif' }}>
                                 아직 남긴 기록이 없으세요.
                             </p>
-                            <div className="mt-[40px] mb-[60px]">
-                                <Link
-                                    href="/write"
-                                    className="premium-btn px-12 py-4 text-lg"
-                                >
-                                    첫 기록 남기기
-                                </Link>
-                            </div>
+
+                            {/* Button */}
+                            <Link
+                                href="/write"
+                                className="premium-btn first-record-button text-center"
+                            >
+                                첫 기록 남기기
+                            </Link>
+
+                            {/* Additional spacing not needed as container has padding-bottom */}
                         </div>
                     ) : (
                         <div className="space-y-6">

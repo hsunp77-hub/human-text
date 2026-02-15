@@ -738,3 +738,21 @@ a:hover {
   gap: 16px;
   /* Default gap */
 }
+/* Archive Page Empty State */
+.archive-container {
+  padding-top: 10vh !important;
+  padding-bottom: 10vh !important;
+  text-align: center;
+}
+
+.empty-message {
+  margin-top: 60px !important;
+  margin-bottom: 30px !important;
+  line-height: 2 !important;
+}
+
+.first-record-button {
+  margin: 60px auto !important;
+  padding: 18px 45px !important;
+  display: inline-block !important;
+}

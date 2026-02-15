@@ -5,13 +5,14 @@ import { useRouter } from "next/navigation";
 interface HeaderProps {
     title: string;
     label?: string;
+    className?: string;
 }
 
-export default function Header({ title, label }: HeaderProps) {
+export default function Header({ title, label, className = "" }: HeaderProps) {
     const router = useRouter();
 
     return (
-        <header className="unified-header">
+        <header className={`unified-header ${className}`}>
             <div className="unified-header-top">
                 <button
                     onClick={() => router.push("/")}
