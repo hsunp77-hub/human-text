@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Pagination from '@/components/Pagination';
 
 export default function SentencesPage() {
     const router = useRouter();
@@ -153,19 +154,14 @@ export default function SentencesPage() {
                     </div>
 
                     {/* Pagination Controls */}
-                    {totalPages > 1 && (
-                        <div className="pagination-container">
-                            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-                                <button
-                                    key={pageNum}
-                                    onClick={() => setPage(pageNum)}
-                                    className={`pagination-number ${page === pageNum ? 'active' : ''}`}
-                                >
-                                    {pageNum}
-                                </button>
-                            ))}
-                        </div>
-                    )}
+                    {/* Pagination Controls */}
+                    <div style={{ marginTop: '40px', marginBottom: '40px' }}>
+                        <Pagination
+                            currentPage={page}
+                            totalPages={totalPages}
+                            onPageChange={setPage}
+                        />
+                    </div>
                 </main>
 
                 <Footer pageContext="sentences" />

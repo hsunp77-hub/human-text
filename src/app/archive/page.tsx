@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Pagination from '@/components/Pagination';
 
 interface PostWithRelations {
     id: string;
@@ -180,19 +181,14 @@ function ArchiveContent() {
                     )}
 
                     {/* Pagination Controls */}
-                    {totalPages > 1 && (
-                        <div className="pagination-container">
-                            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-                                <button
-                                    key={pageNum}
-                                    onClick={() => handlePageChange(pageNum)}
-                                    className={`pagination-number ${page === pageNum ? 'active' : ''}`}
-                                >
-                                    {pageNum}
-                                </button>
-                            ))}
-                        </div>
-                    )}
+                    {/* Pagination Controls */}
+                    <div style={{ marginTop: '40px', marginBottom: '40px' }}>
+                        <Pagination
+                            currentPage={page}
+                            totalPages={totalPages}
+                            onPageChange={handlePageChange}
+                        />
+                    </div>
                 </main>
 
                 <Footer pageContext="archive" />

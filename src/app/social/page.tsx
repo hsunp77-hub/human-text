@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Pagination from '@/components/Pagination';
 import { getPosts, getTodaySentence } from '@/lib/actions';
 import { DAILY_PROMPTS } from '@/lib/sentences';
 
@@ -169,34 +170,14 @@ export default function SocialPage() {
                                 </div>
 
                                 {/* Pagination Controls */}
-                                {totalPages > 1 && (
-                                    <div className="pagination-container" style={{ marginTop: '40px', display: 'flex', justifyContent: 'center', gap: '12px' }}>
-                                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-                                            <button
-                                                key={pageNum}
-                                                onClick={() => handlePageChange(pageNum)}
-                                                className={`pagination-number ${currentPage === pageNum ? 'active' : ''}`}
-                                                style={{
-                                                    width: '32px',
-                                                    height: '32px',
-                                                    borderRadius: '50%',
-                                                    background: currentPage === pageNum ? 'white' : 'transparent',
-                                                    color: currentPage === pageNum ? 'black' : '#71717A',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center',
-                                                    fontSize: '14px',
-                                                    fontFamily: 'var(--font-serif)',
-                                                    fontWeight: currentPage === pageNum ? 600 : 400,
-                                                    cursor: 'pointer',
-                                                    border: 'none'
-                                                }}
-                                            >
-                                                {pageNum}
-                                            </button>
-                                        ))}
-                                    </div>
-                                )}
+                                {/* Pagination Controls */}
+                                <div style={{ marginTop: '40px' }}>
+                                    <Pagination
+                                        currentPage={currentPage}
+                                        totalPages={totalPages}
+                                        onPageChange={handlePageChange}
+                                    />
+                                </div>
                             </>
                         )}
                     </section>
