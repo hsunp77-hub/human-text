@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { getPosts, getTodaySentence } from '@/lib/actions';
+import { DAILY_PROMPTS } from '@/lib/sentences';
 
 interface PostWithRelations {
     id: string;
@@ -72,7 +73,8 @@ const FULL_MOCK_DATA = [
 
 export default function SocialPage() {
     const [posts, setPosts] = useState<PostWithRelations[]>([]);
-    const [mainSentence, setMainSentence] = useState<string>("그때 우리는 절절 말았다");
+    // Default to the first sentence in the list (Day 1)
+    const [mainSentence, setMainSentence] = useState<string>(DAILY_PROMPTS[0]);
     const [loading, setLoading] = useState(true);
 
     // Pagination State
@@ -89,14 +91,20 @@ export default function SocialPage() {
                     getTodaySentence()
                 ]);
 
-                // Use the FULL_MOCK_DATA instead of DB response
+                // FORCE SET MOCK DATA
                 setPosts(FULL_MOCK_DATA);
 
                 if (sentenceRes) {
                     setMainSentence(sentenceRes.content);
+                } else {
+                    // Fallback to Day 1 if DB fetch fails
+                    setMainSentence(DAILY_PROMPTS[0]);
                 }
             } catch (error) {
                 console.error("Failed to fetch data:", error);
+                // Even on error, set mock data
+                setPosts(FULL_MOCK_DATA);
+                setMainSentence(DAILY_PROMPTS[0]);
             } finally {
                 setLoading(false);
             }
@@ -117,7 +125,6 @@ export default function SocialPage() {
 
     const handlePageChange = (pageNumber: number) => {
         setCurrentPage(pageNumber);
-        // Scroll to top of list? Optional but good UX
         const listTop = document.getElementById('post-list-top');
         if (listTop) listTop.scrollIntoView({ behavior: 'smooth' });
     };
