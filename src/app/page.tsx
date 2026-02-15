@@ -31,7 +31,7 @@ export default function Home() {
 
           <div className="landing-content" style={{ marginTop: '20px', flex: 'none' }}>
             <button
-              className="google-login-btn"
+              className="premium-btn w-full max-w-[200px]"
               onClick={() => router.push("/write")}
             >
               기록의 시작
