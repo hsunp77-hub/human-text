@@ -359,7 +359,7 @@ export default function SocialPage() {
                                         const isLast = index === currentPosts.length - 1;
 
                                         // Stacking logic from Sentences page
-                                        const stickyTop = 0 + (index * 130);
+                                        const stickyTop = 20 + (index * 180);
 
                                         return (
                                             <div
@@ -372,7 +372,7 @@ export default function SocialPage() {
                                                     height: expandedPostId === post.id ? 'auto' : '240px',
                                                     overflow: 'hidden',
                                                     zIndex: expandedPostId === post.id ? 999 : index + 1,
-                                                    marginBottom: expandedPostId === post.id ? '20px' : (isLast ? '40px' : '-110px'),
+                                                    marginBottom: expandedPostId === post.id ? '24px' : (isLast ? '40px' : '-60px'),
                                                     transition: 'all 0.5s ease-in-out',
                                                     border: '1px solid #3F3F46', // Create border similar to sentences
                                                     background: '#18181B' // Zinc-900 like background
