@@ -408,8 +408,8 @@ export default function SocialPage() {
                                                                 handleLike(post.id);
                                                             }}
                                                             style={{
-                                                                color: likedPosts.has(post.id) ? '#ef4444' : undefined,
-                                                                transition: 'color 0.3s'
+                                                                color: likedPosts.has(post.id) ? '#ff4d4d' : undefined,
+                                                                transition: 'all 0.3s'
                                                             }}
                                                         >
                                                             <span className="social-action-icon" style={{
@@ -620,7 +620,7 @@ function PostItem({ post, index, formatUserId }: { post: PostWithRelations, inde
                             e.stopPropagation();
                         }}
                     >
-                        <span className="social-action-icon">♥</span>
+                        <span className="social-action-icon" style={{ color: '#ff4d4d' }}>♥</span>
                         <span>LIKE {post._count.likes}</span>
                     </button>
                     <button
