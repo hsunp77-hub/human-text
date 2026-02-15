@@ -23,25 +23,26 @@ export default function AboutPage() {
                 <div className={`space-y-12 transition-all duration-1000 delay-200 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
                     {/* Main Card */}
                     <div className="glass-card w-full p-8 relative flex flex-col items-start text-left mb-8 animate-fadeInUp">
-                        <div className="w-full space-y-8">
+                        <div className="w-full">
 
                             <div className="space-y-4">
-                                <h2 className="text-lg font-serif font-medium text-white border-b border-white/10 pb-2 mb-4">
+                                <h2 className="about-title">
                                     우리의 가치
                                 </h2>
-                                <p className="text-sm font-serif font-medium text-white leading-loose whitespace-pre-wrap">
-                                    우리 모두는 인생이라는 소설을 갖고 있습니다. 그날의 기억을 떠올려보세요. 그 찰나의 순간들이 모여서 당신의 소설이 됩니다.
-                                    <br />
-                                    복잡한 기능보다 기록과 연결의 그 자체의 본질에 집중했습니다.
+                                <p className="about-text">
+                                    우리 모두는 인생이라는 소설을 갖고 있습니다. 그날의 기억을 떠올려보세요. 그 찰나의 순간들이 모여서 당신의 소설이 됩니다. 복잡한 기능보다 기록과 연결의 그 자체의 본질에 집중했습니다.
                                 </p>
                             </div>
 
+                            {/* Explicit Spacer */}
+                            <div style={{ height: '60px' }}></div>
+
                             {/* Section 2: How to Use */}
                             <div className="space-y-4">
-                                <h2 className="text-lg font-serif font-medium text-white border-b border-white/10 pb-2 mb-4">
+                                <h2 className="about-title">
                                     이용방법
                                 </h2>
-                                <div className="text-sm font-serif font-medium text-white leading-loose space-y-2">
+                                <div className="about-list">
                                     <p>01. 매일 아침 배달되는 ‘그날의 문장’을 읽어보세요.</p>
                                     <p>02. 그 문장에서 이어지는 당신만의 인생 조각을 적어보세요.</p>
                                     <p>03. 쌓인 기록들은 '나의 기록'에서 언제든 다시 볼 수 있습니다.</p>
@@ -55,7 +56,7 @@ export default function AboutPage() {
                     </div>
                 </div>
 
-                <Footer />
+                <Footer pageContext="about" />
 
             </div>
         </div>

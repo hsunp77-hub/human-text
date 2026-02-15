@@ -326,20 +326,7 @@ h1 {
 }
 
 /* Footer Navigation */
-.footer-nav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  font-size: 14px;
-  color: var(--text-secondary);
-  animation: fadeInUp 1s ease-out 0.4s both;
-  z-index: 10;
-}
-
-.nav-dot {
-  color: #3F3F46;
-}
+/* Footer Navigation (Consolidated below at line ~690) */
 
 .landing-footer {
   position: absolute;
@@ -695,14 +682,20 @@ a:hover {
   font-family: var(--font-serif);
 }
 
-.footer-nav a {
+.nav-link {
   color: #71717A;
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: color 0.2s ease;
+  font-weight: normal;
 }
 
-.footer-nav a:hover {
+.nav-link:hover {
   color: white;
+}
+
+.nav-link.active {
+  color: white;
+  font-weight: bold;
 }
 
 .footer-nav .nav-dot {
@@ -994,4 +987,36 @@ a:hover {
   height: 1px;
   background: rgba(255, 255, 255, 0.2);
   margin: 40px auto;
+}
+
+/* About Page Styles */
+.about-title {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 500;
+  color: white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+.about-text {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  line-height: 2;
+  white-space: pre-wrap;
+}
+
+.about-list {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  line-height: 2;
+}
+
+.about-list p {
+  margin-bottom: 8px;
 }
