@@ -162,7 +162,7 @@ function WriteContent() {
             <div className="mobile-view write-view px-6">
 
                 {/* Unified Header */}
-                <Header title="그날" />
+                <Header title="나의 그날" />
 
                 <div className="write-container flex flex-col items-center justify-center flex-1 w-full max-w-[340px] mx-auto min-h-0">
 
