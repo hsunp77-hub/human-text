@@ -134,7 +134,7 @@ export default function SocialPage() {
             <div className="mobile-view relative flex flex-col w-full h-full min-h-screen overflow-hidden !bg-[#121212] !p-0">
 
                 {/* Main Content Area - Header moved inside so it scrolls */}
-                <main className="w-full flex-1 overflow-y-auto px-6 pt-[40px] pb-[100px] no-scrollbar" style={{ paddingTop: '40px', paddingBottom: '100px', paddingLeft: '24px', paddingRight: '24px', width: '100%', overflowY: 'auto' }}>
+                <main className="w-full flex-1 overflow-y-auto px-6 pt-[40px] pb-10 no-scrollbar" style={{ paddingTop: '40px', paddingBottom: '40px', paddingLeft: '24px', paddingRight: '24px', width: '100%', overflowY: 'auto' }}>
 
                     {/* scrollable Header */}
                     <div style={{ marginBottom: '40px', paddingRight: '4px', opacity: 0.9 }}>
@@ -142,7 +142,7 @@ export default function SocialPage() {
                     </div>
 
                     {/* SECTION 1: Main Sentence & User Posts */}
-                    <section style={{ marginBottom: '80px' }}>
+                    <section style={{ marginBottom: '20px' }}>
                         <div className="typing-header">
                             <TypingText
                                 text={`"${mainSentence}"`}
