@@ -21,62 +21,72 @@ interface PostWithRelations {
     };
 }
 
-// User-provided mock data for the second section (5 items)
-const MOCK_TEMPLATE: PostWithRelations[] = [
-    {
-        id: 'mock-1',
-        content: "여름이었다.",
-        createdAt: new Date('2026-02-15'),
-        authorId: 'user_summer',
-        sentence: { content: "Topic 2" },
-        _count: { likes: 12, comments: 4 }
-    },
-    {
-        id: 'mock-2',
-        content: "2025년 겨울도 이런 아침이었다",
-        createdAt: new Date('2026-02-15'),
-        authorId: 'user_winter',
-        sentence: { content: "Topic 2" },
-        _count: { likes: 8, comments: 2 }
-    },
-    {
-        id: 'mock-3',
-        content: "뒤에서 고양이가 나를 불렀다",
-        createdAt: new Date('2026-02-15'),
-        authorId: 'user_cat',
-        sentence: { content: "Topic 2" },
-        _count: { likes: 15, comments: 5 }
-    },
-    {
-        id: 'mock-4',
-        content: "눈을 감고 한참 얼굴을 떠올렸다",
-        createdAt: new Date('2026-02-15'),
-        authorId: 'user_face',
-        sentence: { content: "Topic 2" },
-        _count: { likes: 6, comments: 0 }
-    },
-    {
-        id: 'mock-5',
-        content: "그 순간 초인종이 울렸다.",
-        createdAt: new Date('2026-02-15'),
-        authorId: 'user_bell',
-        sentence: { content: "Topic 2" },
-        _count: { likes: 20, comments: 8 }
-    }
-];
+// Mock data linked to specific sentences
+// Each post has a sentenceIndex (0-9) corresponding to DAILY_PROMPTS array
+const SENTENCE_POSTS: Record<number, PostWithRelations[]> = {
+    // Day 1: "창문을 여니 햇살이 소나기처럼 쏟아졌다."
+    0: [
+        {
+            id: 'day1-post1',
+            content: "여름이었다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: 'user_summer',
+            sentence: { content: "창문을 여니 햇살이 소나기처럼 쏟아졌다." },
+            _count: { likes: 12, comments: 4 }
+        },
+        {
+            id: 'day1-post2',
+            content: "2025년 겨울도 이런 아침이었다",
+            createdAt: new Date('2026-02-15'),
+            authorId: 'user_winter',
+            sentence: { content: "창문을 여니 햇살이 소나기처럼 쏟아졌다." },
+            _count: { likes: 8, comments: 2 }
+        },
+        {
+            id: 'day1-post3',
+            content: "뒤에서 고양이가 나를 불렀다",
+            createdAt: new Date('2026-02-15'),
+            authorId: 'user_cat',
+            sentence: { content: "창문을 여니 햇살이 소나기처럼 쏟아졌다." },
+            _count: { likes: 15, comments: 5 }
+        },
+        {
+            id: 'day1-post4',
+            content: "눈을 감고 한참 얼굴을 떠올렸다",
+            createdAt: new Date('2026-02-15'),
+            authorId: 'user_face',
+            sentence: { content: "창문을 여니 햇살이 소나기처럼 쏟아졌다." },
+            _count: { likes: 6, comments: 0 }
+        },
+        {
+            id: 'day1-post5',
+            content: "그 순간 초인종이 울렸다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: 'user_bell',
+            sentence: { content: "창문을 여니 햇살이 소나기처럼 쏟아졌다." },
+            _count: { likes: 20, comments: 8 }
+        }
+    ],
+    // Day 2-10: Empty for now (will show empty state)
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+    5: [],
+    6: [],
+    7: [],
+    8: [],
+    9: []
+};
 
-// Duplicate to create 3 pages for demonstration (15 items total)
-const FULL_MOCK_DATA = [
-    ...MOCK_TEMPLATE.map(p => ({ ...p, id: p.id + '-p1' })),
-    ...MOCK_TEMPLATE.map(p => ({ ...p, id: p.id + '-p2' })),
-    ...MOCK_TEMPLATE.map(p => ({ ...p, id: p.id + '-p3' }))
-];
 
 export default function SocialPage() {
     const [posts, setPosts] = useState<PostWithRelations[]>([]);
-    // Default to the first sentence in the list (Day 1)
-    const [mainSentence, setMainSentence] = useState<string>(DAILY_PROMPTS[0]);
+    const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
     const [loading, setLoading] = useState(true);
+
+    // Get current sentence based on index
+    const mainSentence = DAILY_PROMPTS[currentSentenceIndex];
 
     // Pagination State
     const [currentPage, setCurrentPage] = useState(1);
@@ -85,33 +95,23 @@ export default function SocialPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetch posts and today's sentence in parallel
-                // Just fetching sentence context, using Mock for posts
-                const [, sentenceRes] = await Promise.all([
-                    getPosts(40), // Fetched but ignored for now to prioritize mock display
-                    getTodaySentence()
-                ]);
+                // Fetch posts - using Mock for now
+                await getPosts(40); // Fetched but ignored for now to prioritize mock display
 
-                // FORCE SET MOCK DATA
-                setPosts(FULL_MOCK_DATA);
-
-                if (sentenceRes) {
-                    setMainSentence(sentenceRes.content);
-                } else {
-                    // Fallback to Day 1 if DB fetch fails
-                    setMainSentence(DAILY_PROMPTS[0]);
-                }
+                // Get posts for current sentence
+                const sentencePosts = SENTENCE_POSTS[currentSentenceIndex] || [];
+                setPosts(sentencePosts);
             } catch (error) {
                 console.error("Failed to fetch data:", error);
-                // Even on error, set mock data
-                setPosts(FULL_MOCK_DATA);
-                setMainSentence(DAILY_PROMPTS[0]);
+                // Even on error, set posts for current sentence
+                const sentencePosts = SENTENCE_POSTS[currentSentenceIndex] || [];
+                setPosts(sentencePosts);
             } finally {
                 setLoading(false);
             }
         };
         fetchData();
-    }, []);
+    }, [currentSentenceIndex]); // Re-fetch when sentence changes
 
     const formatUserId = (id: string) => {
         if (!id) return 'Unknown';
@@ -130,6 +130,19 @@ export default function SocialPage() {
         if (listTop) listTop.scrollIntoView({ behavior: 'smooth' });
     };
 
+    // Sentence navigation handlers
+    const handlePrevSentence = () => {
+        setCurrentSentenceIndex(prev =>
+            prev === 0 ? DAILY_PROMPTS.length - 1 : prev - 1
+        );
+    };
+
+    const handleNextSentence = () => {
+        setCurrentSentenceIndex(prev =>
+            (prev + 1) % DAILY_PROMPTS.length
+        );
+    };
+
     return (
         <div className="app-container" style={{ backgroundColor: '#121212' }}>
             <div className="mobile-view relative flex flex-col w-full h-full min-h-screen overflow-hidden !bg-[#121212] !p-0">
@@ -144,11 +157,106 @@ export default function SocialPage() {
 
                     {/* SECTION 1: Main Sentence & User Posts */}
                     <section style={{ marginBottom: '20px' }}>
-                        <div className="typing-header">
-                            <TypingText
-                                text={`"${mainSentence}"`}
-                                className="typing-text"
-                            />
+                        {/* Sentence Navigation Container */}
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            gap: '16px',
+                            marginBottom: '40px'
+                        }}>
+                            {/* Arrow buttons + Sentence */}
+                            <div style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: '24px',
+                                width: '100%',
+                                maxWidth: '500px'
+                            }}>
+                                {/* Left Arrow */}
+                                <button
+                                    onClick={handlePrevSentence}
+                                    style={{
+                                        width: '40px',
+                                        height: '40px',
+                                        borderRadius: '50%',
+                                        background: 'rgba(255, 255, 255, 0.05)',
+                                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                                        color: 'rgba(255, 255, 255, 0.6)',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.3s',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        fontSize: '18px',
+                                        flexShrink: 0
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.9)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)';
+                                    }}
+                                >
+                                    ‹
+                                </button>
+
+                                {/* Sentence with Typing Effect */}
+                                <div className="typing-header" style={{ flex: 1, minWidth: 0 }}>
+                                    <TypingText
+                                        key={currentSentenceIndex}
+                                        text={`"${mainSentence}"`}
+                                        className="typing-text"
+                                    />
+                                </div>
+
+                                {/* Right Arrow */}
+                                <button
+                                    onClick={handleNextSentence}
+                                    style={{
+                                        width: '40px',
+                                        height: '40px',
+                                        borderRadius: '50%',
+                                        background: 'rgba(255, 255, 255, 0.05)',
+                                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                                        color: 'rgba(255, 255, 255, 0.6)',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.3s',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        fontSize: '18px',
+                                        flexShrink: 0
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.9)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)';
+                                    }}
+                                >
+                                    ›
+                                </button>
+                            </div>
+
+                            {/* Sentence Counter */}
+                            <div style={{
+                                fontSize: '12px',
+                                color: 'rgba(255, 255, 255, 0.4)',
+                                fontFamily: 'serif',
+                                letterSpacing: '1px'
+                            }}>
+                                Day {currentSentenceIndex + 1} of {DAILY_PROMPTS.length}
+                            </div>
                         </div>
 
                         {loading ? (
