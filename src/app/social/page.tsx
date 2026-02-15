@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Pagination from '@/components/Pagination';
-import { getPosts, getTodaySentence } from '@/lib/actions';
+import { getPosts, getTodaySentence, likePost, unlikePost, createComment } from '@/lib/actions';
 import { DAILY_PROMPTS } from '@/lib/sentences';
 
 interface PostWithRelations {
@@ -84,6 +84,11 @@ export default function SocialPage() {
     const [posts, setPosts] = useState<PostWithRelations[]>([]);
     const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
     const [loading, setLoading] = useState(true);
+    const [userId, setUserId] = useState<string>('');
+    const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
+    const [likeCounts, setLikeCounts] = useState<Record<string, number>>({});
+    const [expandedPostId, setExpandedPostId] = useState<string | null>(null);
+    const [commentInputs, setCommentInputs] = useState<Record<string, string>>({});
 
     // Get current sentence based on index
     const mainSentence = DAILY_PROMPTS[currentSentenceIndex];
@@ -91,6 +96,21 @@ export default function SocialPage() {
     // Pagination State
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
+
+    // Initialize user ID and liked posts from localStorage
+    useEffect(() => {
+        let storedUserId = localStorage.getItem('anonymousUserId');
+        if (!storedUserId) {
+            storedUserId = `anon_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+            localStorage.setItem('anonymousUserId', storedUserId);
+        }
+        setUserId(storedUserId);
+
+        const storedLikes = localStorage.getItem('likedPosts');
+        if (storedLikes) {
+            setLikedPosts(new Set(JSON.parse(storedLikes)));
+        }
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -101,6 +121,13 @@ export default function SocialPage() {
                 // Get posts for current sentence
                 const sentencePosts = SENTENCE_POSTS[currentSentenceIndex] || [];
                 setPosts(sentencePosts);
+
+                // Initialize like counts from mock data
+                const counts: Record<string, number> = {};
+                sentencePosts.forEach(post => {
+                    counts[post.id] = post._count.likes;
+                });
+                setLikeCounts(counts);
             } catch (error) {
                 console.error("Failed to fetch data:", error);
                 // Even on error, set posts for current sentence
@@ -141,6 +168,68 @@ export default function SocialPage() {
         setCurrentSentenceIndex(prev =>
             (prev + 1) % DAILY_PROMPTS.length
         );
+    };
+
+    // Like/Unlike handler
+    const handleLike = async (postId: string) => {
+        if (!userId) return;
+
+        const isLiked = likedPosts.has(postId);
+        const newLikedPosts = new Set(likedPosts);
+
+        // Optimistic update
+        if (isLiked) {
+            newLikedPosts.delete(postId);
+            setLikeCounts(prev => ({ ...prev, [postId]: (prev[postId] || 0) - 1 }));
+        } else {
+            newLikedPosts.add(postId);
+            setLikeCounts(prev => ({ ...prev, [postId]: (prev[postId] || 0) + 1 }));
+        }
+
+        setLikedPosts(newLikedPosts);
+        localStorage.setItem('likedPosts', JSON.stringify(Array.from(newLikedPosts)));
+
+        // Server update (in background)
+        try {
+            if (isLiked) {
+                await unlikePost(postId, userId);
+            } else {
+                await likePost(postId, userId);
+            }
+        } catch (error) {
+            console.error('Failed to update like:', error);
+            // Revert on error
+            setLikedPosts(likedPosts);
+            if (isLiked) {
+                setLikeCounts(prev => ({ ...prev, [postId]: (prev[postId] || 0) + 1 }));
+            } else {
+                setLikeCounts(prev => ({ ...prev, [postId]: (prev[postId] || 0) - 1 }));
+            }
+        }
+    };
+
+    // Comment expansion handler
+    const handleCommentClick = (postId: string) => {
+        setExpandedPostId(expandedPostId === postId ? null : postId);
+    };
+
+    // Comment submission handler
+    const handleCommentSubmit = async (postId: string) => {
+        const content = commentInputs[postId]?.trim();
+        if (!content || !userId) return;
+
+        try {
+            const result = await createComment(postId, userId, content);
+            if (result.success) {
+                // Clear input
+                setCommentInputs(prev => ({ ...prev, [postId]: '' }));
+                // You could also update local state to show the new comment immediately
+                alert('댓글이 등록되었습니다!');
+            }
+        } catch (error) {
+            console.error('Failed to submit comment:', error);
+            alert('댓글 등록에 실패했습니다.');
+        }
     };
 
     return (
@@ -280,7 +369,8 @@ export default function SocialPage() {
                                                     position: 'sticky',
                                                     top: `${stickyTop}px`,
                                                     height: '240px',
-                                                    zIndex: index + 1,
+                                                    overflow: expandedPostId === post.id ? 'visible' : 'hidden',
+                                                    zIndex: expandedPostId === post.id ? 999 : index + 1,
                                                     marginBottom: isLast ? '40px' : '-110px',
                                                     transition: 'all 0.5s ease-in-out',
                                                     border: '1px solid #3F3F46', // Create border similar to sentences
@@ -310,15 +400,110 @@ export default function SocialPage() {
 
                                                     {/* Footer Actions - Restored Button Style */}
                                                     <div className="social-actions" style={{ marginTop: 'auto', paddingTop: '16px', display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
-                                                        <button className="social-action-btn">
-                                                            <span className="social-action-icon">♥</span>
-                                                            <span>LIKE {post._count.likes}</span>
+                                                        <button
+                                                            className="social-action-btn"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                handleLike(post.id);
+                                                            }}
+                                                            style={{
+                                                                color: likedPosts.has(post.id) ? '#ef4444' : undefined,
+                                                                transition: 'color 0.3s'
+                                                            }}
+                                                        >
+                                                            <span className="social-action-icon" style={{
+                                                                transform: likedPosts.has(post.id) ? 'scale(1.1)' : 'scale(1)',
+                                                                transition: 'transform 0.3s'
+                                                            }}>♥</span>
+                                                            <span>LIKE {likeCounts[post.id] ?? post._count.likes}</span>
                                                         </button>
-                                                        <button className="social-action-btn">
+                                                        <button
+                                                            className="social-action-btn"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                handleCommentClick(post.id);
+                                                            }}
+                                                        >
                                                             <span className="social-action-icon">💬</span>
                                                             <span>COMMENT {post._count.comments}</span>
                                                         </button>
                                                     </div>
+
+                                                    {/* Inline Comment Section */}
+                                                    {expandedPostId === post.id && (
+                                                        <div style={{
+                                                            marginTop: '16px',
+                                                            paddingTop: '16px',
+                                                            borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+                                                            animation: 'slideDown 0.3s ease-out'
+                                                        }}>
+                                                            {/* Comment Input */}
+                                                            <div style={{ marginBottom: '12px' }}>
+                                                                <textarea
+                                                                    value={commentInputs[post.id] || ''}
+                                                                    onChange={(e) => setCommentInputs(prev => ({ ...prev, [post.id]: e.target.value }))}
+                                                                    placeholder="이 글에 대한 생각을 남겨보세요..."
+                                                                    style={{
+                                                                        width: '100%',
+                                                                        minHeight: '80px',
+                                                                        padding: '10px',
+                                                                        background: 'rgba(0, 0, 0, 0.3)',
+                                                                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                                                                        borderRadius: '4px',
+                                                                        color: '#E4E4E7',
+                                                                        fontFamily: 'serif',
+                                                                        fontSize: '13px',
+                                                                        resize: 'vertical',
+                                                                        outline: 'none'
+                                                                    }}
+                                                                    onFocus={(e) => {
+                                                                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                                                                    }}
+                                                                    onBlur={(e) => {
+                                                                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                                                                    }}
+                                                                />
+                                                                <button
+                                                                    onClick={() => handleCommentSubmit(post.id)}
+                                                                    style={{
+                                                                        marginTop: '8px',
+                                                                        padding: '6px 12px',
+                                                                        background: 'rgba(255, 255, 255, 0.05)',
+                                                                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                                                                        borderRadius: '4px',
+                                                                        color: 'rgba(255, 255, 255, 0.6)',
+                                                                        fontFamily: 'serif',
+                                                                        fontSize: '11px',
+                                                                        cursor: 'pointer',
+                                                                        transition: 'all 0.3s',
+                                                                        letterSpacing: '0.5px'
+                                                                    }}
+                                                                    onMouseEnter={(e) => {
+                                                                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                                                                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.9)';
+                                                                    }}
+                                                                    onMouseLeave={(e) => {
+                                                                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                                                                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)';
+                                                                    }}
+                                                                >
+                                                                    댓글 등록
+                                                                </button>
+                                                            </div>
+
+                                                            {/* Existing Comments Placeholder */}
+                                                            <div style={{
+                                                                fontSize: '11px',
+                                                                color: 'rgba(255, 255, 255, 0.3)',
+                                                                fontFamily: 'serif',
+                                                                fontStyle: 'italic',
+                                                                textAlign: 'center',
+                                                                padding: '8px 0'
+                                                            }}>
+                                                                댓글 {post._count.comments}개
+                                                            </div>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
                                         );
@@ -346,7 +531,7 @@ export default function SocialPage() {
 
                 <Footer pageContext="social" />
             </div>
-        </div>
+        </div >
     );
 }
 

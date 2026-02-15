@@ -223,6 +223,46 @@ export async function likePost(postId: string, userId: string) {
     }
 }
 
+export async function unlikePost(postId: string, userId: string) {
+    try {
+        await prisma.like.deleteMany({
+            where: {
+                postId,
+                userId
+            }
+        })
+        revalidatePath('/')
+        return { success: true }
+    } catch (e) {
+        return { error: "Failed to unlike" }
+    }
+}
+
+export async function createComment(postId: string, userId: string, content: string) {
+    try {
+        // Ensure user exists
+        await prisma.user.upsert({
+            where: { id: userId },
+            update: {},
+            create: { id: userId },
+        })
+
+        const comment = await prisma.comment.create({
+            data: {
+                postId,
+                userId,
+                content
+            }
+        })
+
+        revalidatePath('/')
+        return { success: true, comment }
+    } catch (e) {
+        console.error("Failed to create comment:", e)
+        return { error: "Failed to create comment" }
+    }
+}
+
 export async function getParticipantCount(day: number) {
     if (day < 1) return 0;
 
