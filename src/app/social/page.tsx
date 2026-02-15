@@ -203,7 +203,7 @@ export default function SocialPage() {
                                                     </div>
 
                                                     {/* Footer Actions - Restored Button Style */}
-                                                    <div className="social-actions mt-auto pt-4 justify-end w-full">
+                                                    <div className="social-actions mt-auto pt-4 justify-start w-full">
                                                         <button className="social-action-btn">
                                                             <span className="social-action-icon">♥</span>
                                                             <span>LIKE {post._count.likes}</span>
