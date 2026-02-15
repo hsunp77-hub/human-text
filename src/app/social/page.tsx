@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Pagination from '@/components/Pagination';
+import Link from 'next/link';
 import { getPosts, getTodaySentence, likePost, unlikePost, createComment } from '@/lib/actions';
 import { DAILY_PROMPTS } from '@/lib/sentences';
 
@@ -81,6 +83,7 @@ const SENTENCE_POSTS: Record<number, PostWithRelations[]> = {
 
 
 export default function SocialPage() {
+    const router = useRouter();
     const [posts, setPosts] = useState<PostWithRelations[]>([]);
     const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
     const [loading, setLoading] = useState(true);
@@ -155,6 +158,14 @@ export default function SocialPage() {
         setCurrentPage(pageNumber);
         const listTop = document.getElementById('post-list-top');
         if (listTop) listTop.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    const handleCardClick = (postId: string) => {
+        setExpandedPostId(expandedPostId === postId ? null : postId);
+    };
+
+    const handleProfileNavigation = (authorId: string) => {
+        router.push(`/user/${authorId}`);
     };
 
     // Sentence navigation handlers
@@ -385,9 +396,13 @@ export default function SocialPage() {
                                                             Story {String(globalIndex).padStart(2, '0')}
                                                         </div>
                                                         <div className="flex flex-col items-end">
-                                                            <div className="index-card-meta">
+                                                            <Link
+                                                                href={`/user/${post.authorId}`}
+                                                                className="index-card-meta hover:underline cursor-pointer"
+                                                                onClick={(e) => e.stopPropagation()}
+                                                            >
                                                                 {formatUserId(post.authorId)}
-                                                            </div>
+                                                            </Link>
                                                             <div className="index-card-meta mt-1">
                                                                 {new Date(post.createdAt).toLocaleDateString()}
                                                             </div>
