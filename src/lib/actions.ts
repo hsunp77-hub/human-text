@@ -222,3 +222,26 @@ export async function likePost(postId: string, userId: string) {
         return { error: "Already liked" }
     }
 }
+
+export async function getParticipantCount(day: number) {
+    if (day < 1) return 0;
+
+    // Calculate date the same way as ensureDailySentences
+    const date = new Date(`2026-02-${day.toString().padStart(2, '0')}T00:00:00.000Z`);
+
+    try {
+        const sentence = await prisma.dailySentence.findUnique({
+            where: { date },
+            include: {
+                _count: {
+                    select: { posts: true }
+                }
+            }
+        });
+
+        return sentence?._count.posts || 0;
+    } catch (e) {
+        console.error("Failed to get participant count:", e);
+        return 0;
+    }
+}

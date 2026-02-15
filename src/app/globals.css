@@ -796,7 +796,84 @@ a:hover {
   word-break: keep-all;
 }
 
-/* Utilities for line clamping */
+/* Sentences Page - Index Card Style */
+/* Sentences Page - Index Card Style */
+.index-card {
+  background-color: #252525;
+  border: 1px solid #3F3F46;
+  border-radius: 20px;
+  /* Full rounded corners */
+  padding: 0;
+  position: relative;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.5);
+  margin-top: -20px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.index-card-inner {
+  padding: 24px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.index-card:last-child {
+  /* Last one fully rounded */
+  margin-bottom: 150px;
+}
+
+.index-card:hover {
+  background-color: #2A2A2A;
+  border-color: #71717A;
+  transform: translateY(-4px);
+  /* Pop up slightly on hover */
+  z-index: 100 !important;
+  /* Ensure it pops over others */
+}
+
+.index-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.index-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed #3F3F46;
+}
+
+.index-card-day {
+  font-family: var(--font-handwriting);
+  font-size: 26px;
+  color: #A1A1AA;
+}
+
+.index-card-meta {
+  font-family: monospace;
+  font-size: 10px;
+  color: #52525B;
+  letter-spacing: 2px;
+}
+
+.index-card-content {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  color: #E4E4E7;
+  line-height: 1.6;
+  font-style: italic;
+  padding-left: 4px;
+}
+
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
