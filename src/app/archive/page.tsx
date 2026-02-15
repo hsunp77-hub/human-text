@@ -135,7 +135,7 @@ function ArchiveContent() {
                             <p className="text-gray-500 font-light text-center py-10 text-lg" style={{ fontFamily: '"Gungsuh", "GungSeo", "Batang", serif' }}>
                                 아직 남긴 기록이 없으세요.
                             </p>
-                            <div className="my-[80px]">
+                            <div className="my-[40px]">
                                 <Link
                                     href="/write"
                                     className="premium-btn px-12 py-4 text-lg"
