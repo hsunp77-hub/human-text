@@ -32,7 +32,7 @@ export default function Home() {
           <div className="landing-content" style={{ marginTop: '20px', flex: 'none' }}>
             <button
               className="premium-btn w-full max-w-[200px]"
-              onClick={() => router.push("/write")}
+              onClick={() => router.push("/login")}
             >
               기록의 시작
             </button>
