@@ -386,18 +386,11 @@ h1 {
   text-transform: uppercase;
 }
 
-.archive-card-sentence {
-  font-size: 14px;
-  color: var(--text-muted);
-  margin-bottom: 16px;
-  font-style: italic;
-  line-height: 1.6;
-}
-
-.archive-card-content {
+.archive-card-merged-text {
+  font-family: var(--font-serif);
   font-size: 18px;
   color: #E4E4E7;
-  line-height: 1.6;
+  line-height: 1.8;
   margin-bottom: 16px;
 }
 

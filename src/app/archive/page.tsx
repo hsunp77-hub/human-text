@@ -159,11 +159,9 @@ function ArchiveContent() {
                                             day: 'numeric'
                                         })}
                                     </div>
-                                    <div className="archive-card-sentence">
-                                        {post.sentence.content}
-                                    </div>
-                                    <div className="archive-card-content">
-                                        {post.content}
+                                    <div className="archive-card-merged-text">
+                                        <span style={{ fontWeight: 600 }}>{post.sentence.content}</span>
+                                        <span> {post.content}</span>
                                     </div>
                                     <div className="archive-card-footer">
                                         <button className="action-btn">
