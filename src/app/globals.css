@@ -738,6 +738,7 @@ a:hover {
   gap: 16px;
   /* Default gap */
 }
+
 /* Archive Page Empty State */
 .archive-container {
   padding-top: 10vh !important;
@@ -755,4 +756,165 @@ a:hover {
   margin: 60px auto !important;
   padding: 18px 45px !important;
   display: inline-block !important;
+}
+
+/* Social Page Styles - Card Layout */
+.social-card {
+  background: #1c1c1c;
+  /* User requested dark grey */
+  border: 1px solid #333333;
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.social-card:hover {
+  border-color: #555555;
+  background: #202020;
+}
+
+.social-date {
+  font-size: 10px;
+  color: #71717A;
+  font-family: monospace;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+.social-content {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  color: #D4D4D8;
+  line-height: 1.6;
+  margin-top: 10px;
+  /* Space from top (date area) */
+  margin-bottom: 24px;
+  word-break: keep-all;
+}
+
+/* Utilities for line clamping */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.social-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: auto;
+}
+
+.social-id-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.social-avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #27272a;
+  border: 1px solid #3f3f46;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: #71717A;
+}
+
+.social-id-text {
+  font-size: 10px;
+  color: #71717A;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.social-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.social-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  color: #71717A;
+  cursor: pointer;
+  transition: color 0.2s;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.social-action-btn:hover {
+  color: #A1A1AA;
+}
+
+.social-action-icon {
+  font-size: 10px;
+}
+
+.expand-icon {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  color: #52525B;
+  transition: transform 0.3s;
+}
+
+.social-card.expanded .expand-icon {
+  transform: rotate(180deg);
+}
+
+/* Typing Effect Container */
+.typing-header {
+  margin-bottom: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80px;
+  text-align: center;
+}
+
+.typing-text {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.95);
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+.typing-cursor {
+  display: inline-block;
+  color: rgba(255, 255, 255, 0.5);
+  margin-left: 4px;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Divider for Sections */
+.section-divider {
+  width: 40px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 40px auto;
 }

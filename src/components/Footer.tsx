@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 interface FooterProps {
-    pageContext?: 'sentences' | 'archive' | 'write' | 'about' | 'home';
+    pageContext?: 'sentences' | 'archive' | 'write' | 'about' | 'home' | 'social';
 }
 
 export default function Footer({ pageContext = 'home' }: FooterProps) {
@@ -17,6 +17,8 @@ export default function Footer({ pageContext = 'home' }: FooterProps) {
         <footer className="py-12 flex flex-col items-center">
             <div className="footer-nav">
                 <Link href={leftLink.href}>{leftLink.label}</Link>
+                <span className="nav-dot">•</span>
+                <Link href="/social">그날</Link>
                 <span className="nav-dot">•</span>
                 <Link href={centerLink.href}>{centerLink.label}</Link>
                 <span className="nav-dot">•</span>
