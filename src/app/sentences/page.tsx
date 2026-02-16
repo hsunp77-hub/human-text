@@ -62,14 +62,15 @@ export default function SentencesPage() {
 
     return (
         <div className="app-container">
-            <div className="mobile-view archive-view px-6 flex flex-col h-screen">
+            <div className="mobile-view archive-view !p-0 flex flex-col h-screen relative">
+                {/* Unified Header with its own padding */}
+                <div className="px-6 pt-6">
+                    <Header title="첫문장 서랍" className="!mb-[40px]" />
+                </div>
 
-                {/* Unified Header */}
-                <Header title="첫문장 서랍" className="!mb-[80px]" />
-
-                <main className="w-full flex-1 flex flex-col overflow-y-auto no-scrollbar max-w-[432px] mx-auto pb-20">
+                <main className="w-full flex-1 flex flex-col overflow-y-auto no-scrollbar max-w-[432px] mx-auto pb-20 px-6 min-h-0">
                     {/* Main Content - Sticky Index Stack */}
-                    <div className="relative w-full px-2 pt-10 min-h-0">
+                    <div className="relative w-full pt-10 min-h-0">
                         {currentPrompts.map((prompt, index) => {
                             const dayIndex = index + 1;
                             const isWritten = writtenSentences.has(prompt);

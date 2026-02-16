@@ -46,7 +46,8 @@ body {
   width: 100%;
   max-width: 480px;
   /* Adapting for actual mobile/desktop view */
-  min-height: 100vh;
+  height: 100vh;
+  height: 100dvh;
   background-color: var(--bg-color);
   position: relative;
   display: flex;
@@ -670,7 +671,7 @@ a:hover {
   flex-direction: column;
   align-items: center;
   padding: 20px 0 40px;
-  background: linear-gradient(to top, var(--bg-color) 80%, transparent);
+  background: linear-gradient(to top, var(--bg-color) 90%, transparent);
   z-index: 50;
 }
 
