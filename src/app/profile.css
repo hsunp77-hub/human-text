@@ -1,0 +1,107 @@
+/* Profile Page - Instagram Style Layout */
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 40px;
+    width: 100%;
+    padding: 0 4px;
+}
+
+.profile-top-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.profile-avatar-container {
+    width: 76px;
+    height: 76px;
+    border-radius: 12px;
+    background-color: #27272a;
+    border: 1px solid #3f3f46;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.profile-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    position: relative;
+    z-index: 10;
+}
+
+.profile-avatar-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1c1c1e;
+    color: #71717A;
+    font-family: var(--font-serif);
+    font-size: 24px;
+    text-transform: uppercase;
+}
+
+.profile-stats {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    margin-right: 16px;
+}
+
+.profile-stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-stat-value {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 18px;
+    color: white;
+}
+
+.profile-stat-label {
+    color: #71717A;
+    font-size: 12px;
+}
+
+/* Fallback for cases where flex-col is missing */
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-info {
+    width: 100%;
+}
+
+.profile-name {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    color: white;
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.profile-bio {
+    font-family: var(--font-serif);
+    font-size: 14px;
+    color: #A1A1AA;
+    font-weight: 300;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: keep-all;
+}

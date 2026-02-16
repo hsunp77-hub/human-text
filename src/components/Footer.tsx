@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
 interface FooterProps {
-    pageContext?: 'sentences' | 'archive' | 'write' | 'about' | 'home' | 'social';
+    pageContext?: 'sentences' | 'archive' | 'write' | 'about' | 'home' | 'social' | 'others';
 }
 
 export default function Footer({ pageContext = 'home' }: FooterProps) {
@@ -13,30 +13,81 @@ export default function Footer({ pageContext = 'home' }: FooterProps) {
         setActiveKey(pageContext);
     }, [pageContext]);
 
-    const navItems: { key: NonNullable<FooterProps['pageContext']>, label: string, href: string }[] = [
-        { key: 'social', label: '그날', href: '/social' },
-        { key: 'sentences', label: '문장의 날짜', href: '/sentences' },
-        { key: 'write', label: '글 쓰기', href: '/write' },
-        { key: 'archive', label: '내 문장들', href: '/archive' },
-        { key: 'about', label: '소개', href: '/about' },
+    const navItems: { key: NonNullable<FooterProps['pageContext']>, label: string, href: string, icon: React.ReactNode }[] = [
+        {
+            key: 'social',
+            label: '그날',
+            href: '/social',
+            icon: (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+            )
+        },
+        {
+            key: 'others',
+            label: '타인의 문장들',
+            href: '/others',
+            icon: (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            )
+        },
+        {
+            key: 'write',
+            label: '글 쓰기',
+            href: '/write',
+            icon: (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                    <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                    <path d="M2 2l5 5"></path>
+                    <path d="M11 11l1 1"></path>
+                </svg>
+            )
+        },
+        {
+            key: 'archive',
+            label: '내 문장들',
+            href: '/archive',
+            icon: (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                    <polyline points="13 2 13 9 20 9"></polyline>
+                </svg>
+            )
+        },
+        {
+            key: 'sentences',
+            label: '첫문장 서랍',
+            href: '/sentences',
+            icon: (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="11" width="18" height="10" rx="2" />
+                    <rect x="3" y="3" width="18" height="8" rx="2" />
+                    <line x1="9" y1="7" x2="15" y2="7" />
+                    <line x1="9" y1="16" x2="15" y2="16" />
+                </svg>
+            )
+        },
     ];
 
     return (
-        <footer className="py-12 flex flex-col items-center">
-            <div className="footer-nav">
-                {navItems.map((item, index) => (
-                    <div key={item.key} className="flex items-center">
-                        <Link
-                            href={item.href}
-                            onClick={() => setActiveKey(item.key)}
-                            className={`nav-link ${activeKey === item.key ? 'active' : ''}`}
-                        >
-                            {item.label}
-                        </Link>
-                        {index < navItems.length - 1 && (
-                            <span className="nav-dot mx-2">•</span>
-                        )}
-                    </div>
+        <footer className="footer-nav-container">
+            <div className="footer-nav-icons">
+                {navItems.map((item) => (
+                    <Link
+                        key={item.key}
+                        href={item.href}
+                        onClick={() => setActiveKey(item.key)}
+                        className={`nav-icon-link ${activeKey === item.key ? 'active' : ''}`}
+                        aria-label={item.label}
+                    >
+                        {item.icon}
+                    </Link>
                 ))}
             </div>
             <p className="footer-copyright">

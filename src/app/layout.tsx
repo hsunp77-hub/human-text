@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Serif_KR, Noto_Sans_KR, Nanum_Pen_Script } from "next/font/google"; // Nanum Pen Script for handwriting
 import "./globals.css";
+import "./profile.css";
 
 const notoSansKR = Noto_Sans_KR({
   variable: "--font-noto-sans",

@@ -26,59 +26,276 @@ interface PostWithRelations {
 // Mock data linked to specific sentences
 // Each post has a sentenceIndex (0-9) corresponding to DAILY_PROMPTS array
 const SENTENCE_POSTS: Record<number, PostWithRelations[]> = {
-    // Day 1: "창문을 여니 햇살이 소나기처럼 쏟아졌다."
     0: [
         {
-            id: 'day1-post1',
-            content: "여름이었다.",
+            id: 'day1-p1',
+            content: "계절이 바뀌는 냄새는 늘 그리운 사람을 먼저 데려온다.",
             createdAt: new Date('2026-02-15'),
-            authorId: 'user_summer',
-            sentence: { content: "창문을 여니 햇살이 소나기처럼 쏟아졌다." },
-            _count: { likes: 12, comments: 4 }
-        },
-        {
-            id: 'day1-post2',
-            content: "2025년 겨울도 이런 아침이었다",
-            createdAt: new Date('2026-02-15'),
-            authorId: 'user_winter',
-            sentence: { content: "창문을 여니 햇살이 소나기처럼 쏟아졌다." },
-            _count: { likes: 8, comments: 2 }
-        },
-        {
-            id: 'day1-post3',
-            content: "뒤에서 고양이가 나를 불렀다",
-            createdAt: new Date('2026-02-15'),
-            authorId: 'user_cat',
-            sentence: { content: "창문을 여니 햇살이 소나기처럼 쏟아졌다." },
-            _count: { likes: 15, comments: 5 }
-        },
-        {
-            id: 'day1-post4',
-            content: "눈을 감고 한참 얼굴을 떠올렸다",
-            createdAt: new Date('2026-02-15'),
-            authorId: 'user_face',
-            sentence: { content: "창문을 여니 햇살이 소나기처럼 쏟아졌다." },
-            _count: { likes: 6, comments: 0 }
-        },
-        {
-            id: 'day1-post5',
-            content: "그 순간 초인종이 울렸다.",
-            createdAt: new Date('2026-02-15'),
-            authorId: 'user_bell',
-            sentence: { content: "창문을 여니 햇살이 소나기처럼 쏟아졌다." },
-            _count: { likes: 20, comments: 8 }
+            authorId: '봄의_기록',
+            sentence: { content: DAILY_PROMPTS[0] },
+            _count: { likes: 12, comments: 2 }
         }
     ],
-    // Day 2-10: Empty for now (will show empty state)
-    1: [],
-    2: [],
-    3: [],
-    4: [],
-    5: [],
-    6: [],
-    7: [],
-    8: [],
-    9: []
+    1: [
+        {
+            id: 'day2-p1',
+            content: "지칠 줄 모르고 뛰던 우리들의 그림자도 그곳에 멈춰있을까.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '여름소년',
+            sentence: { content: DAILY_PROMPTS[1] },
+            _count: { likes: 8, comments: 1 }
+        }
+    ],
+    2: [
+        {
+            id: 'day3-p1',
+            content: "텅 빈 골목길, 바람만이 나를 스쳐 지나갔다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '가을산책',
+            sentence: { content: DAILY_PROMPTS[2] },
+            _count: { likes: 15, comments: 3 }
+        }
+    ],
+    3: [
+        {
+            id: 'day4-p1',
+            content: "입김 속에 섞인 한숨이 하얗게 흩어지는 밤이었다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '겨울아이',
+            sentence: { content: DAILY_PROMPTS[3] },
+            _count: { likes: 21, comments: 5 }
+        }
+    ],
+    4: [
+        {
+            id: 'day5-p1',
+            content: "깨어있는 것이 죄처럼 느껴지는 새벽, 나는 펜을 들었다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '새벽작가',
+            sentence: { content: DAILY_PROMPTS[4] },
+            _count: { likes: 19, comments: 4 }
+        }
+    ],
+    5: [
+        {
+            id: 'day6-p1',
+            content: "평범함 속에 숨어있던 균열이 그날 비로소 모습을 드러냈다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '일상의_단면',
+            sentence: { content: DAILY_PROMPTS[5] },
+            _count: { likes: 32, comments: 8 }
+        }
+    ],
+    6: [
+        {
+            id: 'day7-p1',
+            content: "아무 말도 하지 않았지만, 그 눈빛만으로 충분한 대화였다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '무언의_고백',
+            sentence: { content: DAILY_PROMPTS[6] },
+            _count: { likes: 25, comments: 6 }
+        }
+    ],
+    7: [
+        {
+            id: 'day8-p1',
+            content: "수화기 너머의 침묵이 세상에서 가장 무거운 말이 되었다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '마지막_통화',
+            sentence: { content: DAILY_PROMPTS[7] },
+            _count: { likes: 45, comments: 12 }
+        }
+    ],
+    8: [
+        {
+            id: 'day9-p1',
+            content: "참아왔던 눈물은 노을보다 더 짙게 마음을 적셨다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '노을지기',
+            sentence: { content: DAILY_PROMPTS[8] },
+            _count: { likes: 38, comments: 7 }
+        }
+    ],
+    9: [
+        {
+            id: 'day10-p1',
+            content: "어둠은 때로 가장 선명한 글씨체가 된다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '밤의_사유',
+            sentence: { content: DAILY_PROMPTS[9] },
+            _count: { likes: 52, comments: 15 }
+        }
+    ],
+    10: [
+        {
+            id: 'day11-p1',
+            content: "아픔은 성장의 한 조각임을, 그 어린 날의 나는 이미 알고 있었을까.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '기억상자',
+            sentence: { content: DAILY_PROMPTS[10] },
+            _count: { likes: 24, comments: 4 }
+        }
+    ],
+    11: [
+        {
+            id: 'day12-p1',
+            content: "사라진 노래 소리 대신, 이제는 기억 속의 바람 소리만 남았다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '여름의_끝',
+            sentence: { content: DAILY_PROMPTS[11] },
+            _count: { likes: 16, comments: 3 }
+        }
+    ],
+    12: [
+        {
+            id: 'day13-p1',
+            content: "정처 없던 마음도 어느덧 세월의 흐름을 따라 여기까지 왔다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '흐르는_시간',
+            sentence: { content: DAILY_PROMPTS[12] },
+            _count: { likes: 29, comments: 5 }
+        }
+    ],
+    13: [
+        {
+            id: 'day14-p1',
+            content: "책임이라는 옷은 생각보다 얇고, 겨울 새벽은 너무나 길었다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '서툰_어른',
+            sentence: { content: DAILY_PROMPTS[13] },
+            _count: { likes: 42, comments: 9 }
+        }
+    ],
+    14: [
+        {
+            id: 'day15-p1',
+            content: "이름표 하나로 정의될 수 없는 나의 진심은 어디로 가야 하는 걸까.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '바다의_목소리',
+            sentence: { content: DAILY_PROMPTS[14] },
+            _count: { likes: 31, comments: 6 }
+        }
+    ],
+    15: [
+        {
+            id: 'day16-p1',
+            content: "홀가분해진 어깨 위에 내려앉은 것은, 온전한 나의 삶이었다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '새로운_시작',
+            sentence: { content: DAILY_PROMPTS[15] },
+            _count: { likes: 58, comments: 11 }
+        }
+    ],
+    16: [
+        {
+            id: 'day17-p1',
+            content: "누군가의 엄마가 아닌, 나로 불리고 싶었던 순간이 있었다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '이름의_의미',
+            sentence: { content: DAILY_PROMPTS[16] },
+            _count: { likes: 47, comments: 14 }
+        }
+    ],
+    17: [
+        {
+            id: 'day18-p1',
+            content: "급하게 달려오느라 놓쳤던 풍경들이 이제야 눈에 들어오기 시작한다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '걸음을_늦추다',
+            sentence: { content: DAILY_PROMPTS[17] },
+            _count: { likes: 35, comments: 8 }
+        }
+    ],
+    18: [
+        {
+            id: 'day19-p1',
+            content: "먼지 쌓인 꿈을 털어내자, 비로소 나만의 계절이 다시 시작되었다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '꿈을_찾아서',
+            sentence: { content: DAILY_PROMPTS[18] },
+            _count: { likes: 64, comments: 16 }
+        }
+    ],
+    19: [
+        {
+            id: 'day20-p1',
+            content: "가진 것을 놓을 때마다, 마음의 곳간은 오히려 더 넉넉해졌다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '비움의_시간',
+            sentence: { content: DAILY_PROMPTS[19] },
+            _count: { likes: 51, comments: 10 }
+        }
+    ],
+    20: [
+        {
+            id: 'day21-p1',
+            content: "고통 없는 삶은 없지만, 그 모든 순간이 나를 빚어낸 시간이었음을.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '폭풍우_뒤에',
+            sentence: { content: DAILY_PROMPTS[20] },
+            _count: { likes: 72, comments: 19 }
+        }
+    ],
+    21: [
+        {
+            id: 'day22-p1',
+            content: "끝은 늘 새로운 시작의 다른 이름일 뿐이다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '마지막_장',
+            sentence: { content: DAILY_PROMPTS[21] },
+            _count: { likes: 43, comments: 9 }
+        }
+    ],
+    22: [
+        {
+            id: 'day23-p1',
+            content: "사랑은 때로 온 우주를 한 사람의 손끝에 가둬두기도 한다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '심장소리',
+            sentence: { content: DAILY_PROMPTS[22] },
+            _count: { likes: 89, comments: 24 }
+        }
+    ],
+    23: [
+        {
+            id: 'day24-p1',
+            content: "남겨진 문장들은 마침표를 찍지 못한 채 여전히 허공을 맴돈다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '이별의_잔상',
+            sentence: { content: DAILY_PROMPTS[23] },
+            _count: { likes: 55, comments: 13 }
+        }
+    ],
+    24: [
+        {
+            id: 'day25-p1',
+            content: "첫 단추를 끼우는 손끝이 미세하게 떨리고 있었다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '새벽의_출발',
+            sentence: { content: DAILY_PROMPTS[24] },
+            _count: { likes: 39, comments: 7 }
+        }
+    ],
+    25: [
+        {
+            id: 'day26-p1',
+            content: "함께 걷는 이 길 끝에, 같은 풍경을 보며 웃을 수 있기를.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '영원의_약속',
+            sentence: { content: DAILY_PROMPTS[25] },
+            _count: { likes: 94, comments: 28 }
+        }
+    ],
+    26: [
+        {
+            id: 'day27-p1',
+            content: "눈을 감는 순간, 세상은 비로소 나만의 색채로 가득 찼다.",
+            createdAt: new Date('2026-02-15'),
+            authorId: '마지막_호흡',
+            sentence: { content: DAILY_PROMPTS[26] },
+            _count: { likes: 110, comments: 35 }
+        }
+    ]
 };
 
 
@@ -145,7 +362,7 @@ export default function SocialPage() {
 
     const formatUserId = (id: string) => {
         if (!id) return 'Unknown';
-        return `Writer ${id.substring(0, 4)}`;
+        return id;
     }
 
     // Pagination Logic
@@ -263,7 +480,7 @@ export default function SocialPage() {
                             flexDirection: 'column',
                             alignItems: 'center',
                             gap: '16px',
-                            marginBottom: '40px'
+                            marginBottom: '80px'
                         }}>
                             {/* Arrow buttons + Sentence */}
                             <div style={{
@@ -353,7 +570,7 @@ export default function SocialPage() {
                                 fontFamily: 'serif',
                                 letterSpacing: '1px'
                             }}>
-                                Day {currentSentenceIndex + 1} of {DAILY_PROMPTS.length}
+                                index {String(currentSentenceIndex + 1).padStart(3, '0')} of {DAILY_PROMPTS.length}
                             </div>
                         </div>
 
@@ -393,7 +610,7 @@ export default function SocialPage() {
                                                     {/* Card Header */}
                                                     <div className="index-card-header">
                                                         <div className="index-card-day" style={{ fontSize: '24px' }}>
-                                                            Story {String(globalIndex).padStart(2, '0')}
+                                                            Sentence {String(globalIndex).padStart(2, '0')}
                                                         </div>
                                                         <div className="flex flex-col items-end">
                                                             <Link

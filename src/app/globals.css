@@ -48,8 +48,6 @@ body {
   /* Adapting for actual mobile/desktop view */
   min-height: 100vh;
   background-color: var(--bg-color);
-  background-image: radial-gradient(#333333 1px, transparent 1px);
-  background-size: 20px 20px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -666,35 +664,43 @@ a:hover {
   margin-bottom: 16px;
 }
 
-/* Footer Navigation - Replaces flex col items-center */
-.footer-nav {
+.footer-nav-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0 40px;
+  background: linear-gradient(to top, var(--bg-color) 80%, transparent);
+  z-index: 50;
+}
+
+.footer-nav-icons {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
-  font-family: var(--font-serif);
+  gap: 32px;
+  margin-bottom: 24px;
 }
 
-.nav-link {
+.nav-icon-link {
   color: #71717A;
-  text-decoration: none;
-  transition: color 0.2s ease;
-  font-weight: normal;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
 }
 
-.nav-link:hover {
+.nav-icon-link:hover {
   color: white;
+  opacity: 0.8;
+  transform: translateY(-2px);
 }
 
-.nav-link.active {
+.nav-icon-link.active {
   color: white;
-  font-weight: bold;
-}
-
-.footer-nav .nav-dot {
-  color: #71717A;
-  opacity: 0.4;
-  font-size: 10px;
+  opacity: 1;
+  transform: scale(1.1);
 }
 
 .footer-copyright {
@@ -704,7 +710,6 @@ a:hover {
   color: #71717A;
   opacity: 0.4;
   font-weight: 500;
-  margin-top: 24px;
   text-align: center;
 }
 
@@ -787,27 +792,59 @@ a:hover {
 .index-card {
   background-color: #252525;
   border: 1px solid #3F3F46;
-  border-radius: 20px;
-  /* Full rounded corners */
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  border-bottom-left-radius: 12px;
   padding: 0;
   position: relative;
-  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.5);
-  margin-top: -20px;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.6);
+  margin-top: -45px;
+  /* Tighter overlap for drawer effect */
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.2s ease;
   display: flex;
   flex-direction: column;
+  overflow: visible;
+  /* Ensure tabs are not clipped */
+}
+
+.index-card-tab {
+  position: absolute;
+  top: -24px;
+  height: 24px;
+  padding: 4px 16px;
+  background-color: #333333;
+  /* Slightly lighter than card */
+  border: 1px solid #4B4B52;
+  border-bottom: none;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  font-family: var(--font-handwriting);
+  font-size: 14px;
+  color: #D4D4D8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  /* Bring to front */
+}
+
+/* Ensure the active/hover card's tab also looks highlighted if needed */
+.index-card:hover .index-card-tab {
+  background-color: #2A2A2A;
+  border-color: #71717A;
+  color: white;
 }
 
 .index-card-inner {
-  padding: 24px;
+  padding: 32px 24px 24px;
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .index-card:last-child {
-  /* Last one fully rounded */
-  margin-bottom: 150px;
+  margin-bottom: 120px;
 }
 
 .index-card:hover {

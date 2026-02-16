@@ -170,7 +170,7 @@ function WriteContent() {
                     <div className="glass-card w-full p-8 relative flex flex-col items-center text-center mb-8">
                         {/* Day Label */}
                         <div className="header-label">
-                            DAY {day}
+                            index {String(day).padStart(3, '0')}
                         </div>
 
                         {/* Sentence */}
