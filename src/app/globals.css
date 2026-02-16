@@ -666,13 +666,18 @@ a:hover {
 }
 
 .footer-nav-container {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
+  max-width: 480px;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px 0 40px;
   background: linear-gradient(to top, var(--bg-color) 90%, transparent);
-  z-index: 50;
+  z-index: 1000;
 }
 
 .footer-nav-icons {
