@@ -762,10 +762,11 @@ export default function SocialPage() {
                                 </div>
                             </>
                         )}
+                        <div className="mt-10">
+                            <Footer pageContext="social" />
+                        </div>
                     </section>
                 </main>
-
-                <Footer pageContext="social" />
             </div>
         </div >
     );

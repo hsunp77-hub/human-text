@@ -130,7 +130,7 @@ function ArchiveContent() {
                 {/* Unified Header */}
                 <Header title="내 문장들" className="!mb-[80px]" />
 
-                <main className="w-full flex-1 overflow-y-auto pb-10 no-scrollbar">
+                <main className="w-full pb-10">
                     {(posts.length === 0 && !loading) || forceEmpty ? (
                         <div className="archive-container flex flex-col items-center justify-center w-full min-h-full">
                             {/* Empty State Text */}

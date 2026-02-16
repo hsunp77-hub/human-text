@@ -21,14 +21,14 @@
 
 body {
   background-color: #121212;
-  /* Dark environment like the mockup */
   color: var(--text-primary);
   font-family: var(--font-sans);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  /* Changed from center to allow natural scroll */
   min-height: 100vh;
 }
 
@@ -45,17 +45,23 @@ body {
 .mobile-view {
   width: 100%;
   max-width: 480px;
-  /* Adapting for actual mobile/desktop view */
-  height: 100vh;
-  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
   background-color: var(--bg-color);
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   padding: 40px 24px;
-  overflow: hidden;
+  /* Removed height: 100vh and overflow: hidden for natural scrolling */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .mobile-view.archive-view {
@@ -328,14 +334,14 @@ h1 {
 /* Footer Navigation (Consolidated below at line ~690) */
 
 .landing-footer {
-  position: absolute;
-  bottom: 40px;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
   z-index: 10;
+  padding-bottom: 20px;
+  margin-top: 20px;
 }
 
 .about-link {
@@ -409,7 +415,7 @@ h1 {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 100%;
+  flex: 1;
   width: 100%;
   padding-bottom: 0;
 }
@@ -666,18 +672,13 @@ a:hover {
 }
 
 .footer-nav-container {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
   width: 100%;
-  max-width: 480px;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px 0 40px;
   background: linear-gradient(to top, var(--bg-color) 90%, transparent);
-  z-index: 1000;
+  z-index: 50;
 }
 
 .footer-nav-icons {
