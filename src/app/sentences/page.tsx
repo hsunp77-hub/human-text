@@ -72,14 +72,14 @@ export default function SentencesPage() {
             <div className="mobile-view archive-view px-6">
                 <main className="w-full pb-20">
                     <Header title="첫문장 서랍" className="!mb-[80px] pt-6" />
-                    <div className="relative w-full px-2 pt-10 min-h-[600px]">
+                    <div className="relative w-full px-2 pt-10 pb-32">
                         {currentPrompts.map((prompt, index) => {
                             const globalIndex = startIndex + index;
                             const dayIndex = globalIndex + 1;
                             const isWritten = writtenSentences.has(prompt);
                             const count = participantCounts[dayIndex] || 0;
 
-                            const stickyTop = 0 + (index * 110);
+                            const stickyTop = 40 + (index * 105);
                             const isLast = index === currentPrompts.length - 1;
 
                             let cardStyle: React.CSSProperties = {
@@ -89,7 +89,7 @@ export default function SentencesPage() {
                                 height: isLast ? 'auto' : '190px',
                                 minHeight: isLast ? '190px' : '190px',
                                 zIndex: dayIndex,
-                                marginBottom: isLast ? '40px' : '-80px',
+                                marginBottom: isLast ? '120px' : '-85px',
                                 marginTop: index === 0 ? '0' : undefined,
                                 transition: 'all 0.5s ease-in-out',
                             };
