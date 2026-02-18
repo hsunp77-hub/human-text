@@ -258,8 +258,9 @@ function WriteContent() {
                         </div>
                     </div>
 
-                    <Footer pageContext="write" />
                 </div>
+
+                <Footer pageContext="write" />
             </div>
         </div >
     );

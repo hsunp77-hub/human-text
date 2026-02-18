@@ -20,8 +20,19 @@ export default function SignupPage() {
     const checkNickname = async () => {
         if (!nickname.trim()) return;
         setLoading(true);
-        const unique = await isUsernameUnique(nickname);
-        setIsUnique(unique);
+        try {
+            const result = await isUsernameUnique(nickname);
+            if (result.success) {
+                setIsUnique(result.isUnique ?? false);
+            } else {
+                alert(result.error || '중복 확인 실패');
+                setIsUnique(null);
+            }
+        } catch (e) {
+            console.error(e);
+            alert('오류가 발생했습니다.');
+            setIsUnique(null);
+        }
         setLoading(false);
     };
 

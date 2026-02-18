@@ -280,7 +280,7 @@ export async function updateUserProfile(userId: string, data: {
 }
 
 export async function isUsernameUnique(name: string, excludeUserId?: string) {
-    if (!name.trim()) return false;
+    if (!name.trim()) return { success: true, isUnique: false, error: "이름을 입력해주세요." };
     try {
         const user = await prisma.user.findFirst({
             where: {
@@ -288,9 +288,9 @@ export async function isUsernameUnique(name: string, excludeUserId?: string) {
                 NOT: excludeUserId ? { id: excludeUserId } : undefined
             }
         });
-        return !user;
+        return { success: true, isUnique: !user };
     } catch (e) {
         console.error("Failed to check username uniqueness:", e);
-        return false;
+        return { success: false, error: "중복 확인 중 오류가 발생했습니다." };
     }
 }
