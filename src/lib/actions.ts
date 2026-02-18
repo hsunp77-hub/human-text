@@ -5,8 +5,6 @@ import { revalidatePath } from 'next/cache'
 import { DAILY_PROMPTS } from './sentences'
 
 export async function ensureDailySentences() {
-    // We'll map Day 1-10 to some fixed dates starting from 2026-02-01
-    // This ensures they are in the DB and have stable IDs
     for (let i = 0; i < DAILY_PROMPTS.length; i++) {
         const date = new Date(`2026-02-${(i + 1).toString().padStart(2, '0')}T00:00:00.000Z`);
         await prisma.dailySentence.upsert({
@@ -21,7 +19,6 @@ export async function ensureDailySentences() {
 }
 
 export async function getSentenceByDay(day: number) {
-    // Validate day is within valid range
     if (day < 1 || day > DAILY_PROMPTS.length) {
         console.error(`Invalid day number: ${day}. Valid range is 1-${DAILY_PROMPTS.length}`);
         return null;
@@ -30,7 +27,6 @@ export async function getSentenceByDay(day: number) {
     const date = new Date(`2026-02-${day.toString().padStart(2, '0')}T00:00:00.000Z`);
     const content = DAILY_PROMPTS[day - 1];
 
-    // Try to find it, or create it if missing (Self-healing)
     let sentence = await prisma.dailySentence.findUnique({
         where: { date }
     });
@@ -57,14 +53,12 @@ export async function getTodaySentence() {
     await ensureDailySentences();
     const today = new Date().toISOString().split('T')[0] + "T00:00:00.000Z"
 
-    // Try to find exact match for today
     let sentence = await prisma.dailySentence.findUnique({
         where: {
             date: new Date(today),
         },
     })
 
-    // Fallback: If no sentence for today (e.g. timezone diff), get the FIRST one (Day 1)
     if (!sentence) {
         sentence = await prisma.dailySentence.findFirst({
             orderBy: {
@@ -78,22 +72,12 @@ export async function getTodaySentence() {
 
 export async function getRandomSentence() {
     await ensureDailySentences();
-
-    // Get total count
     const count = await prisma.dailySentence.count();
-
-    if (count === 0) {
-        return null;
-    }
-
-    // Generate random skip
+    if (count === 0) return null;
     const skip = Math.floor(Math.random() * count);
-
-    // Fetch random sentence
     const sentence = await prisma.dailySentence.findFirst({
         skip: skip,
     });
-
     return sentence;
 }
 
@@ -107,14 +91,12 @@ export async function createPost(formData: FormData) {
     }
 
     try {
-        // Ensure user exists (Anonymous ID)
         await prisma.user.upsert({
             where: { id: authorId },
             update: {},
             create: { id: authorId },
         })
 
-        // Check for existing post by this user for this sentence
         const existingPost = await prisma.post.findFirst({
             where: {
                 authorId,
@@ -124,16 +106,14 @@ export async function createPost(formData: FormData) {
 
         let post;
         if (existingPost) {
-            // Update existing post
             post = await prisma.post.update({
                 where: { id: existingPost.id },
                 data: {
                     content,
-                    createdAt: new Date() // Update timestamp to show it's fresh
+                    createdAt: new Date()
                 }
             });
         } else {
-            // Create new post
             post = await prisma.post.create({
                 data: {
                     content,
@@ -168,16 +148,11 @@ export async function getPosts(limit = 20) {
 
 export async function getUserPosts(userId: string, page = 1, limit = 5) {
     const skip = (page - 1) * limit;
-
     try {
         const [posts, total] = await Promise.all([
             prisma.post.findMany({
-                where: {
-                    authorId: userId,
-                },
-                orderBy: {
-                    createdAt: 'desc',
-                },
+                where: { authorId: userId },
+                orderBy: { createdAt: 'desc' },
                 take: limit,
                 skip: skip,
                 include: {
@@ -188,16 +163,12 @@ export async function getUserPosts(userId: string, page = 1, limit = 5) {
                 }
             }),
             prisma.post.count({
-                where: {
-                    authorId: userId
-                }
+                where: { authorId: userId }
             })
         ]);
-
         return { posts, total };
     } catch (error) {
         console.error("Critical Error in getUserPosts:", error);
-        // Return empty result to prevent crashing
         return { posts: [], total: 0 };
     }
 }
@@ -209,12 +180,8 @@ export async function likePost(postId: string, userId: string) {
             update: {},
             create: { id: userId },
         })
-
         await prisma.like.create({
-            data: {
-                postId,
-                userId
-            }
+            data: { postId, userId }
         })
         revalidatePath('/')
         return { success: true }
@@ -226,10 +193,7 @@ export async function likePost(postId: string, userId: string) {
 export async function unlikePost(postId: string, userId: string) {
     try {
         await prisma.like.deleteMany({
-            where: {
-                postId,
-                userId
-            }
+            where: { postId, userId }
         })
         revalidatePath('/')
         return { success: true }
@@ -240,21 +204,14 @@ export async function unlikePost(postId: string, userId: string) {
 
 export async function createComment(postId: string, userId: string, content: string) {
     try {
-        // Ensure user exists
         await prisma.user.upsert({
             where: { id: userId },
             update: {},
             create: { id: userId },
         })
-
         const comment = await prisma.comment.create({
-            data: {
-                postId,
-                userId,
-                content
-            }
+            data: { postId, userId, content }
         })
-
         revalidatePath('/')
         return { success: true, comment }
     } catch (e) {
@@ -265,10 +222,7 @@ export async function createComment(postId: string, userId: string, content: str
 
 export async function getParticipantCount(day: number) {
     if (day < 1) return 0;
-
-    // Calculate date the same way as ensureDailySentences
     const date = new Date(`2026-02-${day.toString().padStart(2, '0')}T00:00:00.000Z`);
-
     try {
         const sentence = await prisma.dailySentence.findUnique({
             where: { date },
@@ -278,10 +232,65 @@ export async function getParticipantCount(day: number) {
                 }
             }
         });
-
         return sentence?._count.posts || 0;
     } catch (e) {
         console.error("Failed to get participant count:", e);
         return 0;
+    }
+}
+
+export async function getUserProfile(userId: string) {
+    try {
+        return await prisma.user.findUnique({
+            where: { id: userId }
+        });
+    } catch (e) {
+        console.error("Failed to get user profile:", e);
+        return null;
+    }
+}
+
+export async function updateUserProfile(userId: string, data: {
+    name?: string,
+    bio?: string,
+    image?: string,
+    birthday?: Date,
+    gender?: string,
+    residence?: string,
+    pin?: string,
+    isSignupCompleted?: boolean
+}) {
+    try {
+        const user = await prisma.user.upsert({
+            where: { id: userId },
+            update: data,
+            create: {
+                id: userId,
+                ...data
+            }
+        });
+        revalidatePath('/');
+        revalidatePath(`/user/${userId}`);
+        revalidatePath('/settings');
+        return { success: true, user };
+    } catch (e) {
+        console.error("Failed to update user profile:", e);
+        return { error: "이미 사용 중인 아이디거나 저장 중 오류가 발생했습니다." };
+    }
+}
+
+export async function isUsernameUnique(name: string, excludeUserId?: string) {
+    if (!name.trim()) return false;
+    try {
+        const user = await prisma.user.findFirst({
+            where: {
+                name,
+                NOT: excludeUserId ? { id: excludeUserId } : undefined
+            }
+        });
+        return !user;
+    } catch (e) {
+        console.error("Failed to check username uniqueness:", e);
+        return false;
     }
 }

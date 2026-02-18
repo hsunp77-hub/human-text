@@ -1,6 +1,7 @@
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import Google from "next-auth/providers/google"
+import { prisma } from "@/lib/prisma"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     providers: [
@@ -31,6 +32,28 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 return false // Redirect unauthenticated users to login page
             }
             return true
+        },
+        async jwt({ token, user, trigger, session }) {
+            if (user) {
+                // Initial login - fetch full user data
+                const fullUser = await prisma.user.findUnique({ where: { id: user.id } });
+                token.id = user.id;
+                token.isSignupCompleted = fullUser?.isSignupCompleted ?? false;
+            }
+            if (trigger === "update" && session) {
+                // Manual updates to session
+                if (session.isSignupCompleted !== undefined) {
+                    token.isSignupCompleted = session.isSignupCompleted;
+                }
+            }
+            return token;
+        },
+        async session({ session, token }) {
+            if (token && session.user) {
+                (session.user as any).id = token.id as string;
+                (session.user as any).isSignupCompleted = token.isSignupCompleted as boolean;
+            }
+            return session;
         },
     },
     pages: {

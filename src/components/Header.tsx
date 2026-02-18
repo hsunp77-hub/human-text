@@ -25,6 +25,7 @@ export default function Header({ title, label, className = "" }: HeaderProps) {
                     </svg>
                 </button>
                 <button
+                    onClick={() => router.push("/settings")}
                     className="unified-header-icon"
                     aria-label="설정"
                 >
