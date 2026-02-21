@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 export const dynamic = 'force-dynamic';
 
 import Link from 'next/link';
@@ -6,7 +6,6 @@ import { notFound } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-const prisma = new PrismaClient();
 
 export default async function PersonaDetailPage({ params }: { params: Promise<{ username: string }> }) {
     const { username } = await params;

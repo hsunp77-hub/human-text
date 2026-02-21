@@ -1,11 +1,10 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 export const dynamic = 'force-dynamic';
 
 import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-const prisma = new PrismaClient();
 
 export default async function PersonasPage() {
     const users = await prisma.user.findMany({
