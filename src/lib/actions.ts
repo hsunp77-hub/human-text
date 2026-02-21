@@ -2,83 +2,96 @@
 
 import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
-import { DAILY_PROMPTS } from './sentences'
+import { COURSE_CONTENT, determineGroupCode, AgeRange, Gender } from './course-content'
 
+// Seed all sentences for all groups
 export async function ensureDailySentences() {
-    for (let i = 0; i < DAILY_PROMPTS.length; i++) {
-        const date = new Date(`2026-02-${(i + 1).toString().padStart(2, '0')}T00:00:00.000Z`);
-        await prisma.dailySentence.upsert({
-            where: { date },
-            update: { content: DAILY_PROMPTS[i] },
-            create: {
-                date,
-                content: DAILY_PROMPTS[i]
-            }
-        });
-    }
-}
+    const groups = Object.values(COURSE_CONTENT);
 
-export async function getSentenceByDay(day: number) {
-    if (day < 1 || day > DAILY_PROMPTS.length) {
-        console.error(`Invalid day number: ${day}. Valid range is 1-${DAILY_PROMPTS.length}`);
-        return null;
-    }
+    for (const group of groups) {
+        for (let i = 0; i < group.sentences.length; i++) {
+            const dayIndex = i + 1;
+            const content = group.sentences[i];
 
-    const date = new Date(`2026-02-${day.toString().padStart(2, '0')}T00:00:00.000Z`);
-    const content = DAILY_PROMPTS[day - 1];
-
-    let sentence = await prisma.dailySentence.findUnique({
-        where: { date }
-    });
-
-    if (!sentence) {
-        try {
-            sentence = await prisma.dailySentence.upsert({
-                where: { date },
+            // Upsert based on dayIndex + groupCode
+            await prisma.dailySentence.upsert({
+                where: {
+                    dayIndex_groupCode: {
+                        dayIndex,
+                        groupCode: group.code
+                    }
+                },
                 update: { content },
                 create: {
-                    date,
+                    dayIndex,
+                    groupCode: group.code,
                     content
                 }
             });
-        } catch (error) {
-            console.error(`Failed to ensure sentence for day ${day}:`, error);
         }
     }
-
-    return sentence;
 }
 
-export async function getTodaySentence() {
-    await ensureDailySentences();
-    const today = new Date().toISOString().split('T')[0] + "T00:00:00.000Z"
+// Get a specific sentence for a user's group and day
+export async function getSentenceByDay(day: number, groupCode: string = 'G1') {
+    if (day < 1 || day > 21) return null;
 
     let sentence = await prisma.dailySentence.findUnique({
         where: {
-            date: new Date(today),
-        },
-    })
+            dayIndex_groupCode: {
+                dayIndex: day,
+                groupCode
+            }
+        }
+    });
 
     if (!sentence) {
-        sentence = await prisma.dailySentence.findFirst({
-            orderBy: {
-                date: 'asc',
-            },
-        })
+        // Fallback: try to ensure sentences exist
+        await ensureDailySentences();
+        sentence = await prisma.dailySentence.findUnique({
+            where: {
+                dayIndex_groupCode: {
+                    dayIndex: day,
+                    groupCode
+                }
+            }
+        });
     }
 
-    return sentence
+    return sentence;
 }
 
-export async function getRandomSentence() {
-    await ensureDailySentences();
-    const count = await prisma.dailySentence.count();
-    if (count === 0) return null;
-    const skip = Math.floor(Math.random() * count);
-    const sentence = await prisma.dailySentence.findFirst({
-        skip: skip,
+// Get the sentence for the user's current progress
+export async function getCurrentSentenceForUser(userId: string) {
+    const user = await prisma.user.findUnique({
+        where: { id: userId },
+        include: { posts: { select: { sentenceId: true } } } // Optimization: just get sentence IDs or count
     });
-    return sentence;
+
+    if (!user) return null;
+
+    // Determine current day based on posts
+    // Logic: Day N is unlocked if Day N-1 is done.
+    // So current day = (Number of unique days posted) + 1.
+    // We need to count how many distinct dayIndices the user has posted for.
+    // But since we can't easily join to get dayIndex in a simple count, we might need a better query or just count posts if we enforce 1 post per day.
+    // Let's assume 1 post per day is the goal.
+    // Actually, user might have multiple posts for same day? 
+    // Let's count *completed* sentences.
+
+    // We need to find which sentences the user has posted to.
+    const userPosts = await prisma.post.findMany({
+        where: { authorId: userId },
+        select: { sentence: { select: { dayIndex: true } } }
+    });
+
+    const completedDays = new Set(userPosts.map(p => p.sentence.dayIndex));
+    const nextDay = completedDays.size + 1;
+
+    if (nextDay > 21) return null; // Course completed
+
+    const groupCode = user.sentenceGroup || 'G1';
+    return getSentenceByDay(nextDay, groupCode);
 }
 
 export async function createPost(formData: FormData) {
@@ -139,6 +152,7 @@ export async function getPosts(limit = 20) {
         },
         include: {
             sentence: true,
+            author: true, // Include author to show name/avatar
             _count: {
                 select: { likes: true, comments: true }
             }
@@ -221,18 +235,20 @@ export async function createComment(postId: string, userId: string, content: str
 }
 
 export async function getParticipantCount(day: number) {
-    if (day < 1) return 0;
-    const date = new Date(`2026-02-${day.toString().padStart(2, '0')}T00:00:00.000Z`);
+    // This needs to be group aware or total? 
+    // "Participant count" usually means total people who wrote on Day X, regardless of group?
+    // Let's assume global Day X count.
+
+    // We can count posts where sentence.dayIndex == day
     try {
-        const sentence = await prisma.dailySentence.findUnique({
-            where: { date },
-            include: {
-                _count: {
-                    select: { posts: true }
+        const count = await prisma.post.count({
+            where: {
+                sentence: {
+                    dayIndex: day
                 }
             }
         });
-        return sentence?._count.posts || 0;
+        return count;
     } catch (e) {
         console.error("Failed to get participant count:", e);
         return 0;
@@ -258,7 +274,9 @@ export async function updateUserProfile(userId: string, data: {
     gender?: string,
     residence?: string,
     pin?: string,
-    isSignupCompleted?: boolean
+    isSignupCompleted?: boolean,
+    ageRange?: string,
+    sentenceGroup?: string
 }) {
     try {
         const user = await prisma.user.upsert({
@@ -270,13 +288,20 @@ export async function updateUserProfile(userId: string, data: {
             }
         });
         revalidatePath('/');
-        revalidatePath(`/user/${userId}`);
-        revalidatePath('/settings');
         return { success: true, user };
     } catch (e) {
         console.error("Failed to update user profile:", e);
-        return { error: "이미 사용 중인 아이디거나 저장 중 오류가 발생했습니다." };
+        return { error: "Update failed" };
     }
+}
+
+export async function saveOnboardingData(userId: string, age: AgeRange, gender: Gender) {
+    const groupCode = determineGroupCode(age, gender);
+    return await updateUserProfile(userId, {
+        ageRange: age,
+        gender: gender,
+        sentenceGroup: groupCode
+    });
 }
 
 export async function isUsernameUnique(name: string, excludeUserId?: string) {
@@ -290,7 +315,6 @@ export async function isUsernameUnique(name: string, excludeUserId?: string) {
         });
         return { success: true, isUnique: !user };
     } catch (e) {
-        console.error("Failed to check username uniqueness:", e);
-        return { success: false, error: "중복 확인 중 오류가 발생했습니다." };
+        return { success: false, error: "Check failed" };
     }
 }

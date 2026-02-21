@@ -6,7 +6,7 @@ export default NextAuth(authConfig).auth((req) => {
     const isLoggedIn = !!req.auth
     const { nextUrl } = req
 
-    // @ts-ignore
+    // @ts-expect-error -- NextAuth type definition for User does not include isSignupCompleted yet
     const isSignupCompleted = req.auth?.user?.isSignupCompleted
 
     const isSignupPage = nextUrl.pathname.startsWith('/signup')

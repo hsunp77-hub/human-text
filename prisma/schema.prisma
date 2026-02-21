@@ -12,10 +12,14 @@ datasource db {
 model User {
   id                String    @id @default(uuid())
   name              String?   @unique
+  email             String?   @unique // Added email field
+  emailVerified     DateTime? // Added emailVerified field
   bio               String?
   image             String?
   birthday          DateTime?
   gender            String?
+  ageRange          String?   // "10대", "20대", etc.
+  sentenceGroup     String?   // "G1", "G2", ...
   residence         String?
   pin               String?
   isSignupCompleted Boolean   @default(false)
@@ -27,10 +31,14 @@ model User {
 
 model DailySentence {
   id        String   @id @default(uuid())
-  date      DateTime @unique // One sentence per day
+  date      DateTime? // Optional now, or kept for legacy
+  dayIndex  Int      @default(0) // 1-21
+  groupCode String   @default("G1") // G1-G15
   content   String
   createdAt DateTime @default(now())
   posts     Post[]
+  
+  @@unique([dayIndex, groupCode])
 }
 
 model Post {

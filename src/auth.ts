@@ -4,12 +4,6 @@ import Google from "next-auth/providers/google"
 import { prisma } from "@/lib/prisma"
 import { authConfig } from "./auth.config"
 
-// Debug logs for environment variables
-console.log("--- AUTH DEBUG ---");
-console.log("AUTH_SECRET Status:", process.env.AUTH_SECRET ? `Loaded (Length: ${process.env.AUTH_SECRET.length})` : "MISSING");
-console.log("GOOGLE_CLIENT_ID Status:", process.env.GOOGLE_CLIENT_ID ? "Loaded" : "MISSING");
-console.log("GOOGLE_CLIENT_SECRET Status:", process.env.GOOGLE_CLIENT_SECRET ? "Loaded" : "MISSING");
-console.log("------------------");
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     ...authConfig,
@@ -21,7 +15,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         Credentials({
             name: "Guest Login",
             credentials: {},
-            async authorize(credentials) {
+            async authorize(_credentials) {
                 console.log("Attempting Mock Login...");
                 const user = { id: "mock-user-1", name: "Guest User", email: "guest@example.com" };
                 console.log("Mock User returning:", user);

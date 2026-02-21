@@ -1,24 +1,21 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
-import { createPost, getTodaySentence, getSentenceByDay, getRandomSentence } from "@/lib/actions";
+import { createPost } from "@/lib/actions";
 import { v4 as uuidv4 } from 'uuid';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { DAILY_PROMPTS } from "@/lib/sentences";
+import { useSentence } from "@/hooks/useSentence";
 
 export const dynamic = 'force-dynamic';
 
 function WriteContent() {
-    const searchParams = useSearchParams();
-    const dayParam = searchParams.get('day');
+    const { sentence, dayParam } = useSentence();
 
     // State
     const [content, setContent] = useState("");
     const [submitted, setSubmitted] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [sentence, setSentence] = useState<any>(null);
     const [userId, setUserId] = useState<string>("");
 
     useEffect(() => {
@@ -29,72 +26,7 @@ function WriteContent() {
             localStorage.setItem('human_text_id', id);
         }
         if (id) setUserId(id);
-
-        // Fetch sentence
-        const fetchSentence = async () => {
-            try {
-                let data;
-                if (dayParam) {
-                    const dayNumber = parseInt(dayParam);
-                    if (isNaN(dayNumber)) {
-                        console.error('Invalid day parameter:', dayParam);
-                        data = await getTodaySentence();
-                    } else {
-                        data = await getSentenceByDay(dayNumber);
-                        if (!data) {
-                            data = await getTodaySentence();
-                        }
-                    }
-                } else {
-                    // Return a random sentence if no day is specified
-                    try {
-                        data = await getRandomSentence();
-                    } catch (err) {
-                        console.error("Failed to get random sentence:", err);
-                        data = null;
-                    }
-
-                    // Fallback if random fails for some reason
-                    if (!data) {
-                        data = await getTodaySentence();
-                    }
-                }
-                setSentence(data);
-
-                // If we loaded a random sentence (and thus have no dayParam or invalid one), 
-                // update the URL to reflect this day so refreshing keeps the same sentence.
-                if (data && !dayParam && typeof window !== 'undefined') {
-                    const dateObj = new Date(data.date);
-                    const dayNum = dateObj.getDate();
-                    if (!isNaN(dayNum)) {
-                        window.history.replaceState(null, '', `?day=${dayNum}`);
-                    }
-                }
-            } catch (error) {
-                console.error("Error fetching sentence:", error);
-                // Last resort fallback: Static data
-                try {
-                    console.log("Using static fallback");
-                    let randomContent = DAILY_PROMPTS[Math.floor(Math.random() * DAILY_PROMPTS.length)];
-                    if (dayParam) {
-                        const dayNum = parseInt(dayParam);
-                        if (!isNaN(dayNum) && dayNum >= 1 && dayNum <= DAILY_PROMPTS.length) {
-                            randomContent = DAILY_PROMPTS[dayNum - 1];
-                        }
-                    }
-
-                    setSentence({
-                        id: 'static-fallback',
-                        content: randomContent,
-                        date: new Date().toISOString()
-                    });
-                } catch (e) {
-                    console.error("Critical error fetching fallback:", e);
-                }
-            }
-        };
-        fetchSentence();
-    }, [dayParam]);
+    }, []);
 
     // Derived values
     const todayDate = new Date().toLocaleDateString('ko-KR', {
@@ -176,7 +108,7 @@ function WriteContent() {
                         {/* Sentence */}
                         {!submitted && (
                             <div className="sentence-preview">
-                                "{currentPrompt}"
+                                &quot;{currentPrompt}&quot;
                             </div>
                         )}
 
@@ -209,11 +141,6 @@ function WriteContent() {
                                 </>
                             )}
 
-                            {/* Action Buttons inside Input Area because of relative positioning? No, they were inside relative in my previous failed attempts. 
-                                Let's move them OUT of 'w-full relative' if possible, or keep them in. 
-                                Design-wise, they are just below. 
-                                I will place them AFTER the textarea div. 
-                            */}
                         </div>
 
                         {/* Counter & Date */}

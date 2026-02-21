@@ -6,7 +6,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Pagination from '@/components/Pagination';
 import Link from 'next/link';
-import { getPosts, getTodaySentence, likePost, unlikePost, createComment } from '@/lib/actions';
+import { getPosts, likePost, unlikePost, createComment } from '@/lib/actions';
 import { DAILY_PROMPTS } from '@/lib/sentences';
 
 interface PostWithRelations {
