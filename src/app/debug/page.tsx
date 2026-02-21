@@ -42,7 +42,7 @@ export default async function DebugPage() {
             </table>
 
             <h2>2. Database Connection</h2>
-            <div style={{ padding: 20, border: '1px solid #ccc', borderRadius: 8, background: '#f5f5f5' }}>
+            <div style={{ padding: 20, border: '1px solid #ccc', borderRadius: 8, background: '#f5f5f5', marginBottom: 40 }}>
                 <p><strong>Status:</strong> {dbStatus}</p>
                 <p><strong>User Count:</strong> {userCount >= 0 ? userCount : 'N/A'}</p>
                 {dbError && (
@@ -51,6 +51,13 @@ export default async function DebugPage() {
                         {dbError}
                     </div>
                 )}
+            </div>
+
+            <h2>3. Prisma Schema</h2>
+            <div style={{ padding: 20, border: '1px solid #ccc', borderRadius: 8, background: '#f5f5f5', overflowX: 'auto' }}>
+                <pre style={{ fontSize: '12px' }}>
+                    {require('fs').readFileSync(require('path').join(process.cwd(), 'prisma/schema.prisma'), 'utf8')}
+                </pre>
             </div>
 
             <p style={{ marginTop: 40, color: '#666' }}>
