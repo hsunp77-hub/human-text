@@ -9,6 +9,8 @@ export default async function DebugPage() {
         GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET ? "✅ Loaded" : "❌ MISSING",
         NEXTAUTH_URL: process.env.NEXTAUTH_URL ? `✅ ${process.env.NEXTAUTH_URL}` : "❌ MISSING",
         POSTGRES_PRISMA_URL: process.env.POSTGRES_PRISMA_URL ? "✅ Loaded" : "❌ MISSING",
+        DATABASE_URL: process.env.DATABASE_URL ? "✅ Loaded" : "❌ MISSING",
+        DIRECT_URL: process.env.DIRECT_URL ? "✅ Loaded" : "❌ MISSING",
     };
 
     let dbStatus = "Checking...";
