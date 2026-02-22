@@ -431,28 +431,26 @@ export default function UserProfilePage({ params }: { params: Promise<{ id: stri
                     <div className="profile-top-row">
                         {/* Avatar */}
                         <div className="profile-avatar-container">
-                            {userInfo.image ? (
-                                <div className="w-full h-full relative bg-[#1c1c1e]">
-                                    <img
-                                        src={userInfo.image}
-                                        alt={userInfo.name}
-                                        className="profile-avatar-img"
-                                        onError={(e) => {
-                                            (e.target as HTMLImageElement).style.display = 'none';
-                                        }}
-                                    />
-                                    {/* Fallback */}
-                                    <div className="absolute inset-0 flex items-center justify-center text-[#3f3f46] -z-0">
-                                        <div className="profile-avatar-fallback">
-                                            {userId.substring(0, 1).toUpperCase()}
-                                        </div>
+                            <div className="w-full h-full relative bg-[#1c1c1e] rounded-full overflow-hidden border border-[#3f3f46] flex items-center justify-center">
+                                <img
+                                    src={userInfo.image || `https://i.pravatar.cc/150?u=${userId}`}
+                                    alt={userInfo.name}
+                                    className="profile-avatar-img"
+                                    onError={(e) => {
+                                        const target = e.target as HTMLImageElement;
+                                        target.style.display = 'none';
+                                        if (target.nextElementSibling) {
+                                            (target.nextElementSibling as HTMLElement).style.display = 'flex';
+                                        }
+                                    }}
+                                />
+                                {/* Fallback */}
+                                <div className="absolute inset-0 items-center justify-center text-[#3f3f46] hidden">
+                                    <div className="profile-avatar-fallback">
+                                        {userId.substring(0, 1).toUpperCase()}
                                     </div>
                                 </div>
-                            ) : (
-                                <div className="profile-avatar-fallback">
-                                    {userId.substring(0, 1).toUpperCase()}
-                                </div>
-                            )}
+                            </div>
                         </div>
 
                         {/* Stats */}
@@ -486,7 +484,7 @@ export default function UserProfilePage({ params }: { params: Promise<{ id: stri
                                 </div>
                                 <div className="archive-card-merged-text">
                                     <span style={{ fontWeight: 600 }}>{post.sentence.content}</span>
-                                    <span> {post.content}</span>
+                                    <span> {post.content.replace(/\s*\(질문\s*:.*?\)/, '').replace(/.*?일차 기록\s*:\s*/, '')}</span>
                                 </div>
                                 <div className="archive-card-footer">
                                     <button

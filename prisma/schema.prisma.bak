@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model User {
+  id                String    @id @default(uuid())
+  name              String?   @unique
+  email             String?   @unique // Added email field
+  emailVerified     DateTime? // Added emailVerified field
+  bio               String?
+  image             String?
+  birthday          DateTime?
+  gender            String?
+  ageRange          String?   // "10대", "20대", etc.
+  sentenceGroup     String?   // "G1", "G2", ...
+  residence         String?
+  pin               String?
+  isSignupCompleted Boolean   @default(false)
+  createdAt         DateTime  @default(now())
+  posts             Post[]
+  likes             Like[]
+  comments          Comment[]
+}
+
+model DailySentence {
+  id        String   @id @default(uuid())
+  date      DateTime? // Optional now, or kept for legacy
+  dayIndex  Int      @default(0) // 1-21
+  groupCode String   @default("G1") // G1-G15
+  content   String
+  createdAt DateTime @default(now())
+  posts     Post[]
+  
+  @@unique([dayIndex, groupCode])
+}
+
+model Post {
+  id          String        @id @default(uuid())
+  content     String
+  createdAt   DateTime      @default(now())
+  authorId    String
+  author      User          @relation(fields: [authorId], references: [id])
+  sentenceId  String
+  sentence    DailySentence @relation(fields: [sentenceId], references: [id])
+  likes       Like[]
+  comments    Comment[]
+}
+
+model Like {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([postId, userId]) // User can like a post only once
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
