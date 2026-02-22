@@ -36,7 +36,7 @@ export default async function OthersPage() {
             <div className="mobile-view archive-view px-6">
                 <Header title="타인의 문장들" className="!mb-[80px]" />
 
-                <main className="w-full flex-1 overflow-y-auto pb-10 no-scrollbar">
+                <main className="w-full pb-10">
                     <div className="space-y-6">
                         {users.map((user) => {
                             const latestPost = user.posts[0];
