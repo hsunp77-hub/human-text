@@ -8,7 +8,7 @@
   --card-border: rgba(255, 255, 255, 0.1);
   --accent-color: #71717A;
 
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Pretendard", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-serif: 'Nanum Myeongjo', serif;
   --font-handwriting: 'Nanum Pen Script', cursive;
 }
@@ -114,7 +114,7 @@ body {
 }
 
 .header h1 {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-weight: 500;
   margin-bottom: 8px;
 }
@@ -154,7 +154,7 @@ h1 {
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 12px;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
 }
 
 .sentence-preview {
@@ -162,7 +162,7 @@ h1 {
   line-height: 1.5;
   color: #E4E4E7;
   margin-bottom: 24px;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   text-align: center;
 }
 
@@ -179,7 +179,7 @@ h1 {
   font-size: 18px;
   line-height: 1.8;
   margin-bottom: 24px;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   resize: none;
   outline: none;
   text-align: center;
@@ -213,7 +213,7 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
 }
 
 .premium-btn::before {
@@ -286,7 +286,7 @@ h1 {
   backdrop-filter: blur(4px);
   position: relative;
   overflow: hidden;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   letter-spacing: 1px;
 }
 
@@ -392,7 +392,7 @@ h1 {
 }
 
 .archive-card-merged-text {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 18px;
   color: #E4E4E7;
   line-height: 1.8;
@@ -438,7 +438,7 @@ h1 {
   margin-bottom: 60px;
   letter-spacing: 1.5px;
   line-height: 1.8;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
 }
 
 .google-login-btn {
@@ -579,7 +579,7 @@ a:hover {
   color: white;
   text-align: center;
   margin: 0;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
 }
 
 /* Specific Utility Classes for Day/Date Alignment */
@@ -596,7 +596,7 @@ a:hover {
 
 .write-date-label {
   font-size: 13px;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   color: #71717A;
   margin-bottom: 24px;
   letter-spacing: 1px;
@@ -615,7 +615,7 @@ a:hover {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 14px;
   color: #71717A;
   transition: all 0.2s ease;
@@ -784,7 +784,7 @@ a:hover {
 }
 
 .social-content {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 15px;
   color: #D4D4D8;
   line-height: 1.6;
@@ -896,11 +896,10 @@ a:hover {
 }
 
 .index-card-content {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 17px;
   color: #E4E4E7;
   line-height: 1.6;
-  font-style: italic;
   padding-left: 4px;
 }
 
@@ -998,7 +997,7 @@ a:hover {
 }
 
 .typing-text {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 20px;
   color: rgba(255, 255, 255, 0.95);
   line-height: 1.6;
@@ -1028,7 +1027,7 @@ a:hover {
 
 /* About Page Styles */
 .about-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 18px;
   font-weight: 500;
   color: white;
@@ -1038,7 +1037,7 @@ a:hover {
 }
 
 .about-text {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
   color: white;
@@ -1047,7 +1046,7 @@ a:hover {
 }
 
 .about-list {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
   color: white;

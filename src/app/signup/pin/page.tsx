@@ -36,7 +36,7 @@ export default function SignupPinPage() {
 
         const result = await updateUserProfile(userId, data);
         if (result.success) {
-            router.push('/settings');
+            router.push('/write');
         } else {
             alert(result.error || '오류가 발생했습니다.');
         }
@@ -176,6 +176,17 @@ export default function SignupPinPage() {
                         </button>
                     </div>
                 </main>
+
+                <footer style={{ paddingBottom: '16px', display: 'flex', justifyContent: 'center' }}>
+                    <button
+                        onClick={() => handleComplete(true)}
+                        disabled={loading}
+                        className="btn-standard"
+                        style={{ background: 'transparent', color: '#71717A', fontSize: '16px', fontWeight: 500 }}
+                    >
+                        건너뛰기
+                    </button>
+                </footer>
             </div>
         </div>
     );

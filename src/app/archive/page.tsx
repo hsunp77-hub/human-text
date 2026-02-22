@@ -117,7 +117,7 @@ function ArchiveContent() {
         return (
             <div className="app-container">
                 <div className="mobile-view flex items-center justify-center">
-                    <div className="text-[#71717A] animate-pulse font-serif italic text-sm">기록을 불러오고 있습니다...</div>
+                    <div className="text-[#71717A] animate-pulse font-sans italic text-sm">기록을 불러오고 있습니다...</div>
                 </div>
             </div>
         );
@@ -202,7 +202,7 @@ export default function ArchivePage() {
         <Suspense fallback={
             <div className="app-container">
                 <div className="mobile-view flex items-center justify-center">
-                    <div className="text-[#71717A] animate-pulse font-serif italic text-sm">로딩 중...</div>
+                    <div className="text-[#71717A] animate-pulse font-sans italic text-sm">로딩 중...</div>
                 </div>
             </div>
         }>

@@ -415,7 +415,7 @@ export default function UserProfilePage({ params }: { params: Promise<{ id: stri
         return (
             <div className="app-container">
                 <div className="mobile-view flex items-center justify-center">
-                    <div className="text-[#71717A] animate-pulse font-serif italic text-sm">로딩 중...</div>
+                    <div className="text-[#71717A] animate-pulse font-sans italic text-sm">로딩 중...</div>
                 </div>
             </div>
         );
@@ -521,7 +521,7 @@ export default function UserProfilePage({ params }: { params: Promise<{ id: stri
                                                 {mockComments[post.id].map((comment) => (
                                                     <div key={comment.id} className="text-sm bg-[#18181b] p-3 rounded-lg border border-[#27272a]">
                                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px', width: '100%' }}>
-                                                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', color: '#71717a', fontSize: '10px', fontFamily: 'var(--font-serif)' }}>
+                                                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', color: '#71717a', fontSize: '10px', fontFamily: 'var(--font-sans)' }}>
                                                                 <span className="font-medium">
                                                                     {comment.userId === localStorage.getItem('anonymousUserId') ? 'Me' : 'Guest'}
                                                                 </span>
@@ -539,7 +539,7 @@ export default function UserProfilePage({ params }: { params: Promise<{ id: stri
                                                                             border: '1px solid rgba(255, 255, 255, 0.1)',
                                                                             borderRadius: '99px',
                                                                             color: 'rgba(113, 113, 122, 0.8)', // zinc-500
-                                                                            fontFamily: 'var(--font-serif)',
+                                                                            fontFamily: 'var(--font-sans)',
                                                                             fontSize: '10px',
                                                                             cursor: 'pointer',
                                                                             transition: 'all 0.3s',
@@ -566,7 +566,7 @@ export default function UserProfilePage({ params }: { params: Promise<{ id: stri
                                                                             border: '1px solid rgba(255, 255, 255, 0.1)',
                                                                             borderRadius: '99px',
                                                                             color: 'rgba(113, 113, 122, 0.8)', // zinc-500
-                                                                            fontFamily: 'var(--font-serif)',
+                                                                            fontFamily: 'var(--font-sans)',
                                                                             fontSize: '10px',
                                                                             cursor: 'pointer',
                                                                             transition: 'all 0.3s',
@@ -602,7 +602,7 @@ export default function UserProfilePage({ params }: { params: Promise<{ id: stri
                                                                         border: '1px solid rgba(255, 255, 255, 0.1)',
                                                                         borderRadius: '12px',
                                                                         color: '#d4d4d8', // zinc-300
-                                                                        fontFamily: 'var(--font-serif)',
+                                                                        fontFamily: 'var(--font-sans)',
                                                                         fontSize: '14px',
                                                                         resize: 'none',
                                                                         outline: 'none',
@@ -625,7 +625,7 @@ export default function UserProfilePage({ params }: { params: Promise<{ id: stri
                                                                             border: '1px solid rgba(255, 255, 255, 0.1)',
                                                                             borderRadius: '99px',
                                                                             color: 'rgba(113, 113, 122, 0.8)', // zinc-500
-                                                                            fontFamily: 'var(--font-serif)',
+                                                                            fontFamily: 'var(--font-sans)',
                                                                             fontSize: '10px',
                                                                             cursor: 'pointer',
                                                                             transition: 'all 0.3s',
@@ -650,7 +650,7 @@ export default function UserProfilePage({ params }: { params: Promise<{ id: stri
                                                                             border: '1px solid rgba(255, 255, 255, 0.1)',
                                                                             borderRadius: '99px',
                                                                             color: 'rgba(113, 113, 122, 0.8)', // zinc-500
-                                                                            fontFamily: 'var(--font-serif)',
+                                                                            fontFamily: 'var(--font-sans)',
                                                                             fontSize: '10px',
                                                                             cursor: 'pointer',
                                                                             transition: 'all 0.3s',
@@ -696,7 +696,7 @@ export default function UserProfilePage({ params }: { params: Promise<{ id: stri
                                                     border: '1px solid rgba(255, 255, 255, 0.1)',
                                                     borderRadius: '12px',
                                                     color: '#d4d4d8', // zinc-300
-                                                    fontFamily: 'var(--font-serif)',
+                                                    fontFamily: 'var(--font-sans)',
                                                     fontSize: '14px',
                                                     resize: 'none',
                                                     outline: 'none',
@@ -719,7 +719,7 @@ export default function UserProfilePage({ params }: { params: Promise<{ id: stri
                                                         border: '1px solid rgba(255, 255, 255, 0.2)',
                                                         borderRadius: '99px',
                                                         color: 'rgba(255, 255, 255, 0.9)',
-                                                        fontFamily: 'var(--font-serif)',
+                                                        fontFamily: 'var(--font-sans)',
                                                         fontSize: '12px',
                                                         cursor: 'pointer',
                                                         transition: 'all 0.3s',
@@ -745,7 +745,7 @@ export default function UserProfilePage({ params }: { params: Promise<{ id: stri
                                                         border: '1px solid rgba(255, 255, 255, 0.1)',
                                                         borderRadius: '99px',
                                                         color: 'rgba(113, 113, 122, 0.8)', // zinc-500
-                                                        fontFamily: 'var(--font-serif)',
+                                                        fontFamily: 'var(--font-sans)',
                                                         fontSize: '11px',
                                                         cursor: 'pointer',
                                                         transition: 'all 0.3s',

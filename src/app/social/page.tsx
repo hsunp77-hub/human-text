@@ -567,7 +567,7 @@ export default function SocialPage() {
                             <div style={{
                                 fontSize: '12px',
                                 color: 'rgba(255, 255, 255, 0.4)',
-                                fontFamily: 'serif',
+                                fontFamily: 'var(--font-sans)',
                                 letterSpacing: '1px'
                             }}>
                                 index {String(currentSentenceIndex + 1).padStart(3, '0')} of {DAILY_PROMPTS.length}
@@ -577,7 +577,7 @@ export default function SocialPage() {
                         {loading ? (
                             <div className="center-flex-col" style={{ padding: '40px 0', gap: '16px' }}>
                                 <div style={{ width: '4px', height: '4px', background: 'white', borderRadius: '50%' }}></div>
-                                <p style={{ color: 'rgba(255,255,255,0.3)', fontFamily: 'serif', fontSize: '12px', letterSpacing: '2px' }}>기억을 읽어오는 중...</p>
+                                <p style={{ color: 'rgba(255,255,255,0.3)', fontFamily: 'var(--font-sans)', fontSize: '12px', letterSpacing: '2px' }}>기억을 읽어오는 중...</p>
                             </div>
                         ) : (
                             <>
@@ -684,7 +684,7 @@ export default function SocialPage() {
                                                                         border: '1px solid rgba(255, 255, 255, 0.1)',
                                                                         borderRadius: '12px',
                                                                         color: '#E4E4E7',
-                                                                        fontFamily: 'var(--font-serif)',
+                                                                        fontFamily: 'var(--font-sans)',
                                                                         fontSize: '14px',
                                                                         resize: 'none',
                                                                         outline: 'none',
@@ -706,7 +706,7 @@ export default function SocialPage() {
                                                                         border: '1px solid rgba(255, 255, 255, 0.2)',
                                                                         borderRadius: '99px',
                                                                         color: 'rgba(255, 255, 255, 0.9)',
-                                                                        fontFamily: 'var(--font-serif)',
+                                                                        fontFamily: 'var(--font-sans)',
                                                                         fontSize: '12px',
                                                                         cursor: 'pointer',
                                                                         transition: 'all 0.3s',
@@ -731,7 +731,7 @@ export default function SocialPage() {
                                                             <div style={{
                                                                 fontSize: '11px',
                                                                 color: 'rgba(255, 255, 255, 0.3)',
-                                                                fontFamily: 'serif',
+                                                                fontFamily: 'var(--font-sans)',
                                                                 fontStyle: 'italic',
                                                                 textAlign: 'center',
                                                                 padding: '8px 0'
@@ -745,7 +745,7 @@ export default function SocialPage() {
                                         );
                                     })}
                                     {posts.length === 0 && (
-                                        <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.2)', padding: '40px 0', fontFamily: 'serif', fontSize: '14px' }}>
+                                        <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.2)', padding: '40px 0', fontFamily: 'var(--font-sans)', fontSize: '14px' }}>
                                             아직 기록된 문장이 없습니다.
                                         </div>
                                     )}

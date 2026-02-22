@@ -27,7 +27,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange, clas
                         alignItems: 'center',
                         justifyContent: 'center',
                         fontSize: '14px',
-                        fontFamily: 'var(--font-serif)',
+                        fontFamily: 'var(--font-sans)',
                         fontWeight: currentPage === pageNum ? 600 : 400,
                         cursor: 'pointer',
                         border: 'none',

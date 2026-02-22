@@ -48,7 +48,7 @@
     justify-content: center;
     background-color: #1c1c1e;
     color: #71717A;
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
     font-size: 24px;
     text-transform: uppercase;
 }
@@ -67,7 +67,7 @@
 }
 
 .profile-stat-value {
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
     font-weight: 700;
     font-size: 18px;
     color: white;
@@ -89,7 +89,7 @@
 }
 
 .profile-name {
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
     font-size: 18px;
     color: white;
     margin-bottom: 4px;
@@ -97,7 +97,7 @@
 }
 
 .profile-bio {
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
     font-size: 14px;
     color: #A1A1AA;
     font-weight: 300;

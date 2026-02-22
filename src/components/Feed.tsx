@@ -15,7 +15,7 @@ export async function Feed() {
 
     return (
         <div className="max-w-2xl mx-auto px-4 mt-20">
-            <h2 className="text-xl font-serif mb-8 text-center text-muted">다른 사람들의 생각</h2>
+            <h2 className="text-xl font-sans mb-8 text-center text-muted">다른 사람들의 생각</h2>
             <div className="space-y-6">
                 {posts.map((post: any) => (
                     <article key={post.id} className="card animate-fade-in-up">

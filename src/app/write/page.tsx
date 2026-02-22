@@ -118,7 +118,7 @@ function WriteContent() {
                                 <div
                                     className="textarea-minimal w-full h-[200px] resize-none overflow-y-auto"
                                     style={{
-                                        fontFamily: 'var(--font-serif)',
+                                        fontFamily: 'var(--font-sans)',
                                         color: 'white',
                                         fontSize: '18px',
                                         textAlign: 'center',
@@ -146,12 +146,12 @@ function WriteContent() {
                         {/* Counter & Date */}
                         <div className="flex flex-col gap-1 mb-80 w-full" style={{ width: '100%' }}>
                             <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-                                <span style={{ fontSize: '10px', color: '#71717A', fontFamily: 'var(--font-serif)', letterSpacing: '0.1em', opacity: 0.8 }}>
+                                <span style={{ fontSize: '10px', color: '#71717A', fontFamily: 'var(--font-sans)', letterSpacing: '0.1em', opacity: 0.8 }}>
                                     {content.length} / 500
                                 </span>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-                                <span style={{ fontSize: '10px', color: '#71717A', fontFamily: 'var(--font-serif)', letterSpacing: '0.1em', opacity: 0.8 }}>
+                                <span style={{ fontSize: '10px', color: '#71717A', fontFamily: 'var(--font-sans)', letterSpacing: '0.1em', opacity: 0.8 }}>
                                     {todayDate}
                                 </span>
                             </div>

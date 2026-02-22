@@ -103,7 +103,7 @@ export default async function PersonaDetailPage({ params }: { params: Promise<{ 
                     ))}
 
                     {posts.length === 0 && (
-                        <div className="text-center py-20 text-gray-500 font-serif">
+                        <div className="text-center py-20 text-gray-500 font-sans">
                             아직 작성된 글이 없습니다.
                         </div>
                     )}

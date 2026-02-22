@@ -20,7 +20,7 @@ export function WongojiGrid({ text, className = "" }: WongojiGridProps) {
                 {chars.map((char, index) => (
                     <div
                         key={index}
-                        className="wongoji-cell border-r border-b border-[var(--manuscript-red)] flex items-center justify-center text-[18px] font-serif text-[var(--foreground)] w-[32px] h-[32px]"
+                        className="wongoji-cell border-r border-b border-[var(--manuscript-red)] flex items-center justify-center text-[18px] font-sans text-[var(--foreground)] w-[32px] h-[32px]"
                     >
                         {char === '\n' ? <span className="opacity-20">↵</span> : char}
                     </div>

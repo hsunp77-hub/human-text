@@ -6,13 +6,7 @@ export const authConfig = {
     },
     callbacks: {
         authorized({ auth, request: { nextUrl } }) {
-            const isLoggedIn = !!auth?.user
-            const isOnWritePage = nextUrl.pathname.startsWith('/write')
-            if (isOnWritePage) {
-                if (isLoggedIn) return true
-                return false // Redirect unauthenticated users to login page
-            }
-            return true
+            return true // Allow all access — app uses localStorage-based anonymous auth
         },
     },
     providers: [], // Providers often have Node.js dependencies, so we add them in auth.ts

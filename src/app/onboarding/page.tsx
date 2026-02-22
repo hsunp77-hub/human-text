@@ -54,7 +54,7 @@ export default function OnboardingPage() {
 
                 <div className="flex-1 flex flex-col items-center justify-center -mt-20">
                     <div className="w-full max-w-sm">
-                        <h2 className="text-2xl font-serif text-white mb-8 text-center leading-relaxed">
+                        <h2 className="text-2xl font-sans text-white mb-8 text-center leading-relaxed">
                             {step === 1 ? (
                                 <>
                                     당신의 연령대를<br />
