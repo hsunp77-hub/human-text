@@ -301,7 +301,7 @@ export default function SettingsPage() {
                     </div>
                 </main>
 
-                <Footer pageContext="sentences" />
+                <Footer pageContext="others" />
             </div>
         </div>
     );
