@@ -1,35 +1,74 @@
-import { prisma } from '@/lib/prisma';
+'use client';
+
+import { useEffect, useState } from 'react';
+import { getOthersUsers } from '@/lib/actions';
+import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import Link from 'next/link';
+import Pagination from '@/components/Pagination';
+import { Suspense } from 'react';
 
-export const dynamic = 'force-dynamic';
+const USERS_PER_PAGE = 5;
 
-const formatDisplayId = (userId: string) => userId;
+interface UserWithPost {
+    id: string;
+    name: string | null;
+    posts: {
+        content: string;
+        createdAt: Date;
+        sentence: {
+            content: string;
+        } | null;
+    }[];
+}
 
-export default async function OthersPage() {
-    const users = await prisma.user.findMany({
-        where: {
-            name: {
-                startsWith: 'User_'
+function OthersContent() {
+    const [users, setUsers] = useState<UserWithPost[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+
+    const formatDisplayId = (userId: string) => userId;
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            setLoading(true);
+            try {
+                const { users: fetched, total } = await getOthersUsers(page, USERS_PER_PAGE);
+                const mapped = (fetched as any[]).map(u => ({
+                    ...u,
+                    posts: u.posts.map((p: any) => ({
+                        ...p,
+                        createdAt: new Date(p.createdAt)
+                    }))
+                }));
+                setUsers(mapped);
+                setTotalPages(Math.ceil(total / USERS_PER_PAGE));
+            } catch (err) {
+                console.error('Failed to fetch others users:', err);
+            } finally {
+                setLoading(false);
             }
-        },
-        include: {
-            posts: {
-                take: 1,
-                orderBy: {
-                    createdAt: 'desc'
-                },
-                include: {
-                    sentence: true
-                }
-            }
-        },
-        orderBy: {
-            name: 'asc'
-        },
-        take: 15
-    });
+        };
+        fetchUsers();
+    }, [page]);
+
+    const handlePageChange = (newPage: number) => {
+        if (newPage >= 1 && newPage <= totalPages) {
+            setPage(newPage);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    };
+
+    if (loading && users.length === 0) {
+        return (
+            <div className="app-container">
+                <div className="mobile-view flex items-center justify-center">
+                    <div className="text-[#71717A] animate-pulse font-sans italic text-sm">불러오는 중...</div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="app-container">
@@ -42,7 +81,6 @@ export default async function OthersPage() {
                             const latestPost = user.posts[0];
                             if (!latestPost) return null;
 
-                            // Clean content by removing "일차 기록" and "(질문:...)" markers
                             const cleanedContent = latestPost.content
                                 .replace(/\s*\(질문\s*:.*?\)/, '')
                                 .replace(/.*?일차 기록\s*:\s*/, '');
@@ -51,7 +89,7 @@ export default async function OthersPage() {
                                 <Link key={user.id} href={`/user/${user.id}`}>
                                     <article className="archive-card">
                                         <div className="archive-card-date">
-                                            {new Date(latestPost.createdAt).toLocaleDateString('ko-KR', {
+                                            {latestPost.createdAt.toLocaleDateString('ko-KR', {
                                                 year: 'numeric',
                                                 month: 'long',
                                                 day: 'numeric'
@@ -102,6 +140,15 @@ export default async function OthersPage() {
                             );
                         })}
                     </div>
+
+                    {/* Pagination Controls */}
+                    <div style={{ marginTop: '40px', marginBottom: '40px' }}>
+                        <Pagination
+                            currentPage={page}
+                            totalPages={totalPages}
+                            onPageChange={handlePageChange}
+                        />
+                    </div>
                 </main>
 
                 <Footer pageContext="others" />
@@ -110,3 +157,16 @@ export default async function OthersPage() {
     );
 }
 
+export default function OthersPage() {
+    return (
+        <Suspense fallback={
+            <div className="app-container">
+                <div className="mobile-view flex items-center justify-center">
+                    <div className="text-[#71717A] animate-pulse font-sans italic text-sm">로딩 중...</div>
+                </div>
+            </div>
+        }>
+            <OthersContent />
+        </Suspense>
+    );
+}

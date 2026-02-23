@@ -64,22 +64,15 @@ export async function getSentenceByDay(day: number, groupCode: string = 'G1') {
 // Get the sentence for the user's current progress
 export async function getCurrentSentenceForUser(userId: string) {
     const user = await prisma.user.findUnique({
-        where: { id: userId },
-        include: { posts: { select: { sentenceId: true } } } // Optimization: just get sentence IDs or count
+        where: { id: userId }
     });
 
-    if (!user) return null;
+    if (!user) {
+        // Fallback for new or unknown users to avoid blank state
+        return getSentenceByDay(1, 'G1');
+    }
 
-    // Determine current day based on posts
-    // Logic: Day N is unlocked if Day N-1 is done.
-    // So current day = (Number of unique days posted) + 1.
-    // We need to count how many distinct dayIndices the user has posted for.
-    // But since we can't easily join to get dayIndex in a simple count, we might need a better query or just count posts if we enforce 1 post per day.
-    // Let's assume 1 post per day is the goal.
-    // Actually, user might have multiple posts for same day? 
-    // Let's count *completed* sentences.
-
-    // We need to find which sentences the user has posted to.
+    // Find which sentences the user has already posted to
     const userPosts = await prisma.post.findMany({
         where: { authorId: userId },
         select: { sentence: { select: { dayIndex: true } } }
@@ -302,6 +295,32 @@ export async function saveOnboardingData(userId: string, age: AgeRange, gender: 
         gender: gender,
         sentenceGroup: groupCode
     });
+}
+
+export async function getOthersUsers(page = 1, limit = 5) {
+    const skip = (page - 1) * limit;
+    try {
+        const [users, total] = await Promise.all([
+            prisma.user.findMany({
+                where: { name: { startsWith: 'User_' } },
+                include: {
+                    posts: {
+                        take: 1,
+                        orderBy: { createdAt: 'desc' },
+                        include: { sentence: true }
+                    }
+                },
+                orderBy: { name: 'asc' },
+                skip,
+                take: limit
+            }),
+            prisma.user.count({ where: { name: { startsWith: 'User_' } } })
+        ]);
+        return { users, total };
+    } catch (error) {
+        console.error('Failed to get others users:', error);
+        return { users: [], total: 0 };
+    }
 }
 
 export async function isUsernameUnique(name: string, excludeUserId?: string) {
