@@ -128,13 +128,13 @@ function ArchiveContent() {
             <div className="mobile-view archive-view px-6">
 
                 {/* Unified Header */}
-                <Header title="내 문장들" className="!mb-[80px]" />
+                <Header title="나의 그날" className="!mb-[80px]" />
 
                 <main className="w-full pb-10">
                     {(posts.length === 0 && !loading) || forceEmpty ? (
                         <div className="archive-container flex flex-col items-center justify-center w-full min-h-full">
                             {/* Empty State Text */}
-                            <p className="empty-message text-gray-500 font-light text-center text-lg" style={{ fontFamily: '"Gungsuh", "GungSeo", "Batang", serif' }}>
+                            <p className="empty-message text-gray-500 font-light text-center text-lg" style={{ fontFamily: 'var(--font-serif)' }}>
                                 아직 남긴 기록이 없으세요.
                             </p>
 

@@ -18,8 +18,8 @@
   --pastel-lilac-start: #F7F3F3;
   --pastel-lilac-end: #D4C2C2;
 
-  --font-sans: "Pretendard", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-serif: 'Nanum Myeongjo', serif;
+  --font-sans: "Pretendard", var(--font-noto-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: var(--font-noto-serif), 'Nanum Myeongjo', serif;
   --font-handwriting: var(--font-nanum-pen);
 
   /* Wongoji System V2 */
