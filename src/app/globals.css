@@ -559,7 +559,7 @@ h1 {
   letter-spacing: 2px;
 }
 
-/* Landing Page Specific */
+/* Landing Page Specific Redesign V4.0 */
 .landing-container {
   display: flex;
   flex-direction: column;
@@ -567,7 +567,124 @@ h1 {
   justify-content: space-between;
   flex: 1;
   width: 100%;
-  padding-bottom: 0;
+  padding-bottom: 20px;
+}
+
+.sphere-cluster {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 40px 0;
+}
+
+.sphere {
+  position: absolute;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    inset -10px -10px 30px rgba(0, 0, 0, 0.05),
+    inset 10px 10px 30px rgba(255, 255, 255, 0.8),
+    0 15px 35px rgba(140, 112, 112, 0.1);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(2px);
+}
+
+.sphere-sage {
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle at 30% 30%, var(--pastel-mint-start), var(--pastel-mint-end));
+  top: 10%;
+  left: 10%;
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+.sphere-blue {
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle at 30% 30%, var(--pastel-blue-start), var(--pastel-blue-end));
+  bottom: 15%;
+  left: 5%;
+  animation: float-medium 5s ease-in-out infinite 1s;
+}
+
+.sphere-peach {
+  width: 90px;
+  height: 90px;
+  background: radial-gradient(circle at 30% 30%, var(--pastel-peach-start), var(--pastel-peach-end));
+  top: 20%;
+  right: 15%;
+  animation: float-fast 4s ease-in-out infinite 0.5s;
+}
+
+.sphere-rose {
+  width: 110px;
+  height: 110px;
+  background: radial-gradient(circle at 30% 30%, var(--pastel-lilac-start), var(--pastel-lilac-end));
+  bottom: 10%;
+  right: 5%;
+  animation: float-slow 7s ease-in-out infinite 2s;
+}
+
+.sphere-icon {
+  color: rgba(0, 0, 0, 0.2);
+  transform: scale(1.2);
+}
+
+.connector-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.connector-line {
+  stroke: rgba(140, 125, 112, 0.1);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+}
+
+@keyframes float-slow {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(-10px, -15px);
+  }
+}
+
+@keyframes float-medium {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(15px, -10px);
+  }
+}
+
+@keyframes float-fast {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(8px, 12px);
+  }
 }
 
 .landing-content {
@@ -582,13 +699,13 @@ h1 {
 }
 
 .landing-title {
-  font-size: 24px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 60px;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 20px;
   letter-spacing: 1.5px;
-  line-height: 1.8;
-  font-family: var(--font-sans);
+  line-height: 1.6;
+  font-family: var(--font-serif);
 }
 
 .google-login-btn {
