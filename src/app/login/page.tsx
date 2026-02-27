@@ -26,7 +26,7 @@ export default function LoginPage() {
             <div className="mobile-view">
                 <div className="landing-container">
                     <div className="landing-content">
-                        <h2 className="landing-title">
+                        <h2 className="landing-title !text-[var(--text-primary)]">
                             이제 당신의 이야기를<br />
                             시작해보세요.
                         </h2>
@@ -35,29 +35,28 @@ export default function LoginPage() {
                     {/* Spacer reduced to bring buttons up */}
                     <div style={{ height: '50px', width: '100%' }}></div>
 
-                    <div className="landing-content" style={{ marginTop: '20px', flex: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', width: '100%' }}>
+                    <div className="landing-content" style={{ marginTop: '20px', flex: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px', width: '100%' }}>
                         {/* Google Login Button */}
                         <button
                             onClick={() => handleLogin('google')}
                             disabled={isLoading}
-                            className="premium-btn w-full max-w-[280px] flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="dimensional-btn dimensional-lilac w-full max-w-[280px] flex items-center justify-center gap-3"
                         >
                             <span>{isLoading ? '로그인 중...' : 'Google로 로그인하기'}</span>
                         </button>
 
                         {/* Divider */}
                         <div style={{ display: 'flex', alignItems: 'center', width: '280px', gap: '12px', margin: '8px 0' }}>
-                            <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.1)' }}></div>
-                            <span style={{ color: '#FFFFFF', fontSize: '12px', opacity: 0.8 }}>또는</span>
-                            <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.1)' }}></div>
+                            <div style={{ flex: 1, height: '1px', background: 'rgba(140, 125, 112, 0.1)' }}></div>
+                            <span style={{ color: 'var(--text-muted)', fontSize: '12px', opacity: 0.8 }}>또는</span>
+                            <div style={{ flex: 1, height: '1px', background: 'rgba(140, 125, 112, 0.1)' }}></div>
                         </div>
 
                         {/* Guest Login Button */}
                         <button
                             onClick={() => handleLogin('credentials')}
                             disabled={isLoading}
-                            className="edit-btn w-full max-w-[280px] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                            style={{ fontSize: '15px' }}
+                            className="dimensional-btn dimensional-mint w-full max-w-[280px] flex items-center justify-center gap-2"
                         >
                             <span>{isLoading ? '로그인 중...' : '손님으로 체험하기'}</span>
                         </button>
@@ -67,11 +66,11 @@ export default function LoginPage() {
                 {/* Bottom Navigation & Tag */}
                 <div className="landing-footer">
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <Link href="/" className="about-link" style={{ opacity: 0.5 }}>돌아가기</Link>
-                        <span style={{ color: 'var(--text-secondary)', opacity: 0.3, fontSize: '10px' }}>•</span>
-                        <Link href="/about" className="about-link" style={{ opacity: 0.5 }}>소개</Link>
+                        <Link href="/" className="about-link !text-[var(--text-secondary)]">돌아가기</Link>
+                        <span style={{ color: 'var(--text-muted)', opacity: 0.3, fontSize: '10px' }}>•</span>
+                        <Link href="/about" className="about-link !text-[var(--text-secondary)]">소개</Link>
                     </div>
-                    <div className="bottom-tag">Human Text. 2026.</div>
+                    <div className="bottom-tag !text-[var(--text-muted)]">Human Text. 2026.</div>
                 </div>
             </div>
         </div>

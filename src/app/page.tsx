@@ -12,7 +12,7 @@ export default function Home() {
       <div className="mobile-view">
         <div className="landing-container">
           <div className="landing-content">
-            <h2 className="landing-title">
+            <h2 className="landing-title !text-[var(--text-primary)]">
               당신 인생의 한순간을<br />
               떠올려주세요.
             </h2>
@@ -20,10 +20,10 @@ export default function Home() {
 
           <div className="nib-container">
             <Image
-              src="/nib.png"
+              src="/nib_silhouette.png"
               alt="Fountain Pen Nib"
               width={180}
-              height={300}
+              height={180}
               className="nib-img"
               priority
             />
@@ -31,7 +31,7 @@ export default function Home() {
 
           <div className="landing-content" style={{ marginTop: '20px', flex: 'none' }}>
             <button
-              className="premium-btn w-full max-w-[200px]"
+              className="premium-btn warm-gradient w-full max-w-[200px]"
               onClick={() => router.push("/login")}
             >
               기록의 시작
@@ -41,8 +41,8 @@ export default function Home() {
 
         {/* Bottom Navigation & Tag */}
         <div className="landing-footer">
-          <Link href="/about" className="about-link">소개</Link>
-          <div className="bottom-tag">Human Text. 2026.</div>
+          <Link href="/about" className="about-link !text-[var(--text-secondary)]">소개</Link>
+          <div className="bottom-tag !text-[var(--text-muted)]">Human Text. 2026.</div>
         </div>
       </div>
     </div>

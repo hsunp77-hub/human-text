@@ -16,11 +16,13 @@ export function DailySentence({ content, date }: DailySentenceProps) {
 
     return (
         <section className="animate-fade-in mb-10">
-            <div className="text-xs text-[var(--accent)] mb-2 tracking-widest opacity-80 text-right px-2">
+            <div className="text-xs text-[var(--text-secondary)] mb-4 tracking-widest opacity-80 text-right px-2 font-sans uppercase">
                 {formattedDate}
             </div>
 
-            <WongojiGrid text={content} className="shadow-sm" />
+            <div className="pastel-card pastel-blue !mb-0">
+                <WongojiGrid text={content} />
+            </div>
         </section>
     );
 }

@@ -16,21 +16,18 @@ export function WongojiGrid({ text, className = "" }: WongojiGridProps) {
 
     return (
         <div className={`wongoji-display-container ${className}`}>
-            <div className="border-t border-[var(--manuscript-red)] border-l border-[var(--manuscript-red)] flex flex-wrap w-full bg-[var(--background)]">
+            <div className="border-t border-[var(--manuscript-line)] border-l border-[var(--manuscript-line)] flex flex-wrap w-full bg-[var(--manuscript-bg)]">
                 {chars.map((char, index) => (
                     <div
                         key={index}
-                        className="wongoji-cell border-r border-b border-[var(--manuscript-red)] flex items-center justify-center text-[18px] font-sans text-[var(--foreground)] w-[32px] h-[32px]"
+                        className="wongoji-cell border-r border-b border-[var(--manuscript-line)] flex items-center justify-center text-[18px] font-sans text-[var(--manuscript-text)] w-[32px] h-[32px]"
                     >
-                        {char === '\n' ? <span className="opacity-20">↵</span> : char}
+                        {char === '\n' ? <span className="opacity-10 text-[12px]">↵</span> : char}
                     </div>
                 ))}
-                {/* Fill the rest of the line or add empty cells? 
-            For now, just the text cells is cleaner for variable length posts. 
-            Maybe add a generic end-of-text marker? */}
-                <div className="wongoji-cell border-r border-b border-[var(--manuscript-red)]"></div>
-                <div className="wongoji-cell border-r border-b border-[var(--manuscript-red)]"></div>
-                <div className="wongoji-cell border-r border-b border-[var(--manuscript-red)]"></div>
+                <div className="wongoji-cell border-r border-b border-[var(--manuscript-line)] w-[32px] h-[32px]"></div>
+                <div className="wongoji-cell border-r border-b border-[var(--manuscript-line)] w-[32px] h-[32px]"></div>
+                <div className="wongoji-cell border-r border-b border-[var(--manuscript-line)] w-[32px] h-[32px]"></div>
             </div>
         </div>
     );

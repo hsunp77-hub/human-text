@@ -40,7 +40,7 @@ export default function Header({ title, label, className = "" }: HeaderProps) {
                     {label}
                 </div>
             )}
-            <h1 className="unified-header-title">{title}</h1>
+            <h1 className="unified-header-title" style={{ color: 'var(--text-primary)', wordBreak: 'keep-all' }}>{title}</h1>
         </header>
     );
 }

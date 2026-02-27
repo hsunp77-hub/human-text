@@ -98,8 +98,8 @@ export default function SettingsPage() {
     const customStyles = `
         .settings-container {
             padding: 64px 40px 48px 40px !important;
-            background-color: #000000 !important;
-            color: #FFFFFF !important;
+            background-color: var(--bg-color) !important;
+            color: var(--text-primary) !important;
             min-height: 100vh !important;
         }
         .header-title {
@@ -108,19 +108,19 @@ export default function SettingsPage() {
             line-height: 1.5 !important;
             letter-spacing: -0.02em !important;
             margin-bottom: 60px !important;
-            color: #FFFFFF !important;
+            color: var(--text-primary) !important;
         }
         .label-style {
             font-size: 16px !important;
             font-weight: 600 !important;
-            color: #FFFFFF !important;
+            color: var(--text-primary) !important;
             margin-bottom: 12px !important;
             display: block !important;
         }
         .info-value-box {
             background-color: transparent !important;
-            border-bottom: 2px solid #262626 !important;
-            color: #FFFFFF !important;
+            border-bottom: 2px solid rgba(140, 125, 112, 0.1) !important;
+            color: var(--text-primary) !important;
             font-size: 20px !important;
             font-weight: 500 !important;
             padding: 12px 0 !important;
@@ -130,8 +130,8 @@ export default function SettingsPage() {
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            background-color: #1A1A1A;
-            border: 1px solid #333;
+            background-color: white;
+            border: 1px solid rgba(140, 125, 112, 0.15);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -139,23 +139,25 @@ export default function SettingsPage() {
             overflow: hidden;
             position: relative;
             flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(140, 125, 112, 0.05);
         }
         .photo-upload-btn-small {
-            background-color: #262626 !important;
-            color: #A1A1AA !important;
+            background-color: white !important;
+            color: var(--text-secondary) !important;
             font-size: 13px !important;
             font-weight: 500 !important;
             padding: 8px 16px !important;
-            border-radius: 6px !important;
-            border: none !important;
+            border-radius: 99px !important;
+            border: 1px solid rgba(140, 125, 112, 0.1) !important;
             cursor: pointer !important;
             height: fit-content !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03) !important;
         }
         .bio-textarea {
-            background-color: #1A1A1A !important;
-            border: 1px solid #333 !important;
-            border-radius: 8px !important;
-            color: #FFFFFF !important;
+            background-color: white !important;
+            border: 1px solid rgba(140, 125, 112, 0.2) !important;
+            border-radius: 16px !important;
+            color: var(--text-primary) !important;
             width: 100% !important;
             padding: 16px !important;
             font-size: 16px !important;
@@ -163,39 +165,48 @@ export default function SettingsPage() {
             resize: none !important;
             outline: none !important;
             margin-bottom: 12px !important;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02) !important;
         }
         .small-action-btn {
-            background-color: #262626 !important;
-            color: #A1A1AA !important;
+            background-color: white !important;
+            color: var(--text-secondary) !important;
             font-size: 13px !important;
             font-weight: 500 !important;
             padding: 6px 14px !important;
-            border-radius: 4px !important;
-            border: none !important;
+            border-radius: 99px !important;
+            border: 1px solid rgba(140, 125, 112, 0.1) !important;
             cursor: pointer !important;
             transition: all 0.2s ease !important;
         }
         .small-action-btn:hover {
-            background-color: #333 !important;
-            color: #FFFFFF !important;
+            background-color: #FDFBF7 !important;
+            color: var(--text-primary) !important;
+            border-color: rgba(140, 125, 112, 0.3) !important;
         }
         .global-save-btn {
-            background: #4A4A4A !important;
+            background: #2D2D2D !important;
             color: #FFFFFF !important;
             width: 100% !important;
             height: 64px !important;
-            border-radius: 4px !important;
-            font-size: 20px !important;
-            font-weight: 700 !important;
+            border-radius: 99px !important;
+            font-size: 18px !important;
+            font-weight: 600 !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
-            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border: none !important;
             margin-top: 32px !important;
             cursor: pointer !important;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+            transition: all 0.3s ease !important;
+        }
+        .global-save-btn:hover:not(:disabled) {
+            transform: translateY(-2px) !important;
+            background: #3D3D3D !important;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15) !important;
         }
         .global-save-btn:disabled {
-            opacity: 0.25 !important;
+            opacity: 0.5 !important;
         }
     `;
 

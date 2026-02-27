@@ -119,7 +119,7 @@ function WriteContent() {
                                     className="textarea-minimal w-full h-[200px] resize-none overflow-y-auto"
                                     style={{
                                         fontFamily: 'var(--font-sans)',
-                                        color: 'white',
+                                        color: 'var(--text-primary)',
                                         fontSize: '18px',
                                         textAlign: 'center',
                                         whiteSpace: 'pre-wrap'
@@ -130,7 +130,7 @@ function WriteContent() {
                             ) : (
                                 <>
                                     <textarea
-                                        className="textarea-minimal w-full h-[200px] resize-none"
+                                        className="textarea-minimal w-full h-[200px] resize-none !text-[var(--text-primary)]"
                                         placeholder="문장을 읽고 떠오르는 당신의 이야기를 기록해주세요..."
                                         value={content}
                                         onChange={(e) => setContent(e.target.value)}
@@ -195,7 +195,7 @@ function WriteContent() {
 
 export default function WritePage() {
     return (
-        <Suspense fallback={<div className="text-white text-center py-20">Loading...</div>}>
+        <Suspense fallback={<div className="text-[var(--text-muted)] text-center py-20">Loading...</div>}>
             <WriteContent />
         </Suspense>
     );
